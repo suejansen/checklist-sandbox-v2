@@ -207,11 +207,36 @@
 		}
 
 		.checklist h2 {
-			margin: 0 0 17px;
+			margin: 0;
 			font-family: 'Fraunces', Georgia, serif;
 			font-size: 1.8rem;
 			font-weight: 600;
 			letter-spacing: -0.02em;
+		}
+
+		.progress-summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 8px 0 10px;
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+
+		.progress-bar {
+			height: 8px;
+			margin-bottom: 17px;
+			border-radius: 999px;
+			background: var(--mint);
+			overflow: hidden;
+		}
+
+		.progress-bar-fill {
+			width: 0%;
+			height: 100%;
+			border-radius: inherit;
+			background: var(--accent);
+			transition: width 160ms ease;
 		}
 
 		.task {
@@ -231,6 +256,11 @@
 			margin: 0;
 			accent-color: var(--accent);
 			flex: 0 0 auto;
+		}
+
+		.task.completed {
+			color: var(--muted);
+			text-decoration: line-through;
 		}
 
 		@media (min-width: 600px) {
@@ -304,6 +334,13 @@
 
 			<section id="checklist" class="checklist" hidden aria-labelledby="checklist-title">
 				<h2 id="checklist-title">3 Months Out</h2>
+				<div class="progress-summary">
+					<span>Progress</span>
+					<strong id="progress-percent">0% complete</strong>
+				</div>
+				<div class="progress-bar" role="progressbar" aria-label="Checklist progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div id="progress-bar-fill" class="progress-bar-fill"></div>
+				</div>
 				<div id="task-list"></div>
 			</section>
 	</main>
@@ -313,16 +350,20 @@
 		const savedMessage = document.querySelector('#saved-message');
 		const checklist = document.querySelector('#checklist');
 		const taskList = document.querySelector('#task-list');
+		const progressPercent = document.querySelector('#progress-percent');
+		const progressBar = document.querySelector('.progress-bar');
+		const progressBarFill = document.querySelector('#progress-bar-fill');
 		const storageKey = 'moving-house-setup';
+		const completionStorageKey = 'moving-house-task-completion';
 		const tasks = [
-			{ label: 'Set a moving budget' },
-			{ label: 'Sort through belongings and declutter' },
-			{ label: 'Research and book a moving company', showWhen: (answers) => answers.movingMethod === 'moving-company' },
-			{ label: 'Research truck or van rental', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
-			{ label: 'Check notice requirements for your current home', showWhen: (answers) => answers.homeType === 'renting' },
-			{ label: 'Prepare your home for sale or handover', showWhen: (answers) => answers.homeType === 'own' },
-			{ label: 'Research pet moving requirements', showWhen: (answers) => answers.pets === 'yes' },
-			{ label: 'Research international moving requirements', showWhen: (answers) => answers.destination === 'different-country' }
+			{ id: 'moving-budget', label: 'Set a moving budget' },
+			{ id: 'declutter-belongings', label: 'Sort through belongings and declutter' },
+			{ id: 'book-moving-company', label: 'Research and book a moving company', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'rent-moving-truck', label: 'Research truck or van rental', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'check-home-notice', label: 'Check notice requirements for your current home', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'prepare-home-handover', label: 'Prepare your home for sale or handover', showWhen: (answers) => answers.homeType === 'own' },
+			{ id: 'research-pet-moving', label: 'Research pet moving requirements', showWhen: (answers) => answers.pets === 'yes' },
+			{ id: 'research-international-moving', label: 'Research international moving requirements', showWhen: (answers) => answers.destination === 'different-country' }
 		];
 
 		const getCalendarDate = (date) => new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -337,6 +378,74 @@
 			if (daysUntilMove === 0) return 'Moving Day';
 			return 'After the Move';
 		};
+
+		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
+
+		const restoreSetupForm = (answers) => {
+			form.elements.movingDate.value = answers.movingDate || '';
+			['homeType', 'movingMethod', 'destination', 'pets'].forEach((fieldName) => {
+				const option = [...form.elements[fieldName]].find((input) => input.value === answers[fieldName]);
+				if (option) option.checked = true;
+			});
+		};
+
+		const showSavedMessage = (answers) => {
+			if (answers.daysUntilMove > 1) {
+				savedMessage.textContent = `Your move is in ${answers.daysUntilMove} days. You are currently in the ${answers.currentStage} stage.`;
+			} else if (answers.daysUntilMove === 1) {
+				savedMessage.textContent = `Your move is tomorrow. You are currently in the ${answers.currentStage} stage.`;
+			} else if (answers.daysUntilMove === 0) {
+				savedMessage.textContent = `Your move is today. You are currently in the ${answers.currentStage} stage.`;
+			} else {
+				savedMessage.textContent = `Your move has already happened. You are currently in the ${answers.currentStage} stage.`;
+			}
+		};
+
+		const renderChecklist = (answers) => {
+			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+			const completionState = getCompletionState();
+			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
+				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
+			});
+
+			taskList.replaceChildren(...orderedTasks.map((task) => {
+				const isComplete = Boolean(completionState[task.id]);
+				const label = document.createElement('label');
+				label.className = `task${isComplete ? ' completed' : ''}`;
+				label.htmlFor = `task-${task.id}`;
+
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.id = `task-${task.id}`;
+				checkbox.checked = isComplete;
+				checkbox.dataset.taskId = task.id;
+				checkbox.addEventListener('change', () => {
+					const updatedState = getCompletionState();
+					updatedState[task.id] = checkbox.checked;
+					localStorage.setItem(completionStorageKey, JSON.stringify(updatedState));
+					renderChecklist(answers);
+				});
+
+				const text = document.createElement('span');
+				text.textContent = task.label;
+				label.append(checkbox, text);
+				return label;
+			}));
+
+			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
+			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
+			progressPercent.textContent = `${percentage}% complete`;
+			progressBar.setAttribute('aria-valuenow', percentage);
+			progressBarFill.style.width = `${percentage}%`;
+			checklist.hidden = false;
+		};
+
+		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+		if (savedSetup) {
+			restoreSetupForm(savedSetup);
+			renderChecklist(savedSetup);
+			showSavedMessage(savedSetup);
+		}
 
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
@@ -358,34 +467,8 @@
 			answers.currentStage = currentStage;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
 
-			const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
-			taskList.replaceChildren(...tasks
-				.filter((task) => !task.showWhen || task.showWhen(savedAnswers))
-				.map((task, index) => {
-					const label = document.createElement('label');
-					label.className = 'task';
-					label.htmlFor = `task-${index}`;
-
-					const checkbox = document.createElement('input');
-					checkbox.type = 'checkbox';
-					checkbox.id = `task-${index}`;
-
-					const text = document.createElement('span');
-					text.textContent = task.label;
-					label.append(checkbox, text);
-					return label;
-				}));
-			checklist.hidden = false;
-
-			if (daysUntilMove > 1) {
-				savedMessage.textContent = `Your move is in ${daysUntilMove} days. You are currently in the ${currentStage} stage.`;
-			} else if (daysUntilMove === 1) {
-				savedMessage.textContent = `Your move is tomorrow. You are currently in the ${currentStage} stage.`;
-			} else if (daysUntilMove === 0) {
-				savedMessage.textContent = `Your move is today. You are currently in the ${currentStage} stage.`;
-			} else {
-				savedMessage.textContent = `Your move has already happened. You are currently in the ${currentStage} stage.`;
-			}
+			renderChecklist(answers);
+			showSavedMessage(answers);
 		});
 	</script>
 </body>
