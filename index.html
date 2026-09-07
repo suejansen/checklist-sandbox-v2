@@ -452,13 +452,7 @@
 			<section aria-labelledby="focus-title">
 				<h3 id="focus-title" class="checklist-section-title">Focus on this now</h3>
 				<p id="focus-message" class="focus-message" hidden></p>
-				<div id="current-tasks-heading">
-					<h3 class="checklist-section-title">3 Months Out</h3>
-				</div>
-				<div id="earlier-tasks-heading" hidden>
-					<h3 class="checklist-section-title">Earlier tasks</h3>
-				</div>
-				<div id="earlier-message" class="earlier-message" hidden>These are earlier-stage tasks. Any incomplete items may still need attention.</div>
+				<div id="current-tasks-heading"><h3 class="checklist-section-title">3 Months Out</h3></div>
 				<div class="progress-summary">
 					<span>Progress</span>
 					<strong id="progress-percent">0% complete</strong>
@@ -468,9 +462,18 @@
 				</div>
 				<div id="task-list"></div>
 			</section>
+			<section id="earlier-tasks-section" class="earlier-tasks" hidden aria-labelledby="earlier-tasks-title">
+				<h3 id="earlier-tasks-title" class="checklist-section-title">Earlier tasks</h3>
+				<p class="earlier-message">These are earlier-stage tasks. Any incomplete items may still need attention.</p>
+				<div id="earlier-task-list"></div>
+			</section>
 			<section class="coming-later" aria-labelledby="later-title">
 				<h3 id="later-title" class="checklist-section-title">Coming later</h3>
 				<p class="later-message">Your later moving stages will appear here.</p>
+				<div id="later-tasks" hidden>
+					<h4 id="later-tasks-title" class="checklist-section-title">2 Months Out</h4>
+					<div id="later-task-list"></div>
+				</div>
 			</section>
 		</section>
 	</main>
@@ -480,6 +483,10 @@
 		const savedMessage = document.querySelector('#saved-message');
 		const checklist = document.querySelector('#checklist');
 		const taskList = document.querySelector('#task-list');
+		const earlierTasksSection = document.querySelector('#earlier-tasks-section');
+		const earlierTaskList = document.querySelector('#earlier-task-list');
+		const laterTasksSection = document.querySelector('#later-tasks');
+		const laterTaskList = document.querySelector('#later-task-list');
 		const progressPercent = document.querySelector('#progress-percent');
 		const progressBar = document.querySelector('.progress-bar');
 		const progressBarFill = document.querySelector('#progress-bar-fill');
@@ -487,20 +494,29 @@
 		const stageSummary = document.querySelector('#stage-summary');
 		const focusMessage = document.querySelector('#focus-message');
 		const currentTasksHeading = document.querySelector('#current-tasks-heading');
-		const earlierTasksHeading = document.querySelector('#earlier-tasks-heading');
-		const earlierMessage = document.querySelector('#earlier-message');
+		const currentTasksTitle = currentTasksHeading.querySelector('h3');
 		const storageKey = 'moving-house-setup';
 		const completionStorageKey = 'moving-house-task-completion';
 		const notesStorageKey = 'moving-house-task-notes';
 		const tasks = [
-			{ id: 'moving-budget', label: 'Set a moving budget', guidance: 'Estimate your moving costs, including transport, supplies, deposits, and a small buffer for surprises.' },
-			{ id: 'declutter-belongings', label: 'Sort through belongings and declutter', guidance: 'Work room by room and decide what to keep, donate, sell, recycle, or discard before packing.' },
-			{ id: 'book-moving-company', label: 'Research and book a moving company', guidance: 'Compare written quotes, reviews, insurance coverage, and availability before choosing a mover.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
-			{ id: 'rent-moving-truck', label: 'Research truck or van rental', guidance: 'Compare vehicle sizes, rental dates, mileage limits, insurance, and pickup requirements.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
-			{ id: 'check-home-notice', label: 'Check notice requirements for your current home', guidance: 'Review your lease and contact your landlord or property manager to confirm notice dates and handover steps.', showWhen: (answers) => answers.homeType === 'renting' },
-			{ id: 'prepare-home-handover', label: 'Prepare your home for sale or handover', guidance: 'Gather keys and documents, plan repairs or cleaning, and confirm what must be ready for the handover.', showWhen: (answers) => answers.homeType === 'own' },
-			{ id: 'research-pet-moving', label: 'Research pet moving requirements', guidance: 'Check carrier rules, travel arrangements, identification, vaccinations, and any destination requirements.', showWhen: (answers) => answers.pets === 'yes' },
-			{ id: 'research-international-moving', label: 'Research international moving requirements', guidance: 'Check customs rules, prohibited items, visa or residency needs, and documents for your destination.', showWhen: (answers) => answers.destination === 'different-country' }
+			{ id: 'moving-budget', stage: '3 Months Out', label: 'Set a moving budget', guidance: 'Estimate your moving costs, including transport, supplies, deposits, and a small buffer for surprises.' },
+			{ id: 'declutter-belongings', stage: '3 Months Out', label: 'Sort through belongings and declutter', guidance: 'Work room by room and decide what to keep, donate, sell, recycle, or discard before packing.' },
+			{ id: 'book-moving-company', stage: '3 Months Out', label: 'Research and book a moving company', guidance: 'Compare written quotes, reviews, insurance coverage, and availability before choosing a mover.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'rent-moving-truck', stage: '3 Months Out', label: 'Research truck or van rental', guidance: 'Compare vehicle sizes, rental dates, mileage limits, insurance, and pickup requirements.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'check-home-notice', stage: '3 Months Out', label: 'Check notice requirements for your current home', guidance: 'Review your lease and contact your landlord or property manager to confirm notice dates and handover steps.', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'prepare-home-handover', stage: '3 Months Out', label: 'Prepare your home for sale or handover', guidance: 'Gather keys and documents, plan repairs or cleaning, and confirm what must be ready for the handover.', showWhen: (answers) => answers.homeType === 'own' },
+			{ id: 'research-pet-moving', stage: '3 Months Out', label: 'Research pet moving requirements', guidance: 'Check carrier rules, travel arrangements, identification, vaccinations, and any destination requirements.', showWhen: (answers) => answers.pets === 'yes' },
+			{ id: 'research-international-moving', stage: '3 Months Out', label: 'Research international moving requirements', guidance: 'Check customs rules, prohibited items, visa or residency needs, and documents for your destination.', showWhen: (answers) => answers.destination === 'different-country' },
+			{ id: 'confirm-moving-budget', stage: '2 Months Out', label: 'Confirm your moving budget', guidance: 'Review your estimate against current quotes and costs, then update the amount you plan to spend.', },
+			{ id: 'pack-less-used-items', stage: '2 Months Out', label: 'Start packing items you use less often', guidance: 'Pack seasonal, spare, and occasional-use items first, and label each box with its room and contents.' },
+			{ id: 'create-moving-inventory', stage: '2 Months Out', label: 'Create a moving inventory', guidance: 'List important belongings and boxes so you can track what is packed and check items when they arrive.' },
+			{ id: 'confirm-moving-company', stage: '2 Months Out', label: 'Confirm your moving company booking', guidance: 'Reconfirm the date, arrival window, services, payment terms, and contact details with your mover.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'confirm-truck-rental', stage: '2 Months Out', label: 'Confirm your truck or van rental plan', guidance: 'Recheck the vehicle, pickup location, rental dates, insurance, and driving requirements.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'give-landlord-notice', stage: '2 Months Out', label: 'Give notice to your current landlord', guidance: 'Send the required notice in writing and keep a copy along with any confirmation from your landlord.', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'plan-home-handover', stage: '2 Months Out', label: 'Plan your home sale or handover timeline', guidance: 'Map out key dates for paperwork, repairs, cleaning, viewings, closing, or handing over the keys.', showWhen: (answers) => answers.homeType === 'own' },
+			{ id: 'arrange-pet-care', stage: '2 Months Out', label: 'Make arrangements for your pet during the move', guidance: 'Decide who will care for your pet during travel and arrange boarding, transport, or a quiet moving-day space.', showWhen: (answers) => answers.pets === 'yes' },
+			{ id: 'research-province-state-changes', stage: '2 Months Out', label: 'Research address, insurance and service changes for your new province or state', guidance: 'Make a list of address updates and compare insurance, utilities, healthcare, and other service requirements.', showWhen: (answers) => answers.destination === 'different-province-state' },
+			{ id: 'review-international-requirements', stage: '2 Months Out', label: 'Review documents and requirements for your international move', guidance: 'Check passports, visas, customs paperwork, shipping documents, and any destination-specific requirements.', showWhen: (answers) => answers.destination === 'different-country' }
 		];
 
 		const getCalendarDate = (date) => new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -546,16 +562,14 @@
 			}
 		};
 
-		const renderChecklist = (answers) => {
-			const isCurrentStage = answers.currentStage === '3 Months Out';
-			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
-			const completionState = getCompletionState();
-			const notesState = getNotesState();
-			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
+		const stageOrder = ['3 Months Out', '2 Months Out'];
+
+		const renderTaskRows = (container, stageTasks, answers, completionState, notesState) => {
+			const orderedTasks = [...stageTasks].sort((firstTask, secondTask) => {
 				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
 			});
 
-			taskList.replaceChildren(...orderedTasks.map((task) => {
+			container.replaceChildren(...orderedTasks.map((task) => {
 				const isComplete = Boolean(completionState[task.id]);
 				const taskElement = document.createElement('div');
 				taskElement.className = `task${isComplete ? ' completed' : ''}`;
@@ -617,19 +631,38 @@
 				taskElement.append(taskTop, details);
 				return taskElement;
 			}));
+		};
 
-			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
-			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
+		const renderChecklist = (answers) => {
+			const currentStageIndex = stageOrder.indexOf(answers.currentStage);
+			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+			const currentTasks = applicableTasks.filter((task) => task.stage === answers.currentStage);
+			const earlierTasks = applicableTasks.filter((task) => {
+				const taskStageIndex = stageOrder.indexOf(task.stage);
+				return taskStageIndex !== -1 && (currentStageIndex === -1 || taskStageIndex < currentStageIndex);
+			});
+			const futureTasks = applicableTasks.filter((task) => task.stage === '2 Months Out' && answers.currentStage === '3 Months Out');
+			const completionState = getCompletionState();
+			const notesState = getNotesState();
+
+			renderTaskRows(taskList, currentTasks, answers, completionState, notesState);
+			renderTaskRows(earlierTaskList, earlierTasks, answers, completionState, notesState);
+			renderTaskRows(laterTaskList, futureTasks, answers, completionState, notesState);
+
+			const completedCount = currentTasks.filter((task) => completionState[task.id]).length;
+			const percentage = currentTasks.length ? Math.round((completedCount / currentTasks.length) * 100) : 0;
 			progressPercent.textContent = `${percentage}% complete`;
 			progressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
 			checklistTitle.textContent = getMoveSummary(answers.daysUntilMove);
 			stageSummary.textContent = `You're currently in the ${answers.currentStage} stage`;
-			currentTasksHeading.hidden = !isCurrentStage;
-			earlierTasksHeading.hidden = isCurrentStage;
-			earlierMessage.hidden = isCurrentStage;
-			focusMessage.hidden = isCurrentStage;
+			const hasCurrentTasks = currentTasks.length > 0;
+			currentTasksHeading.hidden = !hasCurrentTasks;
+			currentTasksTitle.textContent = answers.currentStage;
+			earlierTasksSection.hidden = earlierTasks.length === 0;
+			focusMessage.hidden = hasCurrentTasks;
 			focusMessage.textContent = `Tasks for the ${answers.currentStage} stage will appear here.`;
+			laterTasksSection.hidden = futureTasks.length === 0;
 			checklist.hidden = false;
 		};
 
