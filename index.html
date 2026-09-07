@@ -271,6 +271,19 @@
 		const savedMessage = document.querySelector('#saved-message');
 		const storageKey = 'moving-house-setup';
 
+		const getCalendarDate = (date) => new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+
+		const getCurrentStage = (daysUntilMove) => {
+			if (daysUntilMove > 60) return '3 Months Out';
+			if (daysUntilMove >= 31) return '2 Months Out';
+			if (daysUntilMove >= 15) return '1 Month Out';
+			if (daysUntilMove >= 8) return '2 Weeks Out';
+			if (daysUntilMove >= 2) return 'Moving Week';
+			if (daysUntilMove === 1) return 'Tomorrow';
+			if (daysUntilMove === 0) return 'Moving Day';
+			return 'After the Move';
+		};
+
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
 
@@ -281,8 +294,25 @@
 
 			const formData = new FormData(form);
 			const answers = Object.fromEntries(formData.entries());
+			const [year, month, day] = answers.movingDate.split('-').map(Number);
+			const movingDate = new Date(Date.UTC(year, month - 1, day));
+			const today = getCalendarDate(new Date());
+			const daysUntilMove = Math.round((movingDate - today) / (1000 * 60 * 60 * 24));
+			const currentStage = getCurrentStage(daysUntilMove);
+
+			answers.daysUntilMove = daysUntilMove;
+			answers.currentStage = currentStage;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
-			savedMessage.textContent = 'Your answers are saved for the next step.';
+
+			if (daysUntilMove > 1) {
+				savedMessage.textContent = `Your move is in ${daysUntilMove} days. You are currently in the ${currentStage} stage.`;
+			} else if (daysUntilMove === 1) {
+				savedMessage.textContent = `Your move is tomorrow. You are currently in the ${currentStage} stage.`;
+			} else if (daysUntilMove === 0) {
+				savedMessage.textContent = `Your move is today. You are currently in the ${currentStage} stage.`;
+			} else {
+				savedMessage.textContent = `Your move has already happened. You are currently in the ${currentStage} stage.`;
+			}
 		});
 	</script>
 </body>
