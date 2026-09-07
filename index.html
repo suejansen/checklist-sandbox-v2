@@ -214,6 +214,45 @@
 			letter-spacing: -0.02em;
 		}
 
+		.move-summary {
+			margin-bottom: 25px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.move-summary p {
+			margin: 5px 0 0;
+			color: var(--muted);
+			font-size: 0.96rem;
+		}
+
+		.checklist-section-title {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
+			font-weight: 700;
+		}
+
+		.earlier-message,
+		.later-message,
+		.focus-message {
+			margin: -2px 0 16px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+		}
+
+		.earlier-tasks {
+			margin-top: 28px;
+			padding-top: 22px;
+			border-top: 1px solid var(--line);
+		}
+
+		.coming-later {
+			margin-top: 28px;
+			padding-top: 22px;
+			border-top: 1px solid var(--line);
+		}
+
 		.progress-summary {
 			display: flex;
 			align-items: center;
@@ -405,8 +444,21 @@
 			</div>
 		</form>
 
-			<section id="checklist" class="checklist" hidden aria-labelledby="checklist-title">
-				<h2 id="checklist-title">3 Months Out</h2>
+		<section id="checklist" class="checklist" hidden aria-labelledby="checklist-title">
+			<div class="move-summary">
+				<h2 id="checklist-title">0 days until your move</h2>
+				<p id="stage-summary">You're currently in the 3 Months Out stage</p>
+			</div>
+			<section aria-labelledby="focus-title">
+				<h3 id="focus-title" class="checklist-section-title">Focus on this now</h3>
+				<p id="focus-message" class="focus-message" hidden></p>
+				<div id="current-tasks-heading">
+					<h3 class="checklist-section-title">3 Months Out</h3>
+				</div>
+				<div id="earlier-tasks-heading" hidden>
+					<h3 class="checklist-section-title">Earlier tasks</h3>
+				</div>
+				<div id="earlier-message" class="earlier-message" hidden>These are earlier-stage tasks. Any incomplete items may still need attention.</div>
 				<div class="progress-summary">
 					<span>Progress</span>
 					<strong id="progress-percent">0% complete</strong>
@@ -416,6 +468,11 @@
 				</div>
 				<div id="task-list"></div>
 			</section>
+			<section class="coming-later" aria-labelledby="later-title">
+				<h3 id="later-title" class="checklist-section-title">Coming later</h3>
+				<p class="later-message">Your later moving stages will appear here.</p>
+			</section>
+		</section>
 	</main>
 
 	<script>
@@ -426,6 +483,12 @@
 		const progressPercent = document.querySelector('#progress-percent');
 		const progressBar = document.querySelector('.progress-bar');
 		const progressBarFill = document.querySelector('#progress-bar-fill');
+		const checklistTitle = document.querySelector('#checklist-title');
+		const stageSummary = document.querySelector('#stage-summary');
+		const focusMessage = document.querySelector('#focus-message');
+		const currentTasksHeading = document.querySelector('#current-tasks-heading');
+		const earlierTasksHeading = document.querySelector('#earlier-tasks-heading');
+		const earlierMessage = document.querySelector('#earlier-message');
 		const storageKey = 'moving-house-setup';
 		const completionStorageKey = 'moving-house-task-completion';
 		const notesStorageKey = 'moving-house-task-notes';
@@ -456,6 +519,13 @@
 		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
 		const getNotesState = () => JSON.parse(localStorage.getItem(notesStorageKey) || '{}');
 
+		const getMoveSummary = (daysUntilMove) => {
+			if (daysUntilMove > 1) return `${daysUntilMove} days until your move`;
+			if (daysUntilMove === 1) return 'Tomorrow is your move';
+			if (daysUntilMove === 0) return 'Today is your move';
+			return 'Your move has already happened';
+		};
+
 		const restoreSetupForm = (answers) => {
 			form.elements.movingDate.value = answers.movingDate || '';
 			['homeType', 'movingMethod', 'destination', 'pets'].forEach((fieldName) => {
@@ -477,6 +547,7 @@
 		};
 
 		const renderChecklist = (answers) => {
+			const isCurrentStage = answers.currentStage === '3 Months Out';
 			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
 			const completionState = getCompletionState();
 			const notesState = getNotesState();
@@ -552,6 +623,13 @@
 			progressPercent.textContent = `${percentage}% complete`;
 			progressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
+			checklistTitle.textContent = getMoveSummary(answers.daysUntilMove);
+			stageSummary.textContent = `You're currently in the ${answers.currentStage} stage`;
+			currentTasksHeading.hidden = !isCurrentStage;
+			earlierTasksHeading.hidden = isCurrentStage;
+			earlierMessage.hidden = isCurrentStage;
+			focusMessage.hidden = isCurrentStage;
+			focusMessage.textContent = `Tasks for the ${answers.currentStage} stage will appear here.`;
 			checklist.hidden = false;
 		};
 
