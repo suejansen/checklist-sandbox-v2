@@ -240,14 +240,16 @@
 		}
 
 		.task {
+			padding: 13px 0;
+			border-top: 1px solid var(--line);
+			font-size: 0.96rem;
+			line-height: 1.4;
+		}
+
+		.task-top {
 			display: flex;
 			align-items: flex-start;
 			gap: 11px;
-			padding: 13px 0;
-			border-top: 1px solid var(--line);
-			cursor: pointer;
-			font-size: 0.96rem;
-			line-height: 1.4;
 		}
 
 		.task input {
@@ -257,6 +259,77 @@
 			accent-color: var(--accent);
 			flex: 0 0 auto;
 		}
+
+		.task-toggle {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 10px;
+			width: 100%;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			color: inherit;
+			background: transparent;
+			box-shadow: none;
+			cursor: pointer;
+			font: inherit;
+			font-size: inherit;
+			font-weight: 500;
+			line-height: inherit;
+			text-align: left;
+		}
+
+		.task-toggle:hover,
+		.task-toggle:active { color: inherit; background: transparent; transform: none; }
+		.task-toggle:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+
+		.task-chevron {
+			color: var(--accent);
+			font-size: 1.1rem;
+			line-height: 1.25;
+			transition: transform 160ms ease;
+		}
+
+		.task.expanded .task-chevron { transform: rotate(90deg); }
+
+		.task-details {
+			margin: 12px 0 0 31px;
+			padding: 13px 0 2px;
+			border-top: 1px solid var(--line);
+		}
+
+		.task-guidance {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+		}
+
+		.task-note-label {
+			display: block;
+			margin-bottom: 6px;
+			color: var(--ink);
+			font-size: 0.82rem;
+			font-weight: 700;
+		}
+
+		.task-note {
+			display: block;
+			width: 100%;
+			min-height: 72px;
+			padding: 9px 10px;
+			border: 1px solid var(--line);
+			border-radius: 9px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 0.88rem;
+			line-height: 1.4;
+			resize: vertical;
+		}
+
+		.task-note:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
 
 		.task.completed {
 			color: var(--muted);
@@ -355,15 +428,16 @@
 		const progressBarFill = document.querySelector('#progress-bar-fill');
 		const storageKey = 'moving-house-setup';
 		const completionStorageKey = 'moving-house-task-completion';
+		const notesStorageKey = 'moving-house-task-notes';
 		const tasks = [
-			{ id: 'moving-budget', label: 'Set a moving budget' },
-			{ id: 'declutter-belongings', label: 'Sort through belongings and declutter' },
-			{ id: 'book-moving-company', label: 'Research and book a moving company', showWhen: (answers) => answers.movingMethod === 'moving-company' },
-			{ id: 'rent-moving-truck', label: 'Research truck or van rental', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
-			{ id: 'check-home-notice', label: 'Check notice requirements for your current home', showWhen: (answers) => answers.homeType === 'renting' },
-			{ id: 'prepare-home-handover', label: 'Prepare your home for sale or handover', showWhen: (answers) => answers.homeType === 'own' },
-			{ id: 'research-pet-moving', label: 'Research pet moving requirements', showWhen: (answers) => answers.pets === 'yes' },
-			{ id: 'research-international-moving', label: 'Research international moving requirements', showWhen: (answers) => answers.destination === 'different-country' }
+			{ id: 'moving-budget', label: 'Set a moving budget', guidance: 'Estimate your moving costs, including transport, supplies, deposits, and a small buffer for surprises.' },
+			{ id: 'declutter-belongings', label: 'Sort through belongings and declutter', guidance: 'Work room by room and decide what to keep, donate, sell, recycle, or discard before packing.' },
+			{ id: 'book-moving-company', label: 'Research and book a moving company', guidance: 'Compare written quotes, reviews, insurance coverage, and availability before choosing a mover.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'rent-moving-truck', label: 'Research truck or van rental', guidance: 'Compare vehicle sizes, rental dates, mileage limits, insurance, and pickup requirements.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'check-home-notice', label: 'Check notice requirements for your current home', guidance: 'Review your lease and contact your landlord or property manager to confirm notice dates and handover steps.', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'prepare-home-handover', label: 'Prepare your home for sale or handover', guidance: 'Gather keys and documents, plan repairs or cleaning, and confirm what must be ready for the handover.', showWhen: (answers) => answers.homeType === 'own' },
+			{ id: 'research-pet-moving', label: 'Research pet moving requirements', guidance: 'Check carrier rules, travel arrangements, identification, vaccinations, and any destination requirements.', showWhen: (answers) => answers.pets === 'yes' },
+			{ id: 'research-international-moving', label: 'Research international moving requirements', guidance: 'Check customs rules, prohibited items, visa or residency needs, and documents for your destination.', showWhen: (answers) => answers.destination === 'different-country' }
 		];
 
 		const getCalendarDate = (date) => new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -380,6 +454,7 @@
 		};
 
 		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
+		const getNotesState = () => JSON.parse(localStorage.getItem(notesStorageKey) || '{}');
 
 		const restoreSetupForm = (answers) => {
 			form.elements.movingDate.value = answers.movingDate || '';
@@ -404,15 +479,18 @@
 		const renderChecklist = (answers) => {
 			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
 			const completionState = getCompletionState();
+			const notesState = getNotesState();
 			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
 				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
 			});
 
 			taskList.replaceChildren(...orderedTasks.map((task) => {
 				const isComplete = Boolean(completionState[task.id]);
-				const label = document.createElement('label');
-				label.className = `task${isComplete ? ' completed' : ''}`;
-				label.htmlFor = `task-${task.id}`;
+				const taskElement = document.createElement('div');
+				taskElement.className = `task${isComplete ? ' completed' : ''}`;
+
+				const taskTop = document.createElement('div');
+				taskTop.className = 'task-top';
 
 				const checkbox = document.createElement('input');
 				checkbox.type = 'checkbox';
@@ -426,10 +504,47 @@
 					renderChecklist(answers);
 				});
 
-				const text = document.createElement('span');
-				text.textContent = task.label;
-				label.append(checkbox, text);
-				return label;
+				const toggle = document.createElement('button');
+				toggle.type = 'button';
+				toggle.className = 'task-toggle';
+				toggle.setAttribute('aria-expanded', 'false');
+				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">›</span>`;
+
+				const details = document.createElement('div');
+				details.className = 'task-details';
+				details.hidden = true;
+
+				const guidance = document.createElement('p');
+				guidance.className = 'task-guidance';
+				guidance.textContent = task.guidance;
+
+				const noteLabel = document.createElement('label');
+				noteLabel.className = 'task-note-label';
+				noteLabel.htmlFor = `note-${task.id}`;
+				noteLabel.textContent = 'Add a note';
+
+				const note = document.createElement('textarea');
+				note.className = 'task-note';
+				note.id = `note-${task.id}`;
+				note.placeholder = 'Add your own information';
+				note.value = notesState[task.id] || '';
+				note.addEventListener('input', () => {
+					const updatedNotes = getNotesState();
+					updatedNotes[task.id] = note.value;
+					localStorage.setItem(notesStorageKey, JSON.stringify(updatedNotes));
+				});
+
+				toggle.addEventListener('click', () => {
+					const isExpanded = !details.hidden;
+					details.hidden = isExpanded;
+					toggle.setAttribute('aria-expanded', String(!isExpanded));
+					taskElement.classList.toggle('expanded', !isExpanded);
+				});
+
+				details.append(guidance, noteLabel, note);
+				taskTop.append(checkbox, toggle);
+				taskElement.append(taskTop, details);
+				return taskElement;
 			}));
 
 			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
