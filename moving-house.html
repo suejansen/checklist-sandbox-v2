@@ -750,7 +750,19 @@
 				'',
 				'Mail forwarding is a safety net and does not replace updating important senders directly.'
 			].join('\n') },
-			{ id: 'pack-essentials-bag', stage: 'Moving Week', label: 'Pack an essentials bag', guidance: 'Pack clothes, toiletries, chargers, documents, medication, snacks, and anything needed for the first night.' },
+			{ id: 'pack-essentials-bag', stage: 'Moving Week', label: 'Finish packing', guidance: (answers) => [
+				'Finish packing the things you still need for everyday life, leaving out only what you genuinely need before moving day.',
+				'',
+				'- Finish packing the remaining rooms, cupboards and everyday belongings',
+				'- Check easy-to-forget places such as the attic or loft, basement, garage, shed, balcony, storage locker and outdoor areas where applicable',
+				'- Open every cupboard, drawer and closet as you work through each room so nothing gets left behind',
+				'- Keep "Open First" items clearly separated',
+				'- Keep "Keep With Me" items clearly separated',
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Keep items going into storage clearly separated and labelled if storage is part of the move'] : []),
+				'- Make sure packed boxes are clearly labelled on more than one side',
+				'- Keep cleaning supplies needed for the final clean accessible',
+				'- Do not pack important documents, medication, valuables, chargers, keys or moving paperwork that should stay with you'
+			].join('\n') },
 			{ id: 'finish-labeling-boxes', stage: 'Moving Week', label: 'Finish packing and label remaining boxes', guidance: 'Finish each box, label its room and contents, and mark anything fragile or needed first.' },
 			{ id: 'clean-current-home', stage: 'Moving Week', label: 'Clean and check your current home', guidance: 'Clean each room, remove remaining belongings, and note any final repairs or handover items.' },
 			{ id: 'confirm-company-arrival', stage: 'Moving Week', label: 'Confirm arrival time with your moving company', guidance: 'Reconfirm the arrival window, contact number, access instructions, and any last-minute changes.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
