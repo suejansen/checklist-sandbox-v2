@@ -786,7 +786,35 @@
 				'',
 				'Keep these items together and make sure everyone helping with the move knows they are Open First items.'
 			].join('\n') },
-			{ id: 'clean-current-home', stage: 'Moving Week', label: 'Clean and check your current home', guidance: 'Clean each room, remove remaining belongings, and note any final repairs or handover items.' },
+			{ id: 'clean-current-home', stage: 'Moving Week', label: 'Clean and check your current home', guidance: (answers) => [
+				'Work through your current home as it empties, completing the final cleaning and checking each area before you leave.',
+				'',
+				'- Clean each room as it becomes empty',
+				'- Check inside every cupboard, drawer and closet for anything left behind',
+				'- Clean kitchen surfaces, cupboards and appliances where applicable',
+				'- Clean bathrooms',
+				'- Vacuum, sweep or mop floors as appropriate',
+				'- Check storage areas, garage, shed, balcony or outdoor areas where applicable',
+				'- Remove remaining rubbish and recycling',
+				'- Check for belongings behind doors, inside appliances and in other easy-to-miss places',
+				'- Note any damage, repairs or final jobs that still need attention',
+				'- Keep the cleaning supplies you still need accessible until the final clean is finished',
+				...(answers.homeType === 'renting' ? [
+					'',
+					'- Check any move-out or cleaning requirements provided by your landlord or property manager',
+					'- Take photos of the condition of the home once it is empty and clean',
+					'- Gather any keys, fobs, remotes or parking passes that need to be returned',
+					'- Confirm how and when these items need to be handed back'
+				] : []),
+				...(answers.homeType === 'own' ? [
+					'',
+					'- Gather keys, fobs, garage remotes and other items that belong with the property',
+					'- Gather useful appliance manuals, warranties or property information for the new owner where available',
+					'- Leave useful household information such as waste/recycling collection details or relevant property instructions where helpful',
+					'- Transfer or reset smart-home devices appropriately rather than leaving personal passwords or account details',
+					'- Make sure anything intended to remain with the property is clearly separated from belongings being moved'
+				] : [])
+			].join('\n') },
 			{ id: 'confirm-company-arrival', stage: 'Moving Week', label: 'Confirm arrival time with your moving company', guidance: 'Reconfirm the arrival window, contact number, access instructions, and any last-minute changes.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
 			{ id: 'confirm-vehicle-helpers-ready', stage: 'Moving Week', label: 'Confirm your moving vehicle and helpers are ready', guidance: 'Recheck the vehicle, fuel, equipment, route, and helper availability before moving day.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
 			{ id: 'final-old-home-walkthrough', stage: 'Moving Day', label: 'Complete a final walkthrough of your old home', guidance: 'Check every room, cupboard, storage area, and outdoor space before you leave.' },
