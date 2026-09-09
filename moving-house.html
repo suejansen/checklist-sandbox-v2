@@ -453,6 +453,34 @@
 				</div>
 			</fieldset>
 
+			<fieldset class="question">
+				<legend>Are any children moving with you?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="children" value="yes" required><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="children" value="no"><span>No</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Will either home have building access or moving restrictions?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="accessRestrictions" value="current-home" required><span>Current home</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="new-home"><span>New home</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="both"><span>Both</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="neither"><span>Neither</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="not-sure"><span>Not sure</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Will you need storage between moving out and moving in?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="storageNeeded" value="yes" required><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="storageNeeded" value="no"><span>No</span></label>
+					<label class="choice"><input type="radio" name="storageNeeded" value="not-sure"><span>Not sure</span></label>
+				</div>
+			</fieldset>
+
 			<div class="submit-wrap">
 				<button type="submit">Build My Checklist</button>
 				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
@@ -582,7 +610,7 @@
 
 		const restoreSetupForm = (answers) => {
 			form.elements.movingDate.value = answers.movingDate || '';
-			['homeType', 'movingMethod', 'destination', 'pets'].forEach((fieldName) => {
+			['homeType', 'movingMethod', 'destination', 'pets', 'children', 'accessRestrictions', 'storageNeeded'].forEach((fieldName) => {
 				const option = [...form.elements[fieldName]].find((input) => input.value === answers[fieldName]);
 				if (option) option.checked = true;
 			});
