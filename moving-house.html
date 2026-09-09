@@ -357,6 +357,7 @@
 			color: var(--muted);
 			font-size: 0.88rem;
 			line-height: 1.5;
+			white-space: pre-line;
 		}
 
 		.task-note-label {
@@ -541,14 +542,32 @@
 		const completionStorageKey = 'moving-house-task-completion';
 		const notesStorageKey = 'moving-house-task-notes';
 		const tasks = [
-			{ id: 'moving-budget', stage: '3 Months Out', label: 'Set a moving budget', guidance: 'Estimate your moving costs, including transport, supplies, deposits, and a small buffer for surprises.' },
-			{ id: 'declutter-belongings', stage: '3 Months Out', label: 'Sort through belongings and declutter', guidance: 'Work room by room and decide what to keep, donate, sell, recycle, or discard before packing.' },
-			{ id: 'book-moving-company', stage: '3 Months Out', label: 'Research and book a moving company', guidance: 'Compare written quotes, reviews, insurance coverage, and availability before choosing a mover.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
-			{ id: 'rent-moving-truck', stage: '3 Months Out', label: 'Research truck or van rental', guidance: 'Compare vehicle sizes, rental dates, mileage limits, insurance, and pickup requirements.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
-			{ id: 'check-home-notice', stage: '3 Months Out', label: 'Check notice requirements for your current home', guidance: 'Review your lease and contact your landlord or property manager to confirm notice dates and handover steps.', showWhen: (answers) => answers.homeType === 'renting' },
-			{ id: 'prepare-home-handover', stage: '3 Months Out', label: 'Prepare your home for sale or handover', guidance: 'Gather keys and documents, plan repairs or cleaning, and confirm what must be ready for the handover.', showWhen: (answers) => answers.homeType === 'own' },
-			{ id: 'research-pet-moving', stage: '3 Months Out', label: 'Research pet moving requirements', guidance: 'Check carrier rules, travel arrangements, identification, vaccinations, and any destination requirements.', showWhen: (answers) => answers.pets === 'yes' },
-			{ id: 'research-international-moving', stage: '3 Months Out', label: 'Research international moving requirements', guidance: 'Check customs rules, prohibited items, visa or residency needs, and documents for your destination.', showWhen: (answers) => answers.destination === 'different-country' },
+			{ id: 'moving-budget', stage: '3 Months Out', label: 'Estimate your moving costs', guidance: (answers) => [
+				'Get a rough idea of what your move is likely to cost so there are fewer surprises later. You don’t need an exact figure yet — just include the main expenses you’re likely to have.',
+				'',
+				'- Moving company or rental vehicle',
+				'- Packing supplies or reusable moving crates',
+				'- Cleaning',
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? ['- Building/elevator fees if applicable'] : []),
+				'- Insurance',
+				'- Travel or fuel',
+				'- Mail forwarding',
+				'- Utility setup fees',
+				...(answers.pets === 'yes' ? ['- Pet-related costs if pets are moving'] : []),
+				...(answers.children === 'yes' ? ['- Childcare costs if children are moving'] : []),
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Storage costs if bridging storage is needed'] : []),
+				'- A contingency for unexpected costs'
+			].join('\n') },
+			{ id: 'book-moving-company', stage: '3 Months Out', label: 'Research and book your moving company', guidance: 'Get more than one quote where practical\n- Check exactly what is included\n- Check reputation and reviews\n- Ask about insurance/liability coverage\n- Check possible extra charges\n- Check cancellation or change terms\n- Confirm moving date and expected timing\n- Check deposit and payment requirements\n- Keep written booking confirmation', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'rent-moving-truck', stage: '3 Months Out', label: 'Plan your DIY move', guidance: 'Work out what size vehicle you will need\n- Decide who will help with loading and unloading\n- Check whether you need dollies, moving blankets or straps\n- Check driving/licence requirements where applicable\n- Estimate fuel and mileage costs\n- Once the moving date is known, reserve the rental truck or van early, especially for busy moving dates', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'decide-how-to-move', stage: '3 Months Out', label: 'Decide how you’ll move', guidance: 'Compare using a moving company with doing the move yourself, considering cost, time, physical effort, vehicle needs, helpers, distance and complexity.', showWhen: (answers) => answers.movingMethod === 'not-sure' },
+			{ id: 'declutter-belongings', stage: '3 Months Out', label: 'Start decluttering', guidance: 'Encourage the user to reduce what they will need to pack, transport and unpack.\n\n- Keep\n- Sell\n- Donate\n- Recycle or dispose\n- Not sure\n\nStart with the things that have been boxed since your last move.' },
+			{ id: 'school-childcare-planning', stage: '3 Months Out', label: 'Think ahead about school or childcare', guidance: 'If your move will affect your child’s school, daycare or childcare arrangements, now is a good time to find out what you’ll need to do. You may need to notify their current school/provider, arrange a new place, or transfer records. If nothing is changing, there’s nothing you need to do.\n\n- Will school or childcare change?\n- Are there registration or notice dates?\n- Will records need to be transferred?\n- Will transportation arrangements change?\n- Is there anything a new provider will need?', showWhen: (answers) => answers.children === 'yes' },
+			{ id: 'check-home-moving-requirements', stage: '3 Months Out', label: 'Check moving requirements at both homes', guidance: 'Check:\n- Permitted moving hours or restricted days\n- Elevator booking requirements\n- Loading or parking reservations\n- Whether management needs advance notice\n- Deposits or fees\n- Mover insurance/document requirements\n- Keys, fobs or access arrangements\n- Protection requirements for common areas\n- When any required bookings open', showWhen: (answers) => ['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) },
+			{ id: 'check-bridging-storage', stage: '3 Months Out', label: 'Check whether you’ll need storage between homes', guidance: (answers) => `${answers.storageNeeded === 'not-sure' ? 'First compare the move-out date with the move-in/possession date to determine whether storage will be needed.\n\n' : ''}Plan your bridging storage by considering:\n- Confirm whether there is a gap between homes\n- Estimate the amount of storage needed\n- Check minimum rental periods\n- Check access hours\n- Check insurance/security\n- Check cancellation or change terms\n- Plan how belongings will get into storage and back out again`, showWhen: (answers) => ['yes', 'not-sure'].includes(answers.storageNeeded) },
+			{ id: 'research-province-state-changes', stage: '3 Months Out', label: 'Check what you’ll need to update for your new province or state', guidance: 'Investigate what applies to your move, including:\n- Driver’s licence\n- Vehicle registration\n- Health coverage\n- Insurance\n- Tax or residency implications\n- Professional registrations', showWhen: (answers) => answers.destination === 'different-province-state' },
+			{ id: 'review-international-requirements', stage: '3 Months Out', label: 'Check the requirements for your international move', guidance: 'Investigate what applies to your move, including:\n- Immigration, visa or residency requirements\n- Passport validity\n- Customs requirements for household goods\n- Prohibited or restricted imports\n- Shipping options and lead times\n- Insurance for shipped belongings\n- Important or certified documents\n- Driving/licensing requirements\n- Healthcare or insurance arrangements\n- Banking or tax considerations', showWhen: (answers) => answers.destination === 'different-country' },
+			{ id: 'international-pet-requirements', stage: '3 Months Out', label: 'Check the requirements for taking your pet abroad', guidance: 'Check:\n- Destination-country pet import rules\n- Microchip requirements\n- Vaccination timing\n- Rabies documentation or testing where applicable\n- Veterinary health certificates\n- Import permits where applicable\n- Quarantine requirements where applicable\n- Airline or carrier rules\n- Approved crate requirements\n- Whether a pet relocation service may be useful\n- Keep original documents accessible\n- Find out how far in advance each requirement must be completed\n\nStart with the deadlines, not the paperwork.', showWhen: (answers) => answers.destination === 'different-country' && answers.pets === 'yes' },
 			{ id: 'confirm-moving-budget', stage: '2 Months Out', label: 'Confirm your moving budget', guidance: 'Review your estimate against current quotes and costs, then update the amount you plan to spend.', },
 			{ id: 'pack-less-used-items', stage: '2 Months Out', label: 'Start packing items you use less often', guidance: 'Pack seasonal, spare, and occasional-use items first, and label each box with its room and contents.' },
 			{ id: 'create-moving-inventory', stage: '2 Months Out', label: 'Create a moving inventory', guidance: 'List important belongings and boxes so you can track what is packed and check items when they arrive.' },
@@ -667,7 +686,7 @@
 
 				const guidance = document.createElement('p');
 				guidance.className = 'task-guidance';
-				guidance.textContent = task.guidance;
+				guidance.textContent = typeof task.guidance === 'function' ? task.guidance(answers) : task.guidance;
 
 				const noteLabel = document.createElement('label');
 				noteLabel.className = 'task-note-label';
