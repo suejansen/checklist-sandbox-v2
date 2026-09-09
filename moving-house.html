@@ -858,7 +858,45 @@
 					'- Make sure anything intended to remain with the property is clearly separated from belongings being moved'
 				] : [])
 			].join('\n') },
-			{ id: 'confirm-company-arrival', stage: 'Moving Week', label: 'Confirm arrival time with your moving company', guidance: 'Reconfirm the arrival window, contact number, access instructions, and any last-minute changes.', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'final-moving-day-checks', stage: 'Moving Week', label: 'Do your final moving-day checks', guidance: (answers) => [
+				'Do one final check of the practical arrangements for moving day. Most of the planning is already done. This is simply to make sure nothing important has changed or been overlooked.',
+				'',
+				'- Confirm the moving date and expected timing',
+				'- Make sure everyone helping knows when and where they need to be',
+				'- Confirm how you will access both homes',
+				'- Make sure keys, fobs and access information are easy to reach',
+				'- Check the weather forecast and adjust your plans if needed',
+				'- Charge phones and power banks',
+				'- Keep important contact numbers easy to find',
+				'- Make sure your "Keep With Me", "Moving-Day Bag" and "Open First" items are clearly separated from general packed belongings',
+				...(answers.movingMethod === 'moving-company' ? [
+					'',
+					'- Reconfirm the mover arrival window',
+					'- Confirm the addresses and any access instructions',
+					'- Confirm the main contact details',
+					'- Check any payment arrangements or amount due on moving day'
+				] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? [
+					'',
+					'- Reconfirm the rental vehicle or moving vehicle arrangements',
+					'- Confirm pickup time and location if renting a vehicle',
+					'- Make sure helpers know when and where to arrive',
+					'- Check that moving equipment such as dollies, blankets or straps is ready if needed'
+				] : []),
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? [
+					'',
+					'- Reconfirm elevator bookings if applicable',
+					'- Reconfirm loading or parking arrangements',
+					'- Check permitted moving times',
+					'- Make sure any required access arrangements, deposits or documentation are complete'
+				] : []),
+				...(answers.storageNeeded === 'yes' ? [
+					'',
+					'- Confirm the storage access arrangements',
+					'- Make sure belongings going into storage are clearly identified',
+					'- Make sure everyone helping knows which belongings have a different destination'
+				] : [])
+			].join('\n') },
 			{ id: 'confirm-vehicle-helpers-ready', stage: 'Moving Week', label: 'Confirm your moving vehicle and helpers are ready', guidance: 'Recheck the vehicle, fuel, equipment, route, and helper availability before moving day.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
 			{ id: 'final-old-home-walkthrough', stage: 'Moving Day', label: 'Complete a final walkthrough of your old home', guidance: 'Check every room, cupboard, storage area, and outdoor space before you leave.' },
 			{ id: 'keep-important-items-with-you', stage: 'Moving Day', label: 'Keep important documents, medication and valuables with you', guidance: 'Keep these items in your personal bag rather than placing them in the moving vehicle.' },
