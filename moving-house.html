@@ -940,6 +940,20 @@
 				'- Before the moving vehicle leaves, check that everything intended for that destination has been unloaded',
 				...(answers.movingMethod === 'moving-company' ? ['- If using a moving company, note any obvious damage or missing items and raise it promptly'] : [])
 			].join('\n') },
+			{ id: 'check-new-home-arrival', stage: 'Moving Day', label: 'Check your new home as you arrive', guidance: (answers) => [
+				"Before everything starts coming through the door, take a few minutes to check your new home and make sure you're ready for unloading.",
+				'',
+				'- Walk through the home and check for anything unexpected',
+				'- Take photos of the condition of the property before belongings are moved in',
+				'- Check that electricity, water and other essential services are working',
+				'- Locate the electrical panel, water shut-off and other important controls where practical',
+				'- Check that doors and windows lock securely',
+				'- Make sure you have the keys, fobs, garage remotes or other access items you expect',
+				'- Identify where movers or helpers should bring boxes and furniture',
+				'- Protect floors or other surfaces if needed before unloading begins',
+				'- Put toilet paper and hand soap somewhere immediately accessible',
+				'- If anything is damaged, missing or not as expected, document it before unloading where practical'
+			].join('\n') },
 			{ id: 'keep-important-items-with-you', stage: 'Moving Day', label: 'Keep important documents, medication and valuables with you', guidance: 'Keep these items in your personal bag rather than placing them in the moving vehicle.' },
 			{ id: 'check-everything-loaded', stage: 'Moving Day', label: 'Check that everything has been loaded', guidance: 'Use your inventory and walk through the home and storage areas before the vehicle departs.' },
 			{ id: 'record-meter-readings', stage: 'Moving Day', label: 'Record meter readings if applicable', guidance: 'Take dated photos of relevant meters and keep the readings with your move records.' },
