@@ -928,6 +928,18 @@
 					'- Leave any property information, manuals or other handover items you prepared for the new owner as arranged'
 				] : [])
 			].join('\n') },
+			{ id: 'track-what-goes-where', stage: 'Moving Day', label: 'Keep track of what goes where', guidance: (answers) => [
+				'As belongings are loaded and unloaded, keep an eye on where everything is going so important items stay with you and boxes end up in the right place.',
+				'',
+				'- Keep your "Keep With Me" items physically with you rather than loading them with general household belongings',
+				'- Make sure "Open First" boxes are easy to identify and retrieve',
+				'- Point out fragile or particularly important items to anyone helping with the move',
+				'- Use the box labels or room colours you prepared earlier to direct belongings to the right rooms',
+				...(answers.storageNeeded === 'yes' ? ['- If some belongings are going into storage, make sure they are clearly separated and sent to the correct destination'] : []),
+				'- At the new home, direct boxes to their labelled rooms rather than allowing everything to collect in one place',
+				'- Before the moving vehicle leaves, check that everything intended for that destination has been unloaded',
+				...(answers.movingMethod === 'moving-company' ? ['- If using a moving company, note any obvious damage or missing items and raise it promptly'] : [])
+			].join('\n') },
 			{ id: 'keep-important-items-with-you', stage: 'Moving Day', label: 'Keep important documents, medication and valuables with you', guidance: 'Keep these items in your personal bag rather than placing them in the moving vehicle.' },
 			{ id: 'check-everything-loaded', stage: 'Moving Day', label: 'Check that everything has been loaded', guidance: 'Use your inventory and walk through the home and storage areas before the vehicle departs.' },
 			{ id: 'record-meter-readings', stage: 'Moving Day', label: 'Record meter readings if applicable', guidance: 'Take dated photos of relevant meters and keep the readings with your move records.' },
