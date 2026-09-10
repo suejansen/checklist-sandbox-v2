@@ -954,6 +954,19 @@
 				'- Put toilet paper and hand soap somewhere immediately accessible',
 				'- If anything is damaged, missing or not as expected, document it before unloading where practical'
 			].join('\n') },
+			{ id: 'check-everything-arrived', stage: 'Moving Day', label: 'Check everything has arrived', guidance: (answers) => [
+				'Before the moving vehicle leaves and everyone starts heading home, make sure everything that was meant to arrive has actually arrived.',
+				'',
+				'- Check the moving vehicle is completely empty',
+				'- Check boxes and furniture against what you expected to arrive',
+				'- Look for anything obviously missing',
+				'- Check furniture and larger items for obvious damage',
+				'- Make sure nothing intended for storage has accidentally come to the new home, or vice versa',
+				'- Confirm your "Open First" items are accounted for',
+				'- Make sure your "Keep With Me" items are still safely with you',
+				'- Keep any paperwork, receipts or delivery documents from the move',
+				...(answers.movingMethod === 'moving-company' ? ['- Raise any missing or damaged items with the moving company before they leave where practical'] : [])
+			].join('\n') },
 			{ id: 'keep-important-items-with-you', stage: 'Moving Day', label: 'Keep important documents, medication and valuables with you', guidance: 'Keep these items in your personal bag rather than placing them in the moving vehicle.' },
 			{ id: 'check-everything-loaded', stage: 'Moving Day', label: 'Check that everything has been loaded', guidance: 'Use your inventory and walk through the home and storage areas before the vehicle departs.' },
 			{ id: 'record-meter-readings', stage: 'Moving Day', label: 'Record meter readings if applicable', guidance: 'Take dated photos of relevant meters and keep the readings with your move records.' },
