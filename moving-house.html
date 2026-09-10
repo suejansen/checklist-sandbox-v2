@@ -898,7 +898,36 @@
 				] : [])
 			].join('\n') },
 			{ id: 'confirm-vehicle-helpers-ready', stage: 'Moving Week', label: 'Confirm your moving vehicle and helpers are ready', guidance: 'Recheck the vehicle, fuel, equipment, route, and helper availability before moving day.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
-			{ id: 'final-old-home-walkthrough', stage: 'Moving Day', label: 'Complete a final walkthrough of your old home', guidance: 'Check every room, cupboard, storage area, and outdoor space before you leave.' },
+			{ id: 'final-old-home-walkthrough', stage: 'Moving Day', label: 'Do one final check before you leave', guidance: (answers) => [
+				'Before you leave your current home for the last time, do one final walk-through. Check the places that are easiest to overlook and make sure the things that need to stay with you are actually with you.',
+				'',
+				'- Walk through every room one last time',
+				'- Open cupboards, drawers and closets',
+				'- Check inside appliances',
+				'- Check behind doors and in other easy-to-miss places',
+				'- Check the garage, shed, balcony, storage locker and outdoor areas where applicable',
+				'- Remove any final rubbish or recycling',
+				'- Make sure nothing belonging to the property has accidentally been packed',
+				'- Make sure your "Keep With Me" items and moving-day bag are with you',
+				'- Make sure your "Open First" items are clearly identifiable',
+				'- Take final meter readings or photos where applicable',
+				'- Close and secure windows',
+				'- Turn off anything that should be turned off',
+				'- Make sure doors are secured when you leave',
+				...(answers.homeType === 'renting' ? [
+					'',
+					'- Take final photos of the condition of the home',
+					'- Check that any keys, fobs, remotes or parking passes being returned are together',
+					'- Follow the agreed key or property handover arrangements',
+					'- Complete any final landlord or property-manager instructions that apply'
+				] : []),
+				...(answers.homeType === 'own' ? [
+					'',
+					'- Make sure agreed keys, remotes and other property items are left or handed over as arranged',
+					'- Make sure anything included with the property has not accidentally been packed',
+					'- Leave any property information, manuals or other handover items you prepared for the new owner as arranged'
+				] : [])
+			].join('\n') },
 			{ id: 'keep-important-items-with-you', stage: 'Moving Day', label: 'Keep important documents, medication and valuables with you', guidance: 'Keep these items in your personal bag rather than placing them in the moving vehicle.' },
 			{ id: 'check-everything-loaded', stage: 'Moving Day', label: 'Check that everything has been loaded', guidance: 'Use your inventory and walk through the home and storage areas before the vehicle departs.' },
 			{ id: 'record-meter-readings', stage: 'Moving Day', label: 'Record meter readings if applicable', guidance: 'Take dated photos of relevant meters and keep the readings with your move records.' },
