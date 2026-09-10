@@ -987,7 +987,26 @@
 					'- Check whether any relevant insurance may cover the damage'
 				] : [])
 			].join('\n') },
-			{ id: 'finish-address-updates', stage: 'After the Move', label: 'Finish updating your address', guidance: 'Update any remaining organizations, memberships, accounts, and contacts with your new address.' },
+			{ id: 'finish-address-updates', stage: 'After the Move', label: 'Finish updating your address', guidance: (answers) => [
+				'You probably updated the most important places before moving. Now catch anything you missed. Over the next few weeks, forwarded mail, emails and accounts you use can be useful reminders of places that still have your old address.',
+				'',
+				'- Government records and identification',
+				"- Driver's licence and vehicle registration where applicable",
+				'- Banks, credit cards and other financial accounts',
+				'- Insurance providers',
+				'- Employer, payroll and pension providers',
+				'- Healthcare providers',
+				'- Schools or childcare where relevant',
+				'- Subscriptions and memberships',
+				'- Online shopping and delivery accounts',
+				'- Loyalty programs',
+				'- Professional organizations or licences',
+				'- Friends and family',
+				'- Any organizations that send tax documents, statements or other important mail',
+				'- Check forwarded mail as it arrives and update any sender still using your old address',
+				'- Check saved delivery addresses in frequently used apps and websites',
+				...(answers.destination === 'different-province-state' || answers.destination === 'different-country' ? ['- Check whether government, licensing, vehicle, healthcare, insurance or residency records need additional updates because you moved to a different jurisdiction'] : [])
+			].join('\n') },
 			{ id: 'unpack-essentials-first', stage: 'After the Move', label: 'Unpack your essentials first', guidance: 'Set up sleeping, bathing, food, and work essentials before unpacking less urgent boxes.' },
 			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Follow up on inspections, deposits, final bills, keys, and any remaining landlord requests.', showWhen: (answers) => answers.homeType === 'renting' },
 			{ id: 'help-pet-settle', stage: 'After the Move', label: 'Help your pet settle into the new home', guidance: 'Give your pet a quiet familiar space, keep routines steady, and introduce the new home gradually.', showWhen: (answers) => answers.pets === 'yes' }
