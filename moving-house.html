@@ -967,7 +967,26 @@
 				'- Keep any paperwork, receipts or delivery documents from the move',
 				...(answers.movingMethod === 'moving-company' ? ['- Raise any missing or damaged items with the moving company before they leave where practical'] : [])
 			].join('\n') },
-			{ id: 'check-move-damage', stage: 'After the Move', label: 'Check your belongings for damage or missing items', guidance: 'Compare boxes and larger items with your inventory and document any issues promptly.' },
+			{ id: 'check-move-damage', stage: 'After the Move', label: 'Check your belongings for damage or missing items', guidance: (answers) => [
+				'As you unpack, keep an eye out for anything that is missing or has been damaged during the move. If you used a moving company, check any paperwork you were given and report problems promptly rather than waiting until everything is unpacked.',
+				'',
+				'- Check furniture and larger items for damage',
+				'- Look for damaged or crushed boxes as you unpack',
+				'- Make sure important or valuable items are accounted for',
+				'- Photograph any damage before repairing, cleaning or disposing of anything',
+				'- Keep damaged packaging where practical until you know whether it is needed',
+				'- Keep moving paperwork, receipts and photographs together',
+				...(answers.movingMethod === 'moving-company' ? [
+					'',
+					'- Check the moving company’s process and timeframe for reporting damage or missing items',
+					'- Report any problems promptly'
+				] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? [
+					'',
+					'- Note anything damaged that may need repair or replacement',
+					'- Check whether any relevant insurance may cover the damage'
+				] : [])
+			].join('\n') },
 			{ id: 'finish-address-updates', stage: 'After the Move', label: 'Finish updating your address', guidance: 'Update any remaining organizations, memberships, accounts, and contacts with your new address.' },
 			{ id: 'unpack-essentials-first', stage: 'After the Move', label: 'Unpack your essentials first', guidance: 'Set up sleeping, bathing, food, and work essentials before unpacking less urgent boxes.' },
 			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Follow up on inspections, deposits, final bills, keys, and any remaining landlord requests.', showWhen: (answers) => answers.homeType === 'renting' },
