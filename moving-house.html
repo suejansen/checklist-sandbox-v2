@@ -1007,7 +1007,22 @@
 				'- Check saved delivery addresses in frequently used apps and websites',
 				...(answers.destination === 'different-province-state' || answers.destination === 'different-country' ? ['- Check whether government, licensing, vehicle, healthcare, insurance or residency records need additional updates because you moved to a different jurisdiction'] : [])
 			].join('\n') },
-			{ id: 'unpack-essentials-first', stage: 'After the Move', label: 'Unpack your essentials first', guidance: 'Set up sleeping, bathing, food, and work essentials before unpacking less urgent boxes.' },
+			{ id: 'unpack-essentials-first', stage: 'After the Move', label: 'Unpack your essentials first', guidance: (answers) => [
+				'Start with the things that will make your first evening and morning easier. Get the basics working before worrying about unpacking everything else.',
+				'',
+				'- Find and unpack your "Open First" boxes',
+				'- Set up beds and bedding',
+				'- Put out towels, toiletries, toilet paper and hand soap',
+				'- Get basic food and drink essentials accessible',
+				'- Find phone and device chargers',
+				'- Put medication somewhere safe and easy to reach',
+				'- Set up anything needed for work or school the next day',
+				'- Keep basic cleaning supplies and rubbish bags handy',
+				...(answers.children === 'yes' ? ['- Make children’s bedtime essentials easy to find'] : []),
+				...(answers.pets === 'yes' ? ['- Set up food, water, bedding and other immediate pet essentials'] : []),
+				'',
+				'Then stop if you want to. The rest of the boxes can wait.'
+			].join('\n') },
 			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Follow up on inspections, deposits, final bills, keys, and any remaining landlord requests.', showWhen: (answers) => answers.homeType === 'renting' },
 			{ id: 'help-pet-settle', stage: 'After the Move', label: 'Help your pet settle into the new home', guidance: 'Give your pet a quiet familiar space, keep routines steady, and introduce the new home gradually.', showWhen: (answers) => answers.pets === 'yes' }
 		];
