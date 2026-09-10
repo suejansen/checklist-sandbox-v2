@@ -1023,7 +1023,7 @@
 				'',
 				'Then stop if you want to. The rest of the boxes can wait.'
 			].join('\n') },
-			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Follow up on inspections, deposits, final bills, keys, and any remaining landlord requests.', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Finish any remaining arrangements with your landlord or property manager so your move-out is properly wrapped up.\n\n- Complete any final move-out inspection or check-out process\n- Return any remaining keys, fobs, parking passes or remotes\n- Confirm the landlord or property manager has your current contact details if needed\n- Keep copies of inspection reports, handover documents and relevant photographs\n- Follow up on your damage or security deposit and find out when it should be returned\n- Check for any final rent, utility or property-related charges\n- Keep important correspondence until the tenancy is completely settled\n\nOnce everything has been returned, documented and settled, you can finally close the door on the old place.', showWhen: (answers) => answers.homeType === 'renting' },
 			{ id: 'help-pet-settle', stage: 'After the Move', label: 'Help your pet settle into the new home', guidance: 'Give your pet a quiet familiar space, keep routines steady, and introduce the new home gradually.', showWhen: (answers) => answers.pets === 'yes' }
 		];
 
