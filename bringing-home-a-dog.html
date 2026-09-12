@@ -499,6 +499,7 @@
 					<div class="stage-switch" role="group" aria-label="Development stage preview">
 						<button type="button" data-stage="getting-ready" aria-pressed="true">Getting Ready</button>
 						<button type="button" data-stage="coming-home" aria-pressed="false">Coming Home</button>
+						<button type="button" data-stage="arrival-day" aria-pressed="false">Arrival Day</button>
 					</div>
 				</details>
 			</div>
@@ -537,6 +538,8 @@
 		const gettingReadyNotesStorageKey = 'bringing-home-a-dog-task-notes';
 		const comingHomeCompletionStorageKey = 'bringing-home-a-dog-coming-home-task-completion';
 		const comingHomeNotesStorageKey = 'bringing-home-a-dog-coming-home-task-notes';
+		const arrivalDayCompletionStorageKey = 'bringing-home-a-dog-arrival-day-task-completion';
+		const arrivalDayNotesStorageKey = 'bringing-home-a-dog-arrival-day-task-notes';
 		const gettingReadyTasks = [
 			{
 				id: 'get-essentials-ready',
@@ -699,7 +702,64 @@
 			}
 		];
 
+		const arrivalDayTasks = [
+			{
+				id: 'arrival-toilet-opportunity',
+				label: 'Give them a toilet opportunity first',
+				guidance: (answers) => [
+					'Before beginning introductions or exploring the house, calmly give your dog an opportunity to toilet in the area you intend them to use.',
+					'',
+					'- Give them time',
+					'- Calmly praise success',
+					'- Do not make a fuss about accidents',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies will need frequent toilet opportunities while they learn the routine'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- A new environment may require extra toilet opportunities and supervision while their habits become clear'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'introduce-new-home-slowly',
+				label: 'Introduce them to their new home slowly',
+				guidance: 'Begin with a small, manageable part of the home rather than immediately showing them everywhere.\n\n- Make water, their bed or resting area and safe space available\n- Let them explore gradually\n- Keep external doors, gates and other escape routes secure'
+			},
+			{
+				id: 'keep-first-hours-calm',
+				label: 'Keep their first few hours calm',
+				guidance: 'Give them time to sniff, rest and observe.\n\n- Keep visitors, outings and unnecessary excitement to a minimum\n- Where possible, use familiar food, belongings and routines rather than changing everything at once'
+			},
+			{
+				id: 'introduce-household-carefully',
+				label: 'Introduce the household carefully',
+				showWhen: (answers) => (answers.existingPets && answers.existingPets !== 'none') || (answers.children && answers.children !== 'none'),
+				guidance: (answers) => {
+					const guidance = [];
+					const hasDogs = ['dogs', 'dogs-and-cats'].includes(answers.existingPets);
+					const hasCats = ['cats', 'dogs-and-cats'].includes(answers.existingPets);
+					const hasOtherPets = answers.existingPets === 'other';
+					const hasYoungerChildren = ['younger', 'younger-and-older'].includes(answers.children);
+					const hasOlderChildren = ['older', 'younger-and-older'].includes(answers.children);
+
+					if (hasDogs) guidance.push('For existing dogs:', '- Use controlled introductions, with neutral or outdoor introductions where practical', '- Supervise interactions', '- Initially provide separate resources such as food, beds and valued items');
+					if (hasCats) guidance.push('For existing cats:', '- Begin with separation', '- Provide secure escape or high spaces where appropriate', '- Allow gradual, scent-based introductions', '- Do not force face-to-face interaction');
+					if (hasOtherPets) guidance.push('For other pets:', '- Keep habitats secure', '- Use species-appropriate separation and controlled introductions', '- Do not assume direct interaction is appropriate for every species');
+					if (hasYoungerChildren) guidance.push('For younger children:', '- Provide close adult supervision', '- Encourage calm behaviour and allow the dog to approach rather than grabbing, hugging or chasing', '- Do not disturb the dog while eating or sleeping', '- Respect the dog’s safe space');
+					if (hasOlderChildren) guidance.push('For older children:', '- Plan calm introductions', '- Agree consistent household rules', '- Help them recognise when the dog wants space', '- Involve them appropriately in the dog’s routine');
+
+					return guidance.join('\n');
+				}
+			},
+			{
+				id: 'start-home-routine',
+				label: 'Start the routine you want to keep',
+				guidance: 'Begin establishing the basics of everyday life, including meals, water, toilet opportunities, rest, household boundaries and simple expectations. Keep it gentle and consistent.\n\nYou don’t need to teach everything today. Just begin showing them how life works here.'
+			}
+		];
+
 		let currentStage = 'getting-ready';
+		let currentAnswers = null;
 
 		const getStageConfig = (stage) => stage === 'coming-home'
 			? {
@@ -707,6 +767,13 @@
 				tasks: comingHomeTasks,
 				completionKey: comingHomeCompletionStorageKey,
 				notesKey: comingHomeNotesStorageKey
+			}
+			: stage === 'arrival-day'
+			? {
+				name: 'Arrival Day',
+				tasks: arrivalDayTasks,
+				completionKey: arrivalDayCompletionStorageKey,
+				notesKey: arrivalDayNotesStorageKey
 			}
 			: {
 				name: 'Getting Ready',
@@ -830,7 +897,7 @@
 
 		stageButtons.forEach((button) => button.addEventListener('click', () => {
 			currentStage = button.dataset.stage;
-			if (savedSetup) renderPlan(savedSetup);
+			if (currentAnswers) renderPlan(currentAnswers);
 		}));
 
 		const updateHouseTrainingQuestion = () => {
@@ -855,6 +922,7 @@
 
 		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
 		if (savedSetup) {
+			currentAnswers = savedSetup;
 			restoreSetupForm(savedSetup);
 			renderPlan(savedSetup);
 		}
@@ -871,6 +939,7 @@
 			const answers = Object.fromEntries(new FormData(form).entries());
 			if (answers.dogAge !== 'adult-dog') delete answers.houseTraining;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
+			currentAnswers = answers;
 			savedMessage.textContent = 'Your answers are saved.';
 			renderPlan(answers);
 		});
