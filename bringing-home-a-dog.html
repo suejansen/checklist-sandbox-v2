@@ -286,6 +286,40 @@
 			background: #fff2ed;
 		}
 
+		.completion-view {
+			padding: 18px 4px 4px;
+			text-align: center;
+		}
+
+		.completion-view h3 {
+			margin: 0 0 16px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.1rem, 9vw, 3.2rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1;
+		}
+
+		.completion-view p {
+			max-width: 500px;
+			margin: 0 auto 15px;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		.completion-view .completion-close {
+			margin-top: 9px;
+			margin-bottom: 0;
+			color: var(--ink);
+			font-weight: 700;
+		}
+
+		.completion-view button {
+			max-width: 280px;
+			margin-top: 12px;
+		}
+
 		.plan-section-title {
 			margin: 0 0 11px;
 			font-size: 1.05rem;
@@ -502,10 +536,11 @@
 						<button type="button" data-stage="arrival-day" aria-pressed="false">Arrival Day</button>
 						<button type="button" data-stage="first-night" aria-pressed="false">First Night</button>
 						<button type="button" data-stage="first-week" aria-pressed="false">First Week</button>
+						<button type="button" data-stage="welcome-family" aria-pressed="false">Welcome to the family</button>
 					</div>
 				</details>
 			</div>
-			<section aria-labelledby="stage-title">
+			<section id="checklist-view" aria-labelledby="stage-title">
 				<h3 id="stage-title" class="plan-section-title">Getting Ready</h3>
 				<div class="progress-summary">
 					<span>Progress</span>
@@ -515,6 +550,13 @@
 					<div id="progress-bar-fill" class="progress-bar-fill"></div>
 				</div>
 				<div id="task-list"></div>
+			</section>
+			<section id="completion-view" class="completion-view" hidden aria-labelledby="completion-title">
+				<h3 id="completion-title">Welcome to the family</h3>
+				<p>The preparations are done, the first night is behind you, and you're finding your rhythm together.</p>
+				<p>Keep building on the routines you've started, give your dog time to feel completely at home, and remember that neither of you needs to get everything perfect straight away.</p>
+				<p class="completion-close">You've got this.</p>
+				<button id="view-plan" type="button">View My Plan</button>
 			</section>
 		</section>
 	</main>
@@ -535,6 +577,9 @@
 		const stageDateSummary = document.querySelector('#plan-date-summary');
 		const stageProgressBar = document.querySelector('.progress-bar');
 		const stageButtons = [...document.querySelectorAll('[data-stage]')];
+		const checklistView = document.querySelector('#checklist-view');
+		const completionView = document.querySelector('#completion-view');
+		const viewPlanButton = document.querySelector('#view-plan');
 		const storageKey = 'bringing-home-a-dog-setup';
 		const gettingReadyCompletionStorageKey = 'bringing-home-a-dog-task-completion';
 		const gettingReadyNotesStorageKey = 'bringing-home-a-dog-task-notes';
@@ -862,6 +907,7 @@
 
 		let currentStage = 'getting-ready';
 		let currentAnswers = null;
+		let lastChecklistStage = 'getting-ready';
 
 		const getStageConfig = (stage) => stage === 'coming-home'
 			? {
@@ -993,6 +1039,16 @@
 
 		const renderPlan = (answers) => {
 			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
+			if (currentStage === 'welcome-family') {
+				planTitle.textContent = getHomeSummary(daysUntilHome);
+				stageDateSummary.textContent = 'Welcome to the family';
+				stageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.stage === currentStage)));
+				checklistView.hidden = true;
+				completionView.hidden = false;
+				plan.hidden = false;
+				return;
+			}
+
 			const stageConfig = getStageConfig(currentStage);
 			const applicableTasks = getApplicableTasks(answers, stageConfig);
 			const completionState = getCompletionState(stageConfig);
@@ -1007,14 +1063,22 @@
 			stageProgressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
 			stageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.stage === currentStage)));
+			checklistView.hidden = false;
+			completionView.hidden = true;
 			renderTaskRows(answers, applicableTasks, stageConfig);
 			plan.hidden = false;
 		};
 
 		stageButtons.forEach((button) => button.addEventListener('click', () => {
+			if (currentStage !== 'welcome-family') lastChecklistStage = currentStage;
 			currentStage = button.dataset.stage;
 			if (currentAnswers) renderPlan(currentAnswers);
 		}));
+
+		viewPlanButton.addEventListener('click', () => {
+			currentStage = lastChecklistStage;
+			if (currentAnswers) renderPlan(currentAnswers);
+		});
 
 		const updateHouseTrainingQuestion = () => {
 			const isAdultDog = form.elements.dogAge.value === 'adult-dog';
