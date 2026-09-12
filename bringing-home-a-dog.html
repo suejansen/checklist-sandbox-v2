@@ -221,9 +221,168 @@
 			text-align: center;
 		}
 
+		.plan {
+			margin-top: 28px;
+			padding: 24px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.plan h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.8rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.plan-summary {
+			margin-bottom: 25px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.plan-summary p {
+			margin: 5px 0 0;
+			color: var(--muted);
+			font-size: 0.96rem;
+		}
+
+		.plan-section-title {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
+			font-weight: 700;
+		}
+
+		.progress-summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 8px 0 10px;
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+
+		.progress-bar {
+			height: 8px;
+			margin-bottom: 17px;
+			border-radius: 999px;
+			background: #dcece4;
+			overflow: hidden;
+		}
+
+		.progress-bar-fill {
+			width: 0%;
+			height: 100%;
+			border-radius: inherit;
+			background: var(--accent);
+			transition: width 160ms ease;
+		}
+
+		.task {
+			padding: 13px 0;
+			border-top: 1px solid var(--line);
+			font-size: 0.96rem;
+			line-height: 1.4;
+		}
+
+		.task-top {
+			display: flex;
+			align-items: flex-start;
+			gap: 11px;
+		}
+
+		.task input {
+			width: 20px;
+			height: 20px;
+			margin: 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.task-toggle {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 10px;
+			width: 100%;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			color: inherit;
+			background: transparent;
+			box-shadow: none;
+			cursor: pointer;
+			font: inherit;
+			font-size: inherit;
+			font-weight: 500;
+			line-height: inherit;
+			text-align: left;
+		}
+
+		.task-toggle:hover,
+		.task-toggle:active { color: inherit; background: transparent; transform: none; }
+		.task-toggle:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+
+		.task-chevron {
+			color: var(--accent);
+			font-size: 1.1rem;
+			line-height: 1.25;
+			transition: transform 160ms ease;
+		}
+
+		.task.expanded .task-chevron { transform: rotate(90deg); }
+
+		.task-details {
+			margin: 12px 0 0 31px;
+			padding: 13px 0 2px;
+			border-top: 1px solid var(--line);
+		}
+
+		.task-guidance {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+			white-space: pre-line;
+		}
+
+		.task-note-label {
+			display: block;
+			margin-bottom: 6px;
+			color: var(--ink);
+			font-size: 0.82rem;
+			font-weight: 700;
+		}
+
+		.task-note {
+			display: block;
+			width: 100%;
+			min-height: 72px;
+			padding: 9px 10px;
+			border: 1px solid var(--line);
+			border-radius: 9px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			line-height: 1.4;
+			resize: vertical;
+		}
+
+		.task-note:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
+
+		.task.completed {
+			color: var(--muted);
+			text-decoration: line-through;
+		}
+
 		@media (min-width: 600px) {
 			main { padding: 38px 30px 48px; }
 			form { padding: 30px; }
+			.plan { padding: 30px; }
 			.choice-grid { grid-template-columns: repeat(2, 1fr); }
 			.question:first-child .choice-grid,
 			.question:last-child .choice-grid { grid-template-columns: repeat(2, 1fr); }
@@ -294,6 +453,24 @@
 				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
 			</div>
 		</form>
+
+		<section id="plan" class="plan" hidden aria-labelledby="plan-title">
+			<div class="plan-summary">
+				<h2 id="plan-title">0 days until they come home</h2>
+				<p id="plan-date-summary">Getting Ready</p>
+			</div>
+			<section aria-labelledby="getting-ready-title">
+				<h3 id="getting-ready-title" class="plan-section-title">Getting Ready</h3>
+				<div class="progress-summary">
+					<span>Progress</span>
+					<strong id="progress-percent">0% complete</strong>
+				</div>
+				<div class="progress-bar" role="progressbar" aria-label="Getting Ready progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div id="progress-bar-fill" class="progress-bar-fill"></div>
+				</div>
+				<div id="task-list"></div>
+			</section>
+		</section>
 	</main>
 
 	<script>
@@ -302,7 +479,152 @@
 		const houseTrainingQuestion = document.querySelector('#house-training-question');
 		const houseTrainingInputs = [...form.elements.houseTraining];
 		const savedMessage = document.querySelector('#saved-message');
+		const plan = document.querySelector('#plan');
+		const taskList = document.querySelector('#task-list');
+		const progressPercent = document.querySelector('#progress-percent');
+		const progressBar = document.querySelector('.progress-bar');
+		const progressBarFill = document.querySelector('#progress-bar-fill');
+		const planTitle = document.querySelector('#plan-title');
 		const storageKey = 'bringing-home-a-dog-setup';
+		const completionStorageKey = 'bringing-home-a-dog-task-completion';
+		const notesStorageKey = 'bringing-home-a-dog-task-notes';
+		const tasks = [
+			{
+				id: 'get-essentials-ready',
+				label: 'Get the essentials ready',
+				guidance: 'Prepare the basics your dog will need from the start.\n\n- Food appropriate to what they are already eating\n- Food and water bowls\n- Bed or sleeping setup\n- Collar or harness, lead and identification\n- Poo bags\n- Suitable toys\n- Basic grooming supplies\n- Cleaning supplies\n- Safe travel restraint or carrier where appropriate'
+			},
+			{
+				id: 'prepare-home',
+				label: 'Prepare your home',
+				guidance: 'Make the home ready for a safe, calm arrival.\n\n- Remove or secure hazards\n- Protect or put away accessible cables, chemicals, medications, unsafe foods and other unsafe objects\n- Decide which areas your dog can access\n- Prepare a calm, safe resting space\n- Check outdoor fencing, gates and security where applicable'
+			},
+			{
+				id: 'plan-dog-routine',
+				label: 'Plan your dog’s routine',
+				guidance: 'Think through the everyday pattern you want to establish.\n\n- Decide where your dog will eat, sleep and toilet\n- Consider feeding, walks and play, quiet time, bedtime and household expectations\n- Aim for consistency while leaving room to respond to what your dog needs'
+			},
+			{
+				id: 'gather-records-routine',
+				label: 'Gather their records and current routine information',
+				guidance: 'Collect the information that will help you understand and care for your dog.\n\n- Medical and vaccination records\n- Microchip information and medications\n- Current food and feeding schedule\n- Toilet, sleeping and walking or exercise routine\n- Familiar commands\n- Behaviour around people, children and animals\n- Fears, triggers and sensitivities\n- Favourite toys or comfort items\n- Existing veterinarian details\n- Relevant breeder, adoption or rehoming paperwork'
+			},
+			{
+				id: 'choose-veterinarian',
+				label: 'Choose a veterinarian',
+				guidance: 'Make the basic veterinary arrangements before or soon after your dog comes home.\n\n- Identify a veterinary practice\n- Check whether they are accepting new patients\n- Find the appropriate emergency veterinary option\n- Arrange an initial appointment when appropriate'
+			},
+			{
+				id: 'plan-first-few-days',
+				label: 'Make a plan for the first few days',
+				guidance: 'Give your dog time and space to adjust to their new surroundings.\n\n- Decide who will be available\n- Keep the schedule reasonably quiet\n- Limit unnecessary visitors and activities\n- Give your dog time to adjust rather than immediately filling the first days with outings and introductions'
+			}
+		];
+
+		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
+		const getNotesState = () => JSON.parse(localStorage.getItem(notesStorageKey) || '{}');
+
+		const getDaysUntilHome = (arrivalDate) => {
+			const [year, month, day] = arrivalDate.split('-').map(Number);
+			const comingHomeDate = new Date(Date.UTC(year, month - 1, day));
+			const today = new Date();
+			const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+			return Math.round((comingHomeDate - todayUtc) / (1000 * 60 * 60 * 24));
+		};
+
+		const getHomeSummary = (daysUntilHome) => {
+			if (daysUntilHome > 1) return `${daysUntilHome} days until they come home`;
+			if (daysUntilHome === 1) return 'They come home tomorrow';
+			if (daysUntilHome === 0) return 'They come home today';
+			return `${Math.abs(daysUntilHome)} days since they were due home`;
+		};
+
+		const renderTaskRows = (answers) => {
+			const completionState = getCompletionState();
+			const notesState = getNotesState();
+			const orderedTasks = [...tasks].sort((firstTask, secondTask) => {
+				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
+			});
+
+			taskList.replaceChildren(...orderedTasks.map((task) => {
+				const isComplete = Boolean(completionState[task.id]);
+				const taskElement = document.createElement('div');
+				taskElement.className = `task${isComplete ? ' completed' : ''}`;
+
+				const taskTop = document.createElement('div');
+				taskTop.className = 'task-top';
+
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.id = `task-${task.id}`;
+				checkbox.checked = isComplete;
+				checkbox.setAttribute('aria-label', `Mark ${task.label} complete`);
+				checkbox.addEventListener('change', () => {
+					const updatedState = getCompletionState();
+					updatedState[task.id] = checkbox.checked;
+					localStorage.setItem(completionStorageKey, JSON.stringify(updatedState));
+					renderPlan(answers);
+				});
+
+				const toggle = document.createElement('button');
+				toggle.type = 'button';
+				toggle.className = 'task-toggle';
+				toggle.setAttribute('aria-expanded', 'false');
+				toggle.setAttribute('aria-controls', `details-${task.id}`);
+				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">›</span>`;
+
+				const details = document.createElement('div');
+				details.className = 'task-details';
+				details.id = `details-${task.id}`;
+				details.hidden = true;
+
+				const guidance = document.createElement('p');
+				guidance.className = 'task-guidance';
+				guidance.textContent = task.guidance;
+
+				const noteLabel = document.createElement('label');
+				noteLabel.className = 'task-note-label';
+				noteLabel.htmlFor = `note-${task.id}`;
+				noteLabel.textContent = 'Add a note';
+
+				const note = document.createElement('textarea');
+				note.className = 'task-note';
+				note.id = `note-${task.id}`;
+				note.placeholder = 'Add your own information';
+				note.value = notesState[task.id] || '';
+				note.addEventListener('input', () => {
+					const updatedNotes = getNotesState();
+					updatedNotes[task.id] = note.value;
+					localStorage.setItem(notesStorageKey, JSON.stringify(updatedNotes));
+				});
+
+				toggle.addEventListener('click', () => {
+					const isExpanded = !details.hidden;
+					details.hidden = isExpanded;
+					toggle.setAttribute('aria-expanded', String(!isExpanded));
+					taskElement.classList.toggle('expanded', !isExpanded);
+				});
+
+				details.append(guidance, noteLabel, note);
+				taskTop.append(checkbox, toggle);
+				taskElement.append(taskTop, details);
+				return taskElement;
+			}));
+		};
+
+		const renderPlan = (answers) => {
+			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
+			const completionState = getCompletionState();
+			const completedCount = tasks.filter((task) => completionState[task.id]).length;
+			const percentage = Math.round((completedCount / tasks.length) * 100);
+
+			planTitle.textContent = getHomeSummary(daysUntilHome);
+			progressPercent.textContent = `${percentage}% complete`;
+			progressBar.setAttribute('aria-valuenow', percentage);
+			progressBarFill.style.width = `${percentage}%`;
+			renderTaskRows(answers);
+			plan.hidden = false;
+		};
 
 		const updateHouseTrainingQuestion = () => {
 			const isAdultDog = form.elements.dogAge.value === 'adult-dog';
@@ -325,7 +647,10 @@
 		dogAgeInputs.forEach((input) => input.addEventListener('change', updateHouseTrainingQuestion));
 
 		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
-		if (savedSetup) restoreSetupForm(savedSetup);
+		if (savedSetup) {
+			restoreSetupForm(savedSetup);
+			renderPlan(savedSetup);
+		}
 
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
@@ -340,6 +665,7 @@
 			if (answers.dogAge !== 'adult-dog') delete answers.houseTraining;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
 			savedMessage.textContent = 'Your answers are saved.';
+			renderPlan(answers);
 		});
 	</script>
 </body>
