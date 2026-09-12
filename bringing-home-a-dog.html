@@ -492,17 +492,61 @@
 			{
 				id: 'get-essentials-ready',
 				label: 'Get the essentials ready',
-				guidance: 'Prepare the basics your dog will need from the start.\n\n- Food appropriate to what they are already eating\n- Food and water bowls\n- Bed or sleeping setup\n- Collar or harness, lead and identification\n- Poo bags\n- Suitable toys\n- Basic grooming supplies\n- Cleaning supplies\n- Safe travel restraint or carrier where appropriate'
+				guidance: (answers) => [
+					'Prepare the basics your dog will need from the start.',
+					'',
+					'- Food appropriate to what they are already eating',
+					'- Food and water bowls',
+					'- Bed or sleeping setup',
+					'- Collar or harness, lead and identification',
+					'- Poo bags',
+					'- Suitable toys',
+					'- Basic grooming supplies',
+					'- Cleaning supplies',
+					'- Safe travel restraint or carrier where appropriate',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppy-appropriate toys and chew items',
+						'- Supplies to support toilet training, such as cleaning products and easy-to-clean surfaces'
+					] : [])
+				].join('\n')
 			},
 			{
 				id: 'prepare-home',
 				label: 'Prepare your home',
-				guidance: 'Make the home ready for a safe, calm arrival.\n\n- Remove or secure hazards\n- Protect or put away accessible cables, chemicals, medications, unsafe foods and other unsafe objects\n- Decide which areas your dog can access\n- Prepare a calm, safe resting space\n- Check outdoor fencing, gates and security where applicable'
+				guidance: (answers) => [
+					'Make the home ready for a safe, calm arrival.',
+					'',
+					'- Remove or secure hazards',
+					'- Protect or put away accessible cables, chemicals, medications, unsafe foods and other unsafe objects',
+					'- Decide which areas your dog can access',
+					'- Prepare a calm, safe resting space',
+					'- Check outdoor fencing, gates and security where applicable',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppy-proof for accessible cables, small objects, chewing hazards and anything reachable by a curious puppy'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- Prepare an easy-to-clean area and supplies in case toilet training or house-training support is needed'
+					] : [])
+				].join('\n')
 			},
 			{
 				id: 'plan-dog-routine',
 				label: 'Plan your dog’s routine',
-				guidance: 'Think through the everyday pattern you want to establish.\n\n- Decide where your dog will eat, sleep and toilet\n- Consider feeding, walks and play, quiet time, bedtime and household expectations\n- Aim for consistency while leaving room to respond to what your dog needs'
+				guidance: (answers) => [
+					'Think through the everyday pattern you want to establish.',
+					'',
+					'- Decide where your dog will eat, sleep and toilet',
+					'- Consider feeding, walks and play, quiet time, bedtime and household expectations',
+					'- Aim for consistency while leaving room to respond to what your dog needs',
+					...(answers.dogAge === 'puppy' ? [
+						'- Plan frequent toilet opportunities',
+						'- Make room for plenty of rest and sleep',
+						'- Begin with simple, consistent routines'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- Include regular toilet opportunities while you learn what your dog needs and support house-training'
+					] : [])
+				].join('\n')
 			},
 			{
 				id: 'gather-records-routine',
@@ -517,7 +561,62 @@
 			{
 				id: 'plan-first-few-days',
 				label: 'Make a plan for the first few days',
-				guidance: 'Give your dog time and space to adjust to their new surroundings.\n\n- Decide who will be available\n- Keep the schedule reasonably quiet\n- Limit unnecessary visitors and activities\n- Give your dog time to adjust rather than immediately filling the first days with outings and introductions'
+				guidance: (answers) => [
+					'Give your dog time and space to adjust to their new surroundings.',
+					'',
+					'- Decide who will be available',
+					'- Keep the schedule reasonably quiet',
+					'- Limit unnecessary visitors and activities',
+					'- Give your dog time to adjust rather than immediately filling the first days with outings and introductions',
+					...(answers.dogAge === 'puppy' ? [
+						'- Introduce the home calmly',
+						'- Prepare for early training and socialisation in a gentle, manageable way'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'plan-safe-pet-introductions',
+				label: 'Plan safe introductions to your existing pets',
+				showWhen: (answers) => answers.existingPets && answers.existingPets !== 'none',
+				guidance: (answers) => {
+					if (answers.existingPets === 'dogs') {
+						return 'Plan controlled introductions with your existing dog or dogs.\n\n- Keep resources separate initially\n- Supervise interactions closely\n- Give each dog space to settle and rest';
+					}
+					if (answers.existingPets === 'cats') {
+						return 'Plan a gradual introduction with your existing cat or cats.\n\n- Prepare separate safe areas\n- Provide escape routes or high spaces where appropriate\n- Avoid forced face-to-face contact\n- Supervise the process and let the animals adjust gradually';
+					}
+					if (answers.existingPets === 'dogs-and-cats') {
+						return 'Plan gradual, controlled introductions with your existing dogs and cats.\n\n- Keep resources separate initially\n- Prepare separate safe areas and escape routes or high spaces for cats where appropriate\n- Avoid forced face-to-face contact\n- Supervise interactions closely and let the animals adjust gradually';
+					}
+					return 'Plan safe introductions with your existing pets.\n\n- Make sure their habitats are secure\n- Plan species-appropriate separation\n- Use controlled introductions and close supervision';
+				}
+			},
+			{
+				id: 'prepare-children-for-dog',
+				label: 'Prepare your children for the new dog',
+				showWhen: (answers) => answers.children && answers.children !== 'none',
+				guidance: (answers) => {
+					const youngerGuidance = [
+						'- Provide close adult supervision',
+						'- Encourage calm behaviour and let the dog approach',
+						'- No grabbing, hugging or chasing',
+						'- Do not disturb the dog while eating or sleeping',
+						'- Respect the dog’s safe space'
+					];
+					const olderGuidance = [
+						'- Plan calm introductions',
+						'- Agree consistent household rules',
+						'- Help children recognise when the dog wants space',
+						'- Agree appropriate ways to help with routines'
+					];
+					const guidance = ['Prepare everyone for calm, respectful interactions with the new dog.', ''];
+
+					if (['younger', 'younger-and-older'].includes(answers.children)) guidance.push(...youngerGuidance);
+					if (answers.children === 'younger-and-older') guidance.push('', 'For older children:');
+					if (['older', 'younger-and-older'].includes(answers.children)) guidance.push(...olderGuidance);
+
+					return guidance.join('\n');
+				}
 			}
 		];
 
@@ -539,10 +638,12 @@
 			return `${Math.abs(daysUntilHome)} days since they were due home`;
 		};
 
-		const renderTaskRows = (answers) => {
+		const getApplicableTasks = (answers) => tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+
+		const renderTaskRows = (answers, applicableTasks) => {
 			const completionState = getCompletionState();
 			const notesState = getNotesState();
-			const orderedTasks = [...tasks].sort((firstTask, secondTask) => {
+			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
 				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
 			});
 
@@ -580,7 +681,7 @@
 
 				const guidance = document.createElement('p');
 				guidance.className = 'task-guidance';
-				guidance.textContent = task.guidance;
+				guidance.textContent = typeof task.guidance === 'function' ? task.guidance(answers) : task.guidance;
 
 				const noteLabel = document.createElement('label');
 				noteLabel.className = 'task-note-label';
@@ -614,15 +715,16 @@
 
 		const renderPlan = (answers) => {
 			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
+			const applicableTasks = getApplicableTasks(answers);
 			const completionState = getCompletionState();
-			const completedCount = tasks.filter((task) => completionState[task.id]).length;
-			const percentage = Math.round((completedCount / tasks.length) * 100);
+			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
+			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
 
 			planTitle.textContent = getHomeSummary(daysUntilHome);
 			progressPercent.textContent = `${percentage}% complete`;
 			progressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
-			renderTaskRows(answers);
+			renderTaskRows(answers, applicableTasks);
 			plan.hidden = false;
 		};
 
