@@ -501,6 +501,7 @@
 						<button type="button" data-stage="coming-home" aria-pressed="false">Coming Home</button>
 						<button type="button" data-stage="arrival-day" aria-pressed="false">Arrival Day</button>
 						<button type="button" data-stage="first-night" aria-pressed="false">First Night</button>
+						<button type="button" data-stage="first-week" aria-pressed="false">First Week</button>
 					</div>
 				</details>
 			</div>
@@ -543,6 +544,8 @@
 		const arrivalDayNotesStorageKey = 'bringing-home-a-dog-arrival-day-task-notes';
 		const firstNightCompletionStorageKey = 'bringing-home-a-dog-first-night-task-completion';
 		const firstNightNotesStorageKey = 'bringing-home-a-dog-first-night-task-notes';
+		const firstWeekCompletionStorageKey = 'bringing-home-a-dog-first-week-task-completion';
+		const firstWeekNotesStorageKey = 'bringing-home-a-dog-first-week-task-notes';
 		const gettingReadyTasks = [
 			{
 				id: 'get-essentials-ready',
@@ -790,6 +793,73 @@
 			}
 		];
 
+		const firstWeekTasks = [
+			{
+				id: 'settle-daily-routine',
+				label: 'Settle into a daily routine',
+				guidance: (answers) => [
+					'Gradually establish predictable meals, toilet opportunities, rest, sleep, walks or play and quiet time.',
+					'',
+					'- Aim for consistency without requiring a rigid timetable',
+					'- Gradually introduce your dog to their neighbourhood and everyday experiences at a pace appropriate to their age, health and confidence',
+					'- Avoid pressure to do everything immediately',
+					...(answers.dogAge === 'puppy' ? [
+						'- Expect frequent toilet opportunities, plenty of rest and gentle, age-appropriate experiences'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'check-health-records',
+				label: 'Check their health and important records',
+				guidance: 'Make sure the important administrative details are in order.\n\n- Make sure your chosen veterinarian has or can obtain relevant medical and vaccination records\n- Arrange an initial appointment where appropriate\n- Understand any existing medication or ongoing care\n- Make sure microchip ownership and contact details are transferred or updated where applicable\n- Check identification and contact information\n- Deal with local licensing or registration requirements where applicable\n- Consider insurance if relevant to you\n- Know the appropriate emergency veterinary option'
+			},
+			{
+				id: 'start-toilet-training-if-needed',
+				label: 'Start toilet training if needed',
+				showWhen: (answers) => answers.dogAge === 'puppy' || (answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining)),
+				guidance: 'Support toilet training with regular opportunities and a consistent, patient approach.\n\n- Learn your dog’s signals\n- Calmly reward success\n- Respond to accidents without punishment\n- Be consistent and patient\n- Avoid rigid schedules and remember that dogs do not all learn at the same speed'
+			},
+			{
+				id: 'begin-simple-training-rules',
+				label: 'Begin simple training and household rules',
+				guidance: (answers) => [
+					'Keep early training short, positive and practical.',
+					'',
+					'- Begin with useful foundations such as responding to their name, attention, recall foundations and simple cues',
+					'- Calmly establish household boundaries',
+					'- Use consistent cues and expectations across household members',
+					'- Include gentle handling and everyday routines',
+					...(answers.dogAge === 'puppy' ? [
+						'- Gently prepare your puppy for wider socialisation and new experiences, with safe exposure appropriate to their health and veterinary guidance'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'practice-being-alone',
+				label: 'Gently practise being alone',
+				guidance: 'Do not wait until your dog suddenly has to be left for several hours. Begin with very short, manageable periods when your dog is safe and settled. Gradually increase the time according to how they are coping.\n\n- Keep departures and returns calm and ordinary\n- If your dog struggles, reduce the difficulty rather than simply pushing through\n- The aim is to gently teach that people leaving and returning is a normal part of life\n- Dogs do not all progress at the same speed'
+			},
+			{
+				id: 'notice-settling-in',
+				label: 'Notice how they’re settling in',
+				guidance: (answers) => {
+					const guidance = [
+						'Become familiar with what is normal for your dog as they settle in.',
+						'',
+						'- Notice general appetite, drinking, toileting, sleep, confidence, behaviour and interactions',
+						'- If you are concerned about your dog’s health or behaviour, contact an appropriate veterinarian or qualified professional'
+					];
+					const hasExistingPets = answers.existingPets && answers.existingPets !== 'none';
+					const hasChildren = answers.children && answers.children !== 'none';
+
+					if (hasExistingPets) guidance.push('', 'With existing pets:', '- Continue gradual introductions and supervision', '- Use separate resources or safe spaces where appropriate', '- Watch how relationships are developing');
+					if (hasChildren) guidance.push('', 'With children:', '- Continue appropriate supervision and household rules', '- Keep respecting the dog’s safe space', '- Help children recognise when the dog needs space');
+
+					return guidance.join('\n');
+				}
+			}
+		];
+
 		let currentStage = 'getting-ready';
 		let currentAnswers = null;
 
@@ -813,6 +883,13 @@
 				tasks: firstNightTasks,
 				completionKey: firstNightCompletionStorageKey,
 				notesKey: firstNightNotesStorageKey
+			}
+			: stage === 'first-week'
+			? {
+				name: 'First Week',
+				tasks: firstWeekTasks,
+				completionKey: firstWeekCompletionStorageKey,
+				notesKey: firstWeekNotesStorageKey
 			}
 			: {
 				name: 'Getting Ready',
