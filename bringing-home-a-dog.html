@@ -500,6 +500,7 @@
 						<button type="button" data-stage="getting-ready" aria-pressed="true">Getting Ready</button>
 						<button type="button" data-stage="coming-home" aria-pressed="false">Coming Home</button>
 						<button type="button" data-stage="arrival-day" aria-pressed="false">Arrival Day</button>
+						<button type="button" data-stage="first-night" aria-pressed="false">First Night</button>
 					</div>
 				</details>
 			</div>
@@ -540,6 +541,8 @@
 		const comingHomeNotesStorageKey = 'bringing-home-a-dog-coming-home-task-notes';
 		const arrivalDayCompletionStorageKey = 'bringing-home-a-dog-arrival-day-task-completion';
 		const arrivalDayNotesStorageKey = 'bringing-home-a-dog-arrival-day-task-notes';
+		const firstNightCompletionStorageKey = 'bringing-home-a-dog-first-night-task-completion';
+		const firstNightNotesStorageKey = 'bringing-home-a-dog-first-night-task-notes';
 		const gettingReadyTasks = [
 			{
 				id: 'get-essentials-ready',
@@ -758,6 +761,35 @@
 			}
 		];
 
+		const firstNightTasks = [
+			{
+				id: 'settle-for-the-night',
+				label: 'Settle them for the night',
+				guidance: 'Use the sleeping place you planned before your dog arrived and provide a comfortable, calm sleeping environment.\n\n- Use familiar bedding or comfort items where available\n- Keep the environment quiet and predictable\n- Offer reassurance where needed without turning bedtime into an exciting event\n- Some dogs may sleep, whine, pace or seem unsettled on their first night\n- The first night is an adjustment period and is not necessarily representative of future nights'
+			},
+			{
+				id: 'handle-overnight-toilet-breaks',
+				label: 'Handle overnight toilet breaks calmly',
+				showWhen: (answers) => answers.dogAge === 'puppy' || (answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining)),
+				guidance: (answers) => [
+					'Keep overnight toilet trips quiet and boring.',
+					'',
+					'- Calmly take your dog to the intended toilet area',
+					'- Give them an opportunity to toilet',
+					'- Calmly praise success',
+					'- Return to the sleeping area',
+					'- Keep lights, talking, stimulation and play to a minimum',
+					'- The aim is to help your dog understand that nighttime toilet trips are for toileting, not entertainment',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies may need overnight toilet opportunities while they are learning the routine'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- A new environment may temporarily require closer attention to your dog’s toilet needs'
+					] : [])
+				].join('\n')
+			}
+		];
+
 		let currentStage = 'getting-ready';
 		let currentAnswers = null;
 
@@ -774,6 +806,13 @@
 				tasks: arrivalDayTasks,
 				completionKey: arrivalDayCompletionStorageKey,
 				notesKey: arrivalDayNotesStorageKey
+			}
+			: stage === 'first-night'
+			? {
+				name: 'First Night',
+				tasks: firstNightTasks,
+				completionKey: firstNightCompletionStorageKey,
+				notesKey: firstNightNotesStorageKey
 			}
 			: {
 				name: 'Getting Ready',
