@@ -186,11 +186,12 @@
 				<div class="card-footer"><span class="coming-soon">Coming Soon</span></div>
 			</div>
 
-			<div class="event-card inactive">
-				<h2>Bringing Home a Puppy</h2>
-				<p>Get your home, supplies and first few weeks ready.</p>
-				<div class="card-footer"><span class="coming-soon">Coming Soon</span></div>
-			</div>
+
+			<a class="event-card active" href="bringing-home-a-dog.html">
+				<h2>Bringing Home a Dog</h2>
+				<p>A personalised plan to help you prepare, bring them home and settle in together.</p>
+				<span class="card-footer"><span id="dog-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
+			</a>
 
 			<div class="event-card inactive">
 				<h2>Starting a Business</h2>
@@ -203,6 +204,9 @@
 	<script>
 		const movingAction = document.querySelector('#moving-action');
 		if (localStorage.getItem('moving-house-setup')) movingAction.textContent = 'Continue';
+
+		const dogAction = document.querySelector('#dog-action');
+		if (localStorage.getItem('bringing-home-a-dog-setup')) dogAction.textContent = 'Continue';
 	</script>
 </body>
 </html>
