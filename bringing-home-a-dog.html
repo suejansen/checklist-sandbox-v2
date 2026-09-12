@@ -250,6 +250,42 @@
 			font-size: 0.96rem;
 		}
 
+		.stage-preview {
+			margin-top: 18px;
+			padding-top: 16px;
+			border-top: 1px solid var(--line);
+		}
+
+		.stage-preview summary {
+			color: var(--muted);
+			cursor: pointer;
+			font-size: 0.82rem;
+			font-weight: 700;
+		}
+
+		.stage-switch {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 8px;
+			margin-top: 12px;
+		}
+
+		.stage-switch button {
+			min-height: 44px;
+			padding: 10px 12px;
+			border: 1px solid var(--line);
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: none;
+			font-size: 0.88rem;
+		}
+
+		.stage-switch button:hover { background: #fff2ed; }
+		.stage-switch button[aria-pressed="true"] {
+			border-color: var(--accent);
+			background: #fff2ed;
+		}
+
 		.plan-section-title {
 			margin: 0 0 11px;
 			font-size: 1.05rem;
@@ -458,9 +494,16 @@
 			<div class="plan-summary">
 				<h2 id="plan-title">0 days until they come home</h2>
 				<p id="plan-date-summary">Getting Ready</p>
+				<details class="stage-preview">
+					<summary>Preview stage</summary>
+					<div class="stage-switch" role="group" aria-label="Development stage preview">
+						<button type="button" data-stage="getting-ready" aria-pressed="true">Getting Ready</button>
+						<button type="button" data-stage="coming-home" aria-pressed="false">Coming Home</button>
+					</div>
+				</details>
 			</div>
-			<section aria-labelledby="getting-ready-title">
-				<h3 id="getting-ready-title" class="plan-section-title">Getting Ready</h3>
+			<section aria-labelledby="stage-title">
+				<h3 id="stage-title" class="plan-section-title">Getting Ready</h3>
 				<div class="progress-summary">
 					<span>Progress</span>
 					<strong id="progress-percent">0% complete</strong>
@@ -485,10 +528,16 @@
 		const progressBar = document.querySelector('.progress-bar');
 		const progressBarFill = document.querySelector('#progress-bar-fill');
 		const planTitle = document.querySelector('#plan-title');
+		const stageTitle = document.querySelector('#stage-title');
+		const stageDateSummary = document.querySelector('#plan-date-summary');
+		const stageProgressBar = document.querySelector('.progress-bar');
+		const stageButtons = [...document.querySelectorAll('[data-stage]')];
 		const storageKey = 'bringing-home-a-dog-setup';
-		const completionStorageKey = 'bringing-home-a-dog-task-completion';
-		const notesStorageKey = 'bringing-home-a-dog-task-notes';
-		const tasks = [
+		const gettingReadyCompletionStorageKey = 'bringing-home-a-dog-task-completion';
+		const gettingReadyNotesStorageKey = 'bringing-home-a-dog-task-notes';
+		const comingHomeCompletionStorageKey = 'bringing-home-a-dog-coming-home-task-completion';
+		const comingHomeNotesStorageKey = 'bringing-home-a-dog-coming-home-task-notes';
+		const gettingReadyTasks = [
 			{
 				id: 'get-essentials-ready',
 				label: 'Get the essentials ready',
@@ -620,8 +669,54 @@
 			}
 		];
 
-		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
-		const getNotesState = () => JSON.parse(localStorage.getItem(notesStorageKey) || '{}');
+		const comingHomeTasks = [
+			{
+				id: 'everything-before-leaving',
+				label: 'Make sure you have everything before you leave',
+				guidance: 'Do a final handover check before setting off with your dog.\n\n- Relevant medical and vaccination records\n- Medication\n- Microchip information or transfer details\n- Current food and feeding information\n- Routine information\n- Relevant paperwork\n- Familiar belongings such as bedding or toys where available'
+			},
+			{
+				id: 'safe-journey-home',
+				label: 'Keep your dog safe on the journey home',
+				guidance: (answers) => [
+					'Use a secure, comfortable travel arrangement for the journey home.',
+					'',
+					'- Use an appropriate secure carrier or vehicle restraint',
+					'- Make sure the collar or harness and lead are secure before vehicle doors are opened',
+					'- Keep the vehicle comfortable',
+					'- Take sensible toilet or rest breaks where needed',
+					'- Never leave your dog unattended in the vehicle',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies may need more frequent breaks and may have accidents or experience travel sickness',
+						'- Having another adult available for the journey can be helpful where practical'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'calm-journey-home',
+				label: 'Keep the journey calm',
+				guidance: 'Keep the journey home straightforward and low-stress.\n\n- Keep unnecessary stops, introductions and excitement to a minimum\n- Focus on getting your dog safely home rather than turning collection day into a series of outings'
+			}
+		];
+
+		let currentStage = 'getting-ready';
+
+		const getStageConfig = (stage) => stage === 'coming-home'
+			? {
+				name: 'Coming Home',
+				tasks: comingHomeTasks,
+				completionKey: comingHomeCompletionStorageKey,
+				notesKey: comingHomeNotesStorageKey
+			}
+			: {
+				name: 'Getting Ready',
+				tasks: gettingReadyTasks,
+				completionKey: gettingReadyCompletionStorageKey,
+				notesKey: gettingReadyNotesStorageKey
+			};
+
+		const getCompletionState = (stageConfig) => JSON.parse(localStorage.getItem(stageConfig.completionKey) || '{}');
+		const getNotesState = (stageConfig) => JSON.parse(localStorage.getItem(stageConfig.notesKey) || '{}');
 
 		const getDaysUntilHome = (arrivalDate) => {
 			const [year, month, day] = arrivalDate.split('-').map(Number);
@@ -638,11 +733,11 @@
 			return `${Math.abs(daysUntilHome)} days since they were due home`;
 		};
 
-		const getApplicableTasks = (answers) => tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+		const getApplicableTasks = (answers, stageConfig) => stageConfig.tasks.filter((task) => !task.showWhen || task.showWhen(answers));
 
-		const renderTaskRows = (answers, applicableTasks) => {
-			const completionState = getCompletionState();
-			const notesState = getNotesState();
+		const renderTaskRows = (answers, applicableTasks, stageConfig) => {
+			const completionState = getCompletionState(stageConfig);
+			const notesState = getNotesState(stageConfig);
 			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
 				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
 			});
@@ -661,9 +756,9 @@
 				checkbox.checked = isComplete;
 				checkbox.setAttribute('aria-label', `Mark ${task.label} complete`);
 				checkbox.addEventListener('change', () => {
-					const updatedState = getCompletionState();
+					const updatedState = getCompletionState(stageConfig);
 					updatedState[task.id] = checkbox.checked;
-					localStorage.setItem(completionStorageKey, JSON.stringify(updatedState));
+					localStorage.setItem(stageConfig.completionKey, JSON.stringify(updatedState));
 					renderPlan(answers);
 				});
 
@@ -694,9 +789,9 @@
 				note.placeholder = 'Add your own information';
 				note.value = notesState[task.id] || '';
 				note.addEventListener('input', () => {
-					const updatedNotes = getNotesState();
+					const updatedNotes = getNotesState(stageConfig);
 					updatedNotes[task.id] = note.value;
-					localStorage.setItem(notesStorageKey, JSON.stringify(updatedNotes));
+					localStorage.setItem(stageConfig.notesKey, JSON.stringify(updatedNotes));
 				});
 
 				toggle.addEventListener('click', () => {
@@ -715,18 +810,28 @@
 
 		const renderPlan = (answers) => {
 			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
-			const applicableTasks = getApplicableTasks(answers);
-			const completionState = getCompletionState();
+			const stageConfig = getStageConfig(currentStage);
+			const applicableTasks = getApplicableTasks(answers, stageConfig);
+			const completionState = getCompletionState(stageConfig);
 			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
 			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
 
 			planTitle.textContent = getHomeSummary(daysUntilHome);
+			stageTitle.textContent = stageConfig.name;
+			stageDateSummary.textContent = stageConfig.name;
 			progressPercent.textContent = `${percentage}% complete`;
-			progressBar.setAttribute('aria-valuenow', percentage);
+			stageProgressBar.setAttribute('aria-label', `${stageConfig.name} progress`);
+			stageProgressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
-			renderTaskRows(answers, applicableTasks);
+			stageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.stage === currentStage)));
+			renderTaskRows(answers, applicableTasks, stageConfig);
 			plan.hidden = false;
 		};
+
+		stageButtons.forEach((button) => button.addEventListener('click', () => {
+			currentStage = button.dataset.stage;
+			if (savedSetup) renderPlan(savedSetup);
+		}));
 
 		const updateHouseTrainingQuestion = () => {
 			const isAdultDog = form.elements.dogAge.value === 'adult-dog';
