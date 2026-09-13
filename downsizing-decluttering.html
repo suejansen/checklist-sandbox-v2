@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#f7f4ef">
+	<title>Downsizing &amp; Decluttering | Set up your plan</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap');
+
+		:root {
+			--ink: #203b3a;
+			--muted: #657572;
+			--paper: #f7f4ef;
+			--panel: #fffdf9;
+			--line: #d9e0da;
+			--accent: #e56d4f;
+			--accent-dark: #bd4e35;
+			--shadow: 0 18px 45px rgba(37, 65, 58, 0.09);
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			min-width: 320px;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
+				linear-gradient(145deg, #f7f4ef 0%, #eef3ee 100%);
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		main {
+			width: min(100%, 680px);
+			min-height: 100svh;
+			margin: 0 auto;
+			padding: 28px 20px 32px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--muted);
+			font-size: 0.77rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 30px;
+			height: 30px;
+			place-items: center;
+			border-radius: 9px;
+			color: #fff;
+			background: var(--accent);
+			font-size: 1.05rem;
+			line-height: 1;
+		}
+
+		.home-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 24px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.home-link:hover { color: var(--ink); }
+		.home-link:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 4px; }
+
+		header { margin: 54px 0 30px; }
+
+		h1 {
+			max-width: 560px;
+			margin: 0 0 14px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.65rem, 12vw, 4.5rem);
+			font-weight: 600;
+			letter-spacing: -0.03em;
+			line-height: 0.98;
+		}
+
+		.intro {
+			max-width: 480px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		.panel {
+			padding: 24px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.panel + .panel { margin-top: 20px; }
+
+		.panel h2 {
+			margin: 0 0 10px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(1.7rem, 7vw, 2.3rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1.05;
+		}
+
+		.panel-intro {
+			margin: 0 0 22px;
+			color: var(--muted);
+			font-size: 0.96rem;
+			line-height: 1.55;
+		}
+
+		.question + .question { margin-top: 29px; }
+
+		fieldset {
+			min-width: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		legend, .question-label {
+			display: block;
+			margin-bottom: 11px;
+			color: var(--ink);
+			font-size: 1rem;
+			font-weight: 700;
+			line-height: 1.35;
+		}
+
+		.choice-grid {
+			display: grid;
+			gap: 9px;
+		}
+
+		.choice {
+			position: relative;
+			display: flex;
+			align-items: flex-start;
+			min-height: 56px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			cursor: pointer;
+			transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+		}
+
+		.choice:hover { border-color: #a9bbb1; }
+		.choice:has(input:checked) {
+			border-color: var(--accent);
+			background: #fff2ed;
+		}
+		.choice:active { transform: scale(0.99); }
+
+		.choice input {
+			width: 20px;
+			height: 20px;
+			margin: 1px 11px 0 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.choice:has(input:focus-visible) {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+		}
+
+		.choice-text { display: flex; flex-direction: column; gap: 3px; }
+		.choice-text span:first-child { font-size: 0.98rem; font-weight: 600; }
+		.choice-text span.choice-support {
+			color: var(--muted);
+			font-size: 0.86rem;
+			font-weight: 400;
+			line-height: 1.4;
+		}
+
+		#loved-one-question[hidden] { display: none; }
+
+		input[type="text"] {
+			width: 100%;
+			min-height: 56px;
+			padding: 0 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			outline: 0;
+		}
+
+		input[type="text"]:focus {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+		}
+
+		.field-example {
+			margin: 9px 0 0;
+			color: var(--muted);
+			font-size: 0.86rem;
+			line-height: 1.5;
+		}
+
+		.field-error {
+			margin: 9px 0 0;
+			color: var(--accent-dark);
+			font-size: 0.86rem;
+			font-weight: 700;
+		}
+
+		.field-error[hidden] { display: none; }
+
+		.nav-wrap {
+			display: flex;
+			gap: 10px;
+			margin-top: 31px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		button {
+			min-height: 58px;
+			padding: 14px 18px;
+			border: 0;
+			border-radius: 12px;
+			color: #fff;
+			background: var(--accent);
+			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
+			cursor: pointer;
+			font: inherit;
+			font-size: 1rem;
+			font-weight: 700;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		button:hover { background: var(--accent-dark); }
+		button:active { transform: translateY(1px); }
+		button:focus-visible { outline: 3px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+
+		.nav-wrap .next-button { flex: 1; }
+
+		.back-button {
+			flex: 0 0 auto;
+			color: var(--ink);
+			background: var(--panel);
+			border: 1px solid var(--line);
+			box-shadow: none;
+		}
+
+		.back-button:hover { background: #fff2ed; }
+
+		.prep-list {
+			margin: 0 0 18px;
+			padding: 0;
+			list-style: none;
+			display: grid;
+			gap: 8px;
+		}
+
+		.prep-list li {
+			padding: 12px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			font-size: 0.96rem;
+			font-weight: 600;
+		}
+
+		.panel-text {
+			margin: 0 0 16px;
+			color: var(--muted);
+			font-size: 0.96rem;
+			line-height: 1.55;
+		}
+
+		.panel-text:last-of-type { margin-bottom: 22px; }
+
+		.phone-line {
+			margin: 0 0 22px;
+			color: var(--ink);
+			font-size: 1.1rem;
+			font-weight: 700;
+			line-height: 1.4;
+		}
+
+		.working-controls {
+			display: grid;
+			gap: 9px;
+			margin-top: 22px;
+		}
+
+		.working-controls button {
+			background: var(--panel);
+			color: var(--ink);
+			border: 1px solid var(--line);
+			box-shadow: none;
+			font-weight: 600;
+		}
+
+		.working-controls button:hover { background: #fff2ed; }
+
+		.finish-area {
+			display: block;
+			margin: 24px auto 0;
+			padding: 8px;
+			border: 0;
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font-size: 0.88rem;
+			font-weight: 600;
+			min-height: auto;
+			text-decoration: underline;
+		}
+
+		.finish-area:hover { color: var(--ink); background: transparent; }
+
+		[data-screen][hidden] { display: none; }
+
+		@media (min-width: 600px) {
+			main { padding: 38px 30px 48px; }
+			.panel { padding: 30px; }
+			.choice-grid { grid-template-columns: repeat(2, 1fr); }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { transition-duration: 0.01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<a class="home-link" href="index.html" aria-label="Return to Home">← Home</a>
+		<div class="brand"><span class="brand-mark" aria-hidden="true">✓</span> Nest &amp; Go</div>
+
+		<header>
+			<h1>Downsizing &amp; Decluttering</h1>
+			<p class="intro">Gentle, one-step-at-a-time help to sort through belongings at your own pace.</p>
+		</header>
+
+		<section id="screen-1" class="panel" data-screen>
+			<h2>What would you like help with?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">What would you like help with?</legend>
+				<div class="choice-grid">
+					<label class="choice">
+						<input type="radio" name="goal" value="downsizing" required>
+						<span class="choice-text">
+							<span>Downsizing</span>
+							<span class="choice-support">I'm preparing for a smaller home or a different way of living.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="goal" value="decluttering">
+						<span class="choice-text">
+							<span>Decluttering</span>
+							<span class="choice-support">I want less stuff and a more manageable home.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="goal" value="loved-ones-home">
+						<span class="choice-text">
+							<span>Clearing a loved one's home</span>
+							<span class="choice-support">I'm helping sort through someone else's belongings.</span>
+						</span>
+					</label>
+				</div>
+			</fieldset>
+
+			<fieldset id="loved-one-question" class="question" hidden>
+				<legend>What best describes the situation?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="lovedOneSituation" value="moving"><span class="choice-text"><span>They're moving to another home</span></span></label>
+					<label class="choice"><input type="radio" name="lovedOneSituation" value="passed-away"><span class="choice-text"><span>They've passed away</span></span></label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-2" class="panel" data-screen hidden>
+			<h2>How much feels manageable today?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">How much feels manageable today?</legend>
+				<div class="choice-grid">
+					<label class="choice">
+						<input type="radio" name="scope" value="small-area" required>
+						<span class="choice-text">
+							<span>One small area</span>
+							<span class="choice-support">A drawer, cupboard, shelf or corner.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="scope" value="one-room">
+						<span class="choice-text"><span>One room</span></span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="scope" value="help-me-choose">
+						<span class="choice-text"><span>Help me choose where to start</span></span>
+					</label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-3" class="panel" data-screen hidden>
+			<h2>Give this area a name</h2>
+			<p class="panel-intro">What would you like to call the area you're working on?</p>
+			<div class="question">
+				<label class="question-label" for="area-name">Area name</label>
+				<input id="area-name" type="text" autocomplete="off">
+				<p class="field-example">Main bedroom wardrobe, kitchen junk drawer, cupboard under the stairs, Dad's workshop...</p>
+			</div>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error hidden>Please give this area a name before continuing.</p>
+		</section>
+
+		<section id="screen-4" class="panel" data-screen hidden>
+			<h2>What kind of space is it?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">What kind of space is it?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="areaType" value="clothes-wardrobe" required><span class="choice-text"><span>Clothes &amp; wardrobe</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="kitchen-food"><span class="choice-text"><span>Kitchen &amp; food</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="paperwork-documents"><span class="choice-text"><span>Paperwork &amp; documents</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="keepsakes-sentimental"><span class="choice-text"><span>Keepsakes &amp; sentimental items</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="books-collections-hobbies"><span class="choice-text"><span>Books, collections &amp; hobbies</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="furniture-household"><span class="choice-text"><span>Furniture &amp; household items</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="garage-shed-storage"><span class="choice-text"><span>Garage, shed &amp; storage</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="general-mix"><span class="choice-text"><span>A general mix of things</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="something-else"><span class="choice-text"><span>Something else</span></span></label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-preamble" class="panel" data-screen hidden>
+			<h2>You're ready.</h2>
+			<p class="panel-text">Before you start, it helps to have somewhere nearby for:</p>
+			<ul class="prep-list">
+				<li>Keep</li>
+				<li>Give / Sell / Donate</li>
+				<li>Dispose / Recycle</li>
+				<li>Decide Later</li>
+			</ul>
+			<p class="panel-text">"Decide Later" simply means moving an item out of the area you're sorting into a separate place for later decisions, rather than putting it back where it came from.</p>
+			<p class="panel-text">Start with one small section. Deal with the easy decisions first and leave anything difficult for later.</p>
+			<p class="panel-text">Put on some music, a podcast or whatever makes the job more pleasant. Grab a drink if you want one.</p>
+			<p class="phone-line">Put the phone down. We'll be here if you get stuck.</p>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-start-sorting>Start sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-working" class="panel" data-screen hidden>
+			<h2 id="working-area-name">This area</h2>
+			<div class="working-controls">
+				<button type="button">I'm stuck on something</button>
+				<button type="button">I'm losing motivation</button>
+				<button type="button">That's enough for today</button>
+			</div>
+			<button type="button" class="finish-area">I'm finished with this area</button>
+		</section>
+	</main>
+
+	<script>
+		const screens = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble', 'screen-working'];
+		let currentScreenIndex = 0;
+
+		const lovedOneQuestion = document.querySelector('#loved-one-question');
+		const lovedOneInputs = [...document.querySelectorAll('input[name="lovedOneSituation"]')];
+		const areaNameInput = document.querySelector('#area-name');
+		const workingAreaName = document.querySelector('#working-area-name');
+
+		const showScreen = (index) => {
+			screens.forEach((id, screenIndex) => {
+				document.querySelector(`#${id}`).hidden = screenIndex !== index;
+			});
+			currentScreenIndex = index;
+		};
+
+		const updateLovedOneQuestion = () => {
+			const goalInput = document.querySelector('input[name="goal"]:checked');
+			const isLovedOnesHome = goalInput && goalInput.value === 'loved-ones-home';
+			lovedOneQuestion.hidden = !isLovedOnesHome;
+			lovedOneInputs.forEach((input) => { if (!isLovedOnesHome) input.checked = false; });
+		};
+
+		document.querySelectorAll('input[name="goal"]').forEach((input) => input.addEventListener('change', updateLovedOneQuestion));
+
+		document.querySelectorAll('[data-back]').forEach((button) => button.addEventListener('click', () => {
+			showScreen(currentScreenIndex - 1);
+		}));
+
+		document.querySelectorAll('[data-next]').forEach((button) => button.addEventListener('click', () => {
+			const screen = document.querySelector(`#${screens[currentScreenIndex]}`);
+			const errorMessage = screen.querySelector('[data-error]');
+
+			let isValid = true;
+			if (screen.id === 'screen-3') {
+				isValid = areaNameInput.value.trim().length > 0;
+			} else {
+				const requiredGroup = screen.querySelector('input[type="radio"][required]');
+				if (requiredGroup) isValid = Boolean(screen.querySelector(`input[name="${requiredGroup.name}"]:checked`));
+				if (isValid && !lovedOneQuestion.hidden) {
+					isValid = lovedOneInputs.some((input) => input.checked);
+				}
+			}
+
+			if (errorMessage) errorMessage.hidden = isValid;
+			if (!isValid) return;
+
+			showScreen(currentScreenIndex + 1);
+		}));
+
+		document.querySelector('[data-start-sorting]').addEventListener('click', () => {
+			workingAreaName.textContent = areaNameInput.value.trim() || 'This area';
+			showScreen(screens.indexOf('screen-working'));
+		});
+
+		showScreen(0);
+	</script>
+</body>
+</html>
