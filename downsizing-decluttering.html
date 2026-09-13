@@ -328,6 +328,55 @@
 
 		.finish-area:hover { color: var(--ink); background: transparent; }
 
+		.decide-later-section {
+			margin-top: 22px;
+			padding: 15px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: rgba(255, 253, 249, 0.5);
+		}
+
+		.decide-later-section h3 {
+			margin: 0 0 6px;
+			color: var(--muted);
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.decide-later-section p {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.86rem;
+			line-height: 1.5;
+		}
+
+		.decide-later-actions {
+			display: grid;
+			gap: 8px;
+		}
+
+		.decide-later-actions button {
+			min-height: 46px;
+			padding: 10px 12px;
+			border: 1px solid var(--line);
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font-size: 0.88rem;
+			font-weight: 600;
+		}
+
+		.decide-later-actions button:hover { color: var(--ink); background: rgba(255, 242, 237, 0.6); }
+
+		button:disabled {
+			border: 1px dashed var(--line);
+			color: var(--muted);
+			background: var(--panel);
+			box-shadow: none;
+			opacity: 0.7;
+			cursor: not-allowed;
+		}
+
 		.stacked-actions {
 			display: flex;
 			flex-direction: column;
@@ -579,7 +628,78 @@
 				<button type="button" data-open-motivation>I'm losing motivation</button>
 				<button type="button" data-open-session-end>That's enough for today</button>
 			</div>
+			<div id="decide-later-section" class="decide-later-section" hidden>
+				<h3>Decide Later</h3>
+				<p>Have something you'd like to look at again?</p>
+				<div class="decide-later-actions">
+					<button type="button" data-open-revisit>Revisit an item</button>
+					<button type="button" data-open-decide-later-empty>My Decide Later pile is empty</button>
+				</div>
+			</div>
 			<button type="button" class="finish-area" data-open-finish-confirm>I'm finished with this area</button>
+		</section>
+
+		<section id="screen-decide-later-revisit" class="panel" data-screen hidden>
+			<h2>Ready to look at something again?</h2>
+			<p class="panel-text">Pick up one item from your Decide Later pile.</p>
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
+				<button type="button" class="next-button" data-open-second-pass-clearer>Continue</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-clearer" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<h2>Does this item feel any clearer to you now?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-clear-yes>Yes, I know what I want to do</button>
+				<button type="button" data-second-pass-clear-unsure>I'm still unsure</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-what-feels-right" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<h2>What feels right now?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-keep>Keep it</button>
+				<button type="button" data-second-pass-let-go>Let it go</button>
+				<button type="button" data-second-pass-still-unsure>I'm still not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-reasons" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<h2>What's making you hesitate about it today?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-route="like-it">I like it</button>
+				<button type="button" data-second-pass-route="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-second-pass-route="was-a-gift">It was a gift</button>
+				<button type="button" data-second-pass-route="feel-guilty">I feel guilty getting rid of it</button>
+				<button type="button" data-second-pass-route="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-second-pass-route="might-need-someday">I might need it someday</button>
+				<button type="button" data-second-pass-route="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-second-pass-route="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-second-pass-route="not-ready">I'm just not ready</button>
+				<button type="button" data-second-pass-route="not-sure-why">I'm not sure why</button>
+			</div>
+		</section>
+
+		<section id="screen-decide-later-empty-confirm" class="panel" data-screen hidden>
+			<h2>Nothing left in Decide Later?</h2>
+			<div class="stacked-actions">
+				<button type="button" data-confirm-decide-later-empty>Yes, it's empty</button>
+				<button type="button" class="back-button" data-cancel-decide-later-empty>Not yet</button>
+			</div>
+		</section>
+
+		<section id="screen-finish-decide-later-check" class="panel" data-screen hidden>
+			<h2>You still have something in Decide Later.</h2>
+			<div class="stacked-actions">
+				<button type="button" data-open-revisit>Revisit an item</button>
+				<button type="button" data-open-decide-later-empty>My Decide Later pile is empty</button>
+				<button type="button" data-finish-anyway>Finish this area anyway</button>
+				<button type="button" class="back-button" data-cancel-finish>Keep it active</button>
+			</div>
 		</section>
 
 		<section id="screen-finish-confirm" class="panel" data-screen hidden>
@@ -867,7 +987,9 @@
 			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
 			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
 			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3',
-			'screen-wasteful-q1', 'screen-find-home-q', 'screen-guilt-q1'
+			'screen-wasteful-q1', 'screen-find-home-q', 'screen-guilt-q1',
+			'screen-decide-later-revisit', 'screen-decide-later-empty-confirm', 'screen-finish-decide-later-check',
+			'screen-second-pass-clearer', 'screen-second-pass-what-feels-right', 'screen-second-pass-reasons'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -881,10 +1003,16 @@
 		const finishConfirmHeading = document.querySelector('#finish-confirm-heading');
 		const screen1BackButton = document.querySelector('#screen-1-back');
 
+		const refreshDecideLaterSection = () => {
+			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
+			document.querySelector('#decide-later-section').hidden = !(area && area.hasDecideLater);
+		};
+
 		const showScreen = (id) => {
 			allScreens.forEach((screenId) => {
 				document.querySelector(`#${screenId}`).hidden = screenId !== id;
 			});
+			if (id === 'screen-working') refreshDecideLaterSection();
 		};
 
 		const showSetupScreen = (index) => {
@@ -1034,11 +1162,15 @@
 		document.querySelector('[data-open-finish-confirm]').addEventListener('click', () => {
 			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
 			if (!area) return;
+			if (area.hasDecideLater) {
+				showScreen('screen-finish-decide-later-check');
+				return;
+			}
 			finishConfirmHeading.textContent = `Finished with ${area.name}?`;
 			showScreen('screen-finish-confirm');
 		});
 
-		document.querySelector('[data-confirm-finish]').addEventListener('click', () => {
+		const finishCurrentArea = () => {
 			const areas = getAreas();
 			const area = areas.find((candidate) => candidate.id === currentAreaId);
 			if (area) {
@@ -1046,9 +1178,34 @@
 				saveAreas(areas);
 			}
 			goToYourAreas();
+		};
+
+		document.querySelector('[data-confirm-finish]').addEventListener('click', finishCurrentArea);
+		document.querySelector('[data-finish-anyway]').addEventListener('click', finishCurrentArea);
+
+		document.querySelectorAll('[data-cancel-finish]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-working');
+		}));
+
+		document.querySelectorAll('[data-open-revisit]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-decide-later-revisit');
+		}));
+
+		document.querySelectorAll('[data-open-decide-later-empty]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-decide-later-empty-confirm');
+		}));
+
+		document.querySelector('[data-confirm-decide-later-empty]').addEventListener('click', () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.hasDecideLater = false;
+				saveAreas(areas);
+			}
+			showScreen('screen-working');
 		});
 
-		document.querySelector('[data-cancel-finish]').addEventListener('click', () => {
+		document.querySelector('[data-cancel-decide-later-empty]').addEventListener('click', () => {
 			showScreen('screen-working');
 		});
 
@@ -1177,6 +1334,16 @@
 
 		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.reason)));
 		document.querySelectorAll('[data-guilt-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.guiltRoute)));
+
+		document.querySelector('[data-open-second-pass-clearer]').addEventListener('click', () => showScreen('screen-second-pass-clearer'));
+		document.querySelector('[data-second-pass-clear-yes]').addEventListener('click', () => showScreen('screen-second-pass-what-feels-right'));
+		document.querySelector('[data-second-pass-clear-unsure]').addEventListener('click', () => showScreen('screen-second-pass-reasons'));
+
+		document.querySelector('[data-second-pass-keep]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-second-pass-let-go]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-second-pass-still-unsure]').addEventListener('click', () => showScreen('screen-second-pass-reasons'));
+
+		document.querySelectorAll('[data-second-pass-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.secondPassRoute)));
 
 		document.querySelector('[data-confirm-keep]').addEventListener('click', () => showScreen('screen-working'));
 
