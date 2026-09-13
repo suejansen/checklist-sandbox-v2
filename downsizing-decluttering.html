@@ -328,6 +328,64 @@
 
 		.finish-area:hover { color: var(--ink); background: transparent; }
 
+		.stacked-actions {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin-top: 22px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		.quiet-link-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 24px;
+			padding: 0;
+			min-height: auto;
+			border: 0;
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font: inherit;
+			font-size: 0.88rem;
+			font-weight: 700;
+			cursor: pointer;
+		}
+
+		.quiet-link-button:hover { color: var(--ink); background: transparent; }
+		.quiet-link-button:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 4px; }
+
+		.area-list {
+			display: grid;
+			gap: 9px;
+			margin-bottom: 22px;
+		}
+
+		.area-item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+		}
+
+		.area-item-name {
+			font-size: 0.98rem;
+			font-weight: 600;
+		}
+
+		.area-continue {
+			flex: 0 0 auto;
+			min-height: 44px;
+			padding: 10px 16px;
+			font-size: 0.92rem;
+		}
+
 		[data-screen][hidden] { display: none; }
 
 		@media (min-width: 600px) {
@@ -351,7 +409,35 @@
 			<p class="intro">Gentle, one-step-at-a-time help to sort through belongings at your own pace.</p>
 		</header>
 
-		<section id="screen-1" class="panel" data-screen>
+		<section id="screen-returning" class="panel" data-screen hidden>
+			<h2>Welcome back</h2>
+			<p class="panel-text">Last time you were working on <strong id="returning-area-name"></strong>.</p>
+			<p class="panel-text">Would you like to continue where you left off?</p>
+			<div class="stacked-actions">
+				<button type="button" data-continue-last-area>Continue</button>
+				<button type="button" class="back-button" data-choose-something-else>Choose something else</button>
+			</div>
+			<button type="button" class="finish-area" data-start-new-area>+ Start another area</button>
+		</section>
+
+		<section id="screen-your-areas" class="panel" data-screen hidden>
+			<h2>Your Areas</h2>
+			<div id="your-areas-list" class="area-list"></div>
+			<p id="your-areas-empty" class="panel-text" hidden>You don't have any areas in progress yet.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-start-new-area>+ Start another area</button>
+			</div>
+			<button type="button" class="finish-area" data-view-finished-areas>View finished areas</button>
+		</section>
+
+		<section id="screen-finished-areas" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas>← Your Areas</button>
+			<h2>Finished Areas</h2>
+			<div id="finished-areas-list" class="area-list"></div>
+			<p id="finished-areas-empty" class="panel-text" hidden>No finished areas yet.</p>
+		</section>
+
+		<section id="screen-1" class="panel" data-screen hidden>
 			<h2>What would you like help with?</h2>
 			<fieldset class="question">
 				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">What would you like help with?</legend>
@@ -389,6 +475,7 @@
 			</fieldset>
 
 			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-your-areas id="screen-1-back" hidden>Back</button>
 				<button type="button" class="next-button" data-next>Continue</button>
 			</div>
 			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
@@ -485,30 +572,63 @@
 		</section>
 
 		<section id="screen-working" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas>← Your Areas</button>
 			<h2 id="working-area-name">This area</h2>
 			<div class="working-controls">
 				<button type="button">I'm stuck on something</button>
 				<button type="button">I'm losing motivation</button>
 				<button type="button">That's enough for today</button>
 			</div>
-			<button type="button" class="finish-area">I'm finished with this area</button>
+			<button type="button" class="finish-area" data-open-finish-confirm>I'm finished with this area</button>
+		</section>
+
+		<section id="screen-finish-confirm" class="panel" data-screen hidden>
+			<h2 id="finish-confirm-heading">Finished with this area?</h2>
+			<p class="panel-text">We'll move it out of Your Areas. You can always come back to it later.</p>
+			<div class="stacked-actions">
+				<button type="button" data-confirm-finish>Yes, I'm finished</button>
+				<button type="button" class="back-button" data-cancel-finish>Keep it active</button>
+			</div>
 		</section>
 	</main>
 
 	<script>
-		const screens = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble', 'screen-working'];
-		let currentScreenIndex = 0;
+		const areasStorageKey = 'downsizing-decluttering-areas';
+		const lastAreaIdStorageKey = 'downsizing-decluttering-last-area-id';
+
+		const getAreas = () => JSON.parse(localStorage.getItem(areasStorageKey) || '[]');
+		const saveAreas = (areas) => localStorage.setItem(areasStorageKey, JSON.stringify(areas));
+		const getLastAreaId = () => localStorage.getItem(lastAreaIdStorageKey);
+		const setLastAreaId = (id) => localStorage.setItem(lastAreaIdStorageKey, id);
+		const createAreaId = () => `area-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+		const allScreens = [
+			'screen-returning', 'screen-your-areas', 'screen-finished-areas',
+			'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble',
+			'screen-working', 'screen-finish-confirm'
+		];
+		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
+		let currentSetupIndex = 0;
+		let currentAreaId = null;
 
 		const lovedOneQuestion = document.querySelector('#loved-one-question');
 		const lovedOneInputs = [...document.querySelectorAll('input[name="lovedOneSituation"]')];
 		const areaNameInput = document.querySelector('#area-name');
 		const workingAreaName = document.querySelector('#working-area-name');
+		const returningAreaName = document.querySelector('#returning-area-name');
+		const finishConfirmHeading = document.querySelector('#finish-confirm-heading');
+		const screen1BackButton = document.querySelector('#screen-1-back');
 
-		const showScreen = (index) => {
-			screens.forEach((id, screenIndex) => {
-				document.querySelector(`#${id}`).hidden = screenIndex !== index;
+		const showScreen = (id) => {
+			allScreens.forEach((screenId) => {
+				document.querySelector(`#${screenId}`).hidden = screenId !== id;
 			});
-			currentScreenIndex = index;
+		};
+
+		const showSetupScreen = (index) => {
+			currentSetupIndex = index;
+			if (setupOrder[index] === 'screen-1') screen1BackButton.hidden = getAreas().length === 0;
+			showScreen(setupOrder[index]);
 		};
 
 		const updateLovedOneQuestion = () => {
@@ -520,12 +640,12 @@
 
 		document.querySelectorAll('input[name="goal"]').forEach((input) => input.addEventListener('change', updateLovedOneQuestion));
 
-		document.querySelectorAll('[data-back]').forEach((button) => button.addEventListener('click', () => {
-			showScreen(currentScreenIndex - 1);
+		document.querySelectorAll('#screen-2 [data-back], #screen-3 [data-back], #screen-4 [data-back], #screen-preamble [data-back]').forEach((button) => button.addEventListener('click', () => {
+			showSetupScreen(currentSetupIndex - 1);
 		}));
 
 		document.querySelectorAll('[data-next]').forEach((button) => button.addEventListener('click', () => {
-			const screen = document.querySelector(`#${screens[currentScreenIndex]}`);
+			const screen = document.querySelector(`#${setupOrder[currentSetupIndex]}`);
 			const errorMessage = screen.querySelector('[data-error]');
 
 			let isValid = true;
@@ -542,15 +662,180 @@
 			if (errorMessage) errorMessage.hidden = isValid;
 			if (!isValid) return;
 
-			showScreen(currentScreenIndex + 1);
+			showSetupScreen(currentSetupIndex + 1);
 		}));
 
-		document.querySelector('[data-start-sorting]').addEventListener('click', () => {
-			workingAreaName.textContent = areaNameInput.value.trim() || 'This area';
-			showScreen(screens.indexOf('screen-working'));
+		const resetSetupForm = () => {
+			document.querySelectorAll('input[name="goal"]').forEach((input) => { input.checked = false; });
+			lovedOneInputs.forEach((input) => { input.checked = false; });
+			lovedOneQuestion.hidden = true;
+			document.querySelectorAll('input[name="scope"]').forEach((input) => { input.checked = false; });
+			areaNameInput.value = '';
+			document.querySelectorAll('input[name="areaType"]').forEach((input) => { input.checked = false; });
+			document.querySelectorAll('[data-error]').forEach((error) => { error.hidden = true; });
+			hasCreatedAreaForCurrentSetup = false;
+		};
+
+		const startNewAreaSetup = () => {
+			resetSetupForm();
+			showSetupScreen(0);
+		};
+
+		const openWorkingScreen = (area) => {
+			currentAreaId = area.id;
+			workingAreaName.textContent = area.name;
+			setLastAreaId(area.id);
+			showScreen('screen-working');
+		};
+
+		const renderYourAreas = () => {
+			const activeAreas = getAreas().filter((area) => area.status === 'active');
+			const list = document.querySelector('#your-areas-list');
+			const emptyMessage = document.querySelector('#your-areas-empty');
+
+			list.replaceChildren(...activeAreas.map((area) => {
+				const item = document.createElement('div');
+				item.className = 'area-item';
+
+				const name = document.createElement('span');
+				name.className = 'area-item-name';
+				name.textContent = area.name;
+
+				const continueButton = document.createElement('button');
+				continueButton.type = 'button';
+				continueButton.className = 'area-continue';
+				continueButton.textContent = 'Continue';
+				continueButton.addEventListener('click', () => openWorkingScreen(area));
+
+				item.append(name, continueButton);
+				return item;
+			}));
+
+			list.hidden = activeAreas.length === 0;
+			emptyMessage.hidden = activeAreas.length > 0;
+		};
+
+		const goToYourAreas = () => {
+			renderYourAreas();
+			showScreen('screen-your-areas');
+		};
+
+		const renderFinishedAreas = () => {
+			const finishedAreas = getAreas().filter((area) => area.status === 'finished');
+			const list = document.querySelector('#finished-areas-list');
+			const emptyMessage = document.querySelector('#finished-areas-empty');
+
+			list.replaceChildren(...finishedAreas.map((area) => {
+				const item = document.createElement('div');
+				item.className = 'area-item';
+
+				const name = document.createElement('span');
+				name.className = 'area-item-name';
+				name.textContent = area.name;
+
+				const reopenButton = document.createElement('button');
+				reopenButton.type = 'button';
+				reopenButton.className = 'area-continue';
+				reopenButton.textContent = 'Work on this area again';
+				reopenButton.addEventListener('click', () => {
+					const areas = getAreas();
+					const targetArea = areas.find((candidate) => candidate.id === area.id);
+					if (!targetArea) return;
+					targetArea.status = 'active';
+					saveAreas(areas);
+					openWorkingScreen(targetArea);
+				});
+
+				item.append(name, reopenButton);
+				return item;
+			}));
+
+			list.hidden = finishedAreas.length === 0;
+			emptyMessage.hidden = finishedAreas.length > 0;
+		};
+
+		const goToFinishedAreas = () => {
+			renderFinishedAreas();
+			showScreen('screen-finished-areas');
+		};
+
+		document.querySelectorAll('[data-back-to-your-areas]').forEach((button) => button.addEventListener('click', goToYourAreas));
+		document.querySelectorAll('[data-start-new-area]').forEach((button) => button.addEventListener('click', startNewAreaSetup));
+		document.querySelector('[data-view-finished-areas]').addEventListener('click', goToFinishedAreas);
+
+		document.querySelector('[data-choose-something-else]').addEventListener('click', goToYourAreas);
+		document.querySelector('[data-continue-last-area]').addEventListener('click', () => {
+			const area = getAreas().find((candidate) => candidate.id === getLastAreaId());
+			if (area) openWorkingScreen(area);
 		});
 
-		showScreen(0);
+		document.querySelector('[data-open-finish-confirm]').addEventListener('click', () => {
+			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
+			if (!area) return;
+			finishConfirmHeading.textContent = `Finished with ${area.name}?`;
+			showScreen('screen-finish-confirm');
+		});
+
+		document.querySelector('[data-confirm-finish]').addEventListener('click', () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.status = 'finished';
+				saveAreas(areas);
+			}
+			goToYourAreas();
+		});
+
+		document.querySelector('[data-cancel-finish]').addEventListener('click', () => {
+			showScreen('screen-working');
+		});
+
+		let hasCreatedAreaForCurrentSetup = false;
+
+		document.querySelector('[data-start-sorting]').addEventListener('click', () => {
+			if (hasCreatedAreaForCurrentSetup) return;
+			hasCreatedAreaForCurrentSetup = true;
+
+			const route = document.querySelector('input[name="goal"]:checked')?.value || null;
+			const lovedOneSituation = route === 'loved-ones-home'
+				? (document.querySelector('input[name="lovedOneSituation"]:checked')?.value || null)
+				: null;
+			const areaType = document.querySelector('input[name="areaType"]:checked')?.value || null;
+
+			const area = {
+				id: createAreaId(),
+				name: areaNameInput.value.trim() || 'This area',
+				areaType,
+				status: 'active',
+				hasDecideLater: false,
+				route,
+				lovedOneSituation
+			};
+
+			const areas = getAreas();
+			areas.push(area);
+			saveAreas(areas);
+
+			openWorkingScreen(area);
+		});
+
+		const initializeEntryScreen = () => {
+			const areas = getAreas();
+			if (areas.length === 0) {
+				showSetupScreen(0);
+				return;
+			}
+
+			const lastArea = areas.find((area) => area.id === getLastAreaId());
+			if (lastArea && lastArea.status === 'active') {
+				returningAreaName.textContent = lastArea.name;
+				showScreen('screen-returning');
+			} else {
+				goToYourAreas();
+			}
+		};
+
+		initializeEntryScreen();
 	</script>
 </body>
 </html>
