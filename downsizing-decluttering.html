@@ -831,6 +831,21 @@
 				<button type="button" data-find-home-not-sure>I'm not sure</button>
 			</div>
 		</section>
+
+		<section id="screen-guilt-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>What about letting it go feels difficult today?</h2>
+			<div class="working-controls">
+				<button type="button" data-guilt-route="was-a-gift">It was a gift</button>
+				<button type="button" data-guilt-route="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-guilt-route="might-need-someday">I might need it someday</button>
+				<button type="button" data-guilt-route="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-guilt-route="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-guilt-route="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-guilt-route="not-ready">I'm just not ready</button>
+				<button type="button" data-guilt-route="not-sure-why">I'm not sure</button>
+			</div>
+		</section>
 	</main>
 
 	<script>
@@ -852,7 +867,7 @@
 			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
 			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
 			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3',
-			'screen-wasteful-q1', 'screen-find-home-q'
+			'screen-wasteful-q1', 'screen-find-home-q', 'screen-guilt-q1'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -1120,8 +1135,7 @@
 		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => showScreen('screen-decision-reasons'));
 		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
 
-		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => {
-			const reason = button.dataset.reason;
+		const routeReason = (reason) => {
 			if (reason === 'like-it') {
 				showKeepOutcome('like-it');
 				return;
@@ -1150,12 +1164,19 @@
 				showScreen('screen-find-home-q');
 				return;
 			}
+			if (reason === 'feel-guilty') {
+				showScreen('screen-guilt-q1');
+				return;
+			}
 			if (decideLaterCopyByReason[reason]) {
 				showDecideLaterOutcome(reason);
 				return;
 			}
 			showScreen('screen-decision-placeholder');
-		}));
+		};
+
+		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.reason)));
+		document.querySelectorAll('[data-guilt-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.guiltRoute)));
 
 		document.querySelector('[data-confirm-keep]').addEventListener('click', () => showScreen('screen-working'));
 
