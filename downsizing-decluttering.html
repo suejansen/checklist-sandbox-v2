@@ -575,7 +575,7 @@
 			<button type="button" class="quiet-link-button" data-back-to-your-areas>← Your Areas</button>
 			<h2 id="working-area-name">This area</h2>
 			<div class="working-controls">
-				<button type="button">I'm stuck on something</button>
+				<button type="button" data-open-decision-brain>I'm stuck on something</button>
 				<button type="button" data-open-motivation>I'm losing motivation</button>
 				<button type="button" data-open-session-end>That's enough for today</button>
 			</div>
@@ -634,6 +634,50 @@
 				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
 			</div>
 		</section>
+
+		<section id="screen-decision-reasons" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<h2>What's making this difficult to decide?</h2>
+			<div class="working-controls">
+				<button type="button" data-reason="like-it">I like it</button>
+				<button type="button" data-reason="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-reason="was-a-gift">It was a gift</button>
+				<button type="button" data-reason="feel-guilty">I feel guilty getting rid of it</button>
+				<button type="button" data-reason="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-reason="might-need-someday">I might need it someday</button>
+				<button type="button" data-reason="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-reason="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-reason="not-ready">I'm just not ready</button>
+				<button type="button" data-reason="not-sure-why">I'm not sure why</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-placeholder" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<p class="panel-text">We'll add this decision route next.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-keep" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Then keep it.</h2>
+			<p class="panel-text">You don't need to justify keeping something you genuinely like.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-keep>Keep it</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-decide-later" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Decide Later</h2>
+			<p id="decide-later-text" class="panel-text"></p>
+			<p class="panel-text">Don't put it back where you found it.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-decide-later>Decide Later</button>
+			</div>
+		</section>
 	</main>
 
 	<script>
@@ -650,7 +694,8 @@
 			'screen-returning', 'screen-your-areas', 'screen-finished-areas',
 			'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble',
 			'screen-working', 'screen-finish-confirm',
-			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end'
+			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
+			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -867,6 +912,41 @@
 		document.querySelector('[data-need-break]').addEventListener('click', () => showScreen('screen-need-break'));
 
 		document.querySelector('[data-finish-for-today]').addEventListener('click', goToYourAreas);
+
+		// only these three reasons have completed decision routes; the rest show a neutral placeholder
+		const decideLaterCopyByReason = {
+			'not-ready': 'Move it out of the area you\u2019re sorting and put it with the things you want to decide about another time.',
+			'not-sure-why': 'You don\u2019t have to work out the reason right now. Move it out of the area you\u2019re sorting and come back to it another time.'
+		};
+
+		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => showScreen('screen-decision-reasons'));
+		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
+
+		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => {
+			const reason = button.dataset.reason;
+			if (reason === 'like-it') {
+				showScreen('screen-decision-keep');
+				return;
+			}
+			if (decideLaterCopyByReason[reason]) {
+				document.querySelector('#decide-later-text').textContent = decideLaterCopyByReason[reason];
+				showScreen('screen-decision-decide-later');
+				return;
+			}
+			showScreen('screen-decision-placeholder');
+		}));
+
+		document.querySelector('[data-confirm-keep]').addEventListener('click', () => showScreen('screen-working'));
+
+		document.querySelector('[data-confirm-decide-later]').addEventListener('click', () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.hasDecideLater = true;
+				saveAreas(areas);
+			}
+			showScreen('screen-working');
+		});
 
 		let hasCreatedAreaForCurrentSetup = false;
 
