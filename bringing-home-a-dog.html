@@ -250,16 +250,15 @@
 			font-size: 0.96rem;
 		}
 
-		.stage-preview {
+		.plan-navigation {
 			margin-top: 18px;
-			padding-top: 16px;
+			padding-top: 18px;
 			border-top: 1px solid var(--line);
 		}
 
-		.stage-preview summary {
-			color: var(--muted);
-			cursor: pointer;
-			font-size: 0.82rem;
+		.plan-navigation h3 {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
 			font-weight: 700;
 		}
 
@@ -281,7 +280,7 @@
 		}
 
 		.stage-switch button:hover { background: #fff2ed; }
-		.stage-switch button[aria-pressed="true"] {
+		.stage-switch button[aria-current="step"] {
 			border-color: var(--accent);
 			background: #fff2ed;
 		}
@@ -319,6 +318,14 @@
 			max-width: 280px;
 			margin-top: 12px;
 		}
+
+		.finish-plan {
+			margin-top: 24px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		.finish-plan button { margin-top: 0; }
 
 		.plan-section-title {
 			margin: 0 0 11px;
@@ -528,17 +535,16 @@
 			<div class="plan-summary">
 				<h2 id="plan-title">0 days until they come home</h2>
 				<p id="plan-date-summary">Getting Ready</p>
-				<details class="stage-preview">
-					<summary>Preview stage</summary>
-					<div class="stage-switch" role="group" aria-label="Development stage preview">
-						<button type="button" data-stage="getting-ready" aria-pressed="true">Getting Ready</button>
-						<button type="button" data-stage="coming-home" aria-pressed="false">Coming Home</button>
-						<button type="button" data-stage="arrival-day" aria-pressed="false">Arrival Day</button>
-						<button type="button" data-stage="first-night" aria-pressed="false">First Night</button>
-						<button type="button" data-stage="first-week" aria-pressed="false">First Week</button>
-						<button type="button" data-stage="welcome-family" aria-pressed="false">Welcome to the family</button>
+				<nav class="plan-navigation" aria-labelledby="plan-navigation-title">
+					<h3 id="plan-navigation-title">Your plan</h3>
+					<div class="stage-switch">
+						<button type="button" data-stage="getting-ready" aria-current="step">Getting Ready</button>
+						<button type="button" data-stage="coming-home">Coming Home</button>
+						<button type="button" data-stage="arrival-day">Arrival Day</button>
+						<button type="button" data-stage="first-night">First Night</button>
+						<button type="button" data-stage="first-week">First Week</button>
 					</div>
-				</details>
+				</nav>
 			</div>
 			<section id="checklist-view" aria-labelledby="stage-title">
 				<h3 id="stage-title" class="plan-section-title">Getting Ready</h3>
@@ -550,6 +556,9 @@
 					<div id="progress-bar-fill" class="progress-bar-fill"></div>
 				</div>
 				<div id="task-list"></div>
+				<div id="finish-plan" class="finish-plan" hidden>
+					<button id="finish-plan-button" type="button">Finish My Plan</button>
+				</div>
 			</section>
 			<section id="completion-view" class="completion-view" hidden aria-labelledby="completion-title">
 				<h3 id="completion-title">Welcome to the family</h3>
@@ -579,6 +588,8 @@
 		const stageButtons = [...document.querySelectorAll('[data-stage]')];
 		const checklistView = document.querySelector('#checklist-view');
 		const completionView = document.querySelector('#completion-view');
+		const finishPlan = document.querySelector('#finish-plan');
+		const finishPlanButton = document.querySelector('#finish-plan-button');
 		const viewPlanButton = document.querySelector('#view-plan');
 		const storageKey = 'bringing-home-a-dog-setup';
 		const gettingReadyCompletionStorageKey = 'bringing-home-a-dog-task-completion';
@@ -1042,7 +1053,6 @@
 			if (currentStage === 'welcome-family') {
 				planTitle.textContent = getHomeSummary(daysUntilHome);
 				stageDateSummary.textContent = 'Welcome to the family';
-				stageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.stage === currentStage)));
 				checklistView.hidden = true;
 				completionView.hidden = false;
 				plan.hidden = false;
@@ -1062,9 +1072,13 @@
 			stageProgressBar.setAttribute('aria-label', `${stageConfig.name} progress`);
 			stageProgressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
-			stageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.stage === currentStage)));
+			stageButtons.forEach((button) => {
+				if (button.dataset.stage === currentStage) button.setAttribute('aria-current', 'step');
+				else button.removeAttribute('aria-current');
+			});
 			checklistView.hidden = false;
 			completionView.hidden = true;
+			finishPlan.hidden = currentStage !== 'first-week';
 			renderTaskRows(answers, applicableTasks, stageConfig);
 			plan.hidden = false;
 		};
@@ -1074,6 +1088,12 @@
 			currentStage = button.dataset.stage;
 			if (currentAnswers) renderPlan(currentAnswers);
 		}));
+
+		finishPlanButton.addEventListener('click', () => {
+			lastChecklistStage = currentStage;
+			currentStage = 'welcome-family';
+			if (currentAnswers) renderPlan(currentAnswers);
+		});
 
 		viewPlanButton.addEventListener('click', () => {
 			currentStage = lastChecklistStage;
