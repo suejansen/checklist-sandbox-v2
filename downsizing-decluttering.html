@@ -663,7 +663,7 @@
 		<section id="screen-decision-keep" class="panel" data-screen hidden>
 			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
 			<h2>Then keep it.</h2>
-			<p class="panel-text">You don't need to justify keeping something you genuinely like.</p>
+			<p id="keep-text" class="panel-text"></p>
 			<div class="nav-wrap">
 				<button type="button" class="next-button" data-confirm-keep>Keep it</button>
 			</div>
@@ -676,6 +676,45 @@
 			<p class="panel-text">Don't put it back where you found it.</p>
 			<div class="nav-wrap">
 				<button type="button" class="next-button" data-confirm-decide-later>Decide Later</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-let-go" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>It's okay to let it go.</h2>
+			<p class="panel-text">The gift was given and received. You can decide what happens to the object now.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-let-go>Let it go</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>If this hadn't been a gift, would you choose to keep it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q1-yes>Yes</button>
+				<button type="button" data-gift-q1-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would the person who gave it to you ever know you no longer have it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q2-continue>Yes</button>
+				<button type="button" data-gift-q2-continue>Probably</button>
+				<button type="button" data-gift-q2-continue>I'm not sure</button>
+				<button type="button" data-gift-q2-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q3" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would their feelings about it matter enough to you that you want to keep it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q3-yes>Yes</button>
+				<button type="button" data-gift-q3-no>No</button>
+				<button type="button" data-gift-q3-not-sure>I'm not sure</button>
 			</div>
 		</section>
 	</main>
@@ -695,7 +734,8 @@
 			'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble',
 			'screen-working', 'screen-finish-confirm',
 			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
-			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later'
+			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
+			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -913,11 +953,28 @@
 
 		document.querySelector('[data-finish-for-today]').addEventListener('click', goToYourAreas);
 
-		// only these three reasons have completed decision routes; the rest show a neutral placeholder
+		// only these two reasons have completed decision routes so far; the rest show a neutral placeholder
 		const decideLaterCopyByReason = {
 			'not-ready': 'Move it out of the area you\u2019re sorting and put it with the things you want to decide about another time.',
 			'not-sure-why': 'You don\u2019t have to work out the reason right now. Move it out of the area you\u2019re sorting and come back to it another time.'
 		};
+
+		const keepTextByKey = {
+			'like-it': 'You don\u2019t need to justify keeping something you genuinely like.',
+			'gift': 'You\u2019ve chosen it because you want it, not simply because it was given to you.'
+		};
+
+		const showKeepOutcome = (key) => {
+			document.querySelector('#keep-text').textContent = keepTextByKey[key];
+			showScreen('screen-decision-keep');
+		};
+
+		const showDecideLaterOutcome = (reasonKey) => {
+			document.querySelector('#decide-later-text').textContent = decideLaterCopyByReason[reasonKey];
+			showScreen('screen-decision-decide-later');
+		};
+
+		const showLetGoOutcome = () => showScreen('screen-decision-let-go');
 
 		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => showScreen('screen-decision-reasons'));
 		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
@@ -925,12 +982,15 @@
 		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => {
 			const reason = button.dataset.reason;
 			if (reason === 'like-it') {
-				showScreen('screen-decision-keep');
+				showKeepOutcome('like-it');
+				return;
+			}
+			if (reason === 'was-a-gift') {
+				showScreen('screen-gift-q1');
 				return;
 			}
 			if (decideLaterCopyByReason[reason]) {
-				document.querySelector('#decide-later-text').textContent = decideLaterCopyByReason[reason];
-				showScreen('screen-decision-decide-later');
+				showDecideLaterOutcome(reason);
 				return;
 			}
 			showScreen('screen-decision-placeholder');
@@ -947,6 +1007,18 @@
 			}
 			showScreen('screen-working');
 		});
+
+		document.querySelector('[data-confirm-let-go]').addEventListener('click', () => showScreen('screen-working'));
+
+		document.querySelector('[data-gift-q1-yes]').addEventListener('click', () => showKeepOutcome('gift'));
+		document.querySelector('[data-gift-q1-no]').addEventListener('click', () => showScreen('screen-gift-q2'));
+
+		document.querySelector('[data-gift-q2-no]').addEventListener('click', () => showLetGoOutcome());
+		document.querySelectorAll('[data-gift-q2-continue]').forEach((button) => button.addEventListener('click', () => showScreen('screen-gift-q3')));
+
+		document.querySelector('[data-gift-q3-yes]').addEventListener('click', () => showKeepOutcome('gift'));
+		document.querySelector('[data-gift-q3-no]').addEventListener('click', () => showLetGoOutcome());
+		document.querySelector('[data-gift-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
 
 		let hasCreatedAreaForCurrentSetup = false;
 
