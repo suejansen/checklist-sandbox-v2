@@ -717,6 +717,42 @@
 				<button type="button" data-gift-q3-not-sure>I'm not sure</button>
 			</div>
 		</section>
+
+		<section id="screen-memory-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>How does having this item make you feel?</h2>
+			<div class="working-controls">
+				<button type="button" data-memory-like-it>I like having it around</button>
+				<button type="button" data-memory-person-matters>It's really the person or memory that matters</button>
+				<button type="button" data-memory-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-memory-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would you still feel connected to that person or memory without keeping this particular item?</h2>
+			<div class="working-controls">
+				<button type="button" data-memory-q2-yes>Yes</button>
+				<button type="button" data-memory-q2-no>No</button>
+				<button type="button" data-memory-q2-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-memory-could-let-go" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>You could let the item go.</h2>
+			<p class="panel-text">If the memory matters more than the object, you could preserve the connection another way.</p>
+			<ul class="prep-list">
+				<li>Photograph it</li>
+				<li>Write down or record its story</li>
+				<li>Pass it to someone else who values the connection</li>
+				<li>If it is part of a collection, keep one representative piece</li>
+			</ul>
+			<div class="stacked-actions">
+				<button type="button" data-back-to-working>Let it go</button>
+				<button type="button" class="back-button" data-back-to-working>Keep it</button>
+			</div>
+		</section>
 	</main>
 
 	<script>
@@ -735,7 +771,8 @@
 			'screen-working', 'screen-finish-confirm',
 			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
 			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
-			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3'
+			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
+			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -961,7 +998,9 @@
 
 		const keepTextByKey = {
 			'like-it': 'You don\u2019t need to justify keeping something you genuinely like.',
-			'gift': 'You\u2019ve chosen it because you want it, not simply because it was given to you.'
+			'gift': 'You\u2019ve chosen it because you want it, not simply because it was given to you.',
+			'memory-like-having-it': 'It has a place in your life.',
+			'memory-item-matters': 'This particular item matters to the connection.'
 		};
 
 		const showKeepOutcome = (key) => {
@@ -987,6 +1026,10 @@
 			}
 			if (reason === 'was-a-gift') {
 				showScreen('screen-gift-q1');
+				return;
+			}
+			if (reason === 'reminds-me-of-someone') {
+				showScreen('screen-memory-q1');
 				return;
 			}
 			if (decideLaterCopyByReason[reason]) {
@@ -1019,6 +1062,14 @@
 		document.querySelector('[data-gift-q3-yes]').addEventListener('click', () => showKeepOutcome('gift'));
 		document.querySelector('[data-gift-q3-no]').addEventListener('click', () => showLetGoOutcome());
 		document.querySelector('[data-gift-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-memory-like-it]').addEventListener('click', () => showKeepOutcome('memory-like-having-it'));
+		document.querySelector('[data-memory-person-matters]').addEventListener('click', () => showScreen('screen-memory-q2'));
+		document.querySelector('[data-memory-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-memory-q2-yes]').addEventListener('click', () => showScreen('screen-memory-could-let-go'));
+		document.querySelector('[data-memory-q2-no]').addEventListener('click', () => showKeepOutcome('memory-item-matters'));
+		document.querySelector('[data-memory-q2-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
 
 		let hasCreatedAreaForCurrentSetup = false;
 
