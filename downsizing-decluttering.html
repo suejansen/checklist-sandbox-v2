@@ -662,7 +662,7 @@
 
 		<section id="screen-decision-keep" class="panel" data-screen hidden>
 			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
-			<h2>Then keep it.</h2>
+			<h2 id="keep-heading">Then keep it.</h2>
 			<p id="keep-text" class="panel-text"></p>
 			<div class="nav-wrap">
 				<button type="button" class="next-button" data-confirm-keep>Keep it</button>
@@ -681,10 +681,19 @@
 
 		<section id="screen-decision-let-go" class="panel" data-screen hidden>
 			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
-			<h2>It's okay to let it go.</h2>
-			<p class="panel-text">The gift was given and received. You can decide what happens to the object now.</p>
+			<h2 id="let-go-heading">It's okay to let it go.</h2>
+			<p id="let-go-text" class="panel-text"></p>
 			<div class="nav-wrap">
 				<button type="button" class="next-button" data-confirm-let-go>Let it go</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-sell" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Sell it.</h2>
+			<p class="panel-text">If getting some of the money back feels worth the effort, set it aside to sell.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-sell>Sell it</button>
 			</div>
 		</section>
 
@@ -753,6 +762,55 @@
 				<button type="button" class="back-button" data-back-to-working>Keep it</button>
 			</div>
 		</section>
+
+		<section id="screen-cost-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would you choose this item for your life today?</h2>
+			<div class="working-controls">
+				<button type="button" data-cost-q1-yes>Yes</button>
+				<button type="button" data-cost-q1-no>No</button>
+				<button type="button" data-cost-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-cost-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would getting some of the money back make it worth the effort of selling it?</h2>
+			<div class="working-controls">
+				<button type="button" data-cost-q2-yes>Yes</button>
+				<button type="button" data-cost-q2-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>If you needed this again, how difficult would it be to manage without or replace it?</h2>
+			<p class="panel-intro">If this is a genuinely important safety, emergency, legal or medical item, consider it separately from general decluttering.</p>
+			<div class="working-controls">
+				<button type="button" data-need-q1-difficult>Difficult, expensive or important</button>
+				<button type="button" data-need-q1-easy>Easy enough</button>
+				<button type="button" data-need-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Is there a real reason you expect to need it, or is it more of a "just in case"?</h2>
+			<div class="working-controls">
+				<button type="button" data-need-q2-real-reason>A real reason</button>
+				<button type="button" data-need-q2-just-in-case>Just in case</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q3" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>If you didn't already own it, would you buy one today just in case?</h2>
+			<div class="working-controls">
+				<button type="button" data-need-q3-yes>Yes</button>
+				<button type="button" data-need-q3-no>No</button>
+				<button type="button" data-need-q3-not-sure>I'm not sure</button>
+			</div>
+		</section>
 	</main>
 
 	<script>
@@ -772,7 +830,8 @@
 			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
 			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
 			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
-			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go'
+			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
+			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -996,15 +1055,23 @@
 			'not-sure-why': 'You don\u2019t have to work out the reason right now. Move it out of the area you\u2019re sorting and come back to it another time.'
 		};
 
-		const keepTextByKey = {
-			'like-it': 'You don\u2019t need to justify keeping something you genuinely like.',
-			'gift': 'You\u2019ve chosen it because you want it, not simply because it was given to you.',
-			'memory-like-having-it': 'It has a place in your life.',
-			'memory-item-matters': 'This particular item matters to the connection.'
+		const keepOutcomeByKey = {
+			'like-it': { heading: 'Then keep it.', text: 'You don\u2019t need to justify keeping something you genuinely like.' },
+			'gift': { heading: 'Then keep it.', text: 'You\u2019ve chosen it because you want it, not simply because it was given to you.' },
+			'memory-like-having-it': { heading: 'Then keep it.', text: 'It has a place in your life.' },
+			'memory-item-matters': { heading: 'Then keep it.', text: 'This particular item matters to the connection.' },
+			'cost-yes': { heading: 'Then keep it.', text: '' },
+			'need-someday-difficult': { heading: 'Keep it.', text: 'There\u2019s a reasonable case for keeping something that would be difficult, expensive or important to replace.' },
+			'need-someday-real-reason': { heading: 'Keep it.', text: '' },
+			'need-someday-buy-again': { heading: 'Keep it.', text: '' }
 		};
 
 		const showKeepOutcome = (key) => {
-			document.querySelector('#keep-text').textContent = keepTextByKey[key];
+			const outcome = keepOutcomeByKey[key];
+			document.querySelector('#keep-heading').textContent = outcome.heading;
+			const keepTextEl = document.querySelector('#keep-text');
+			keepTextEl.textContent = outcome.text;
+			keepTextEl.hidden = !outcome.text;
 			showScreen('screen-decision-keep');
 		};
 
@@ -1013,7 +1080,18 @@
 			showScreen('screen-decision-decide-later');
 		};
 
-		const showLetGoOutcome = () => showScreen('screen-decision-let-go');
+		const letGoOutcomeByKey = {
+			'gift': { heading: 'It\u2019s okay to let it go.', text: 'The gift was given and received. You can decide what happens to the object now.' },
+			'cost': { heading: 'You don\u2019t have to turn this into another job.', text: 'The original cost is already spent. Your time and effort still have value. You can give, donate, recycle or dispose of it appropriately.' },
+			'general': { heading: 'It\u2019s okay to let it go.', text: 'You can decide what happens to it now \u2014 give, sell, donate, recycle or dispose of it as feels right.' }
+		};
+
+		const showLetGoOutcome = (key = 'gift') => {
+			const outcome = letGoOutcomeByKey[key];
+			document.querySelector('#let-go-heading').textContent = outcome.heading;
+			document.querySelector('#let-go-text').textContent = outcome.text;
+			showScreen('screen-decision-let-go');
+		};
 
 		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => showScreen('screen-decision-reasons'));
 		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
@@ -1030,6 +1108,14 @@
 			}
 			if (reason === 'reminds-me-of-someone') {
 				showScreen('screen-memory-q1');
+				return;
+			}
+			if (reason === 'cost-a-lot') {
+				showScreen('screen-cost-q1');
+				return;
+			}
+			if (reason === 'might-need-someday') {
+				showScreen('screen-need-q1');
 				return;
 			}
 			if (decideLaterCopyByReason[reason]) {
@@ -1053,6 +1139,8 @@
 
 		document.querySelector('[data-confirm-let-go]').addEventListener('click', () => showScreen('screen-working'));
 
+		document.querySelector('[data-confirm-sell]').addEventListener('click', () => showScreen('screen-working'));
+
 		document.querySelector('[data-gift-q1-yes]').addEventListener('click', () => showKeepOutcome('gift'));
 		document.querySelector('[data-gift-q1-no]').addEventListener('click', () => showScreen('screen-gift-q2'));
 
@@ -1070,6 +1158,24 @@
 		document.querySelector('[data-memory-q2-yes]').addEventListener('click', () => showScreen('screen-memory-could-let-go'));
 		document.querySelector('[data-memory-q2-no]').addEventListener('click', () => showKeepOutcome('memory-item-matters'));
 		document.querySelector('[data-memory-q2-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-cost-q1-yes]').addEventListener('click', () => showKeepOutcome('cost-yes'));
+		document.querySelector('[data-cost-q1-no]').addEventListener('click', () => showScreen('screen-cost-q2'));
+		document.querySelector('[data-cost-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-cost-q2-yes]').addEventListener('click', () => showScreen('screen-decision-sell'));
+		document.querySelector('[data-cost-q2-no]').addEventListener('click', () => showLetGoOutcome('cost'));
+
+		document.querySelector('[data-need-q1-difficult]').addEventListener('click', () => showKeepOutcome('need-someday-difficult'));
+		document.querySelector('[data-need-q1-easy]').addEventListener('click', () => showScreen('screen-need-q2'));
+		document.querySelector('[data-need-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-need-q2-real-reason]').addEventListener('click', () => showKeepOutcome('need-someday-real-reason'));
+		document.querySelector('[data-need-q2-just-in-case]').addEventListener('click', () => showScreen('screen-need-q3'));
+
+		document.querySelector('[data-need-q3-yes]').addEventListener('click', () => showKeepOutcome('need-someday-buy-again'));
+		document.querySelector('[data-need-q3-no]').addEventListener('click', () => showLetGoOutcome('general'));
+		document.querySelector('[data-need-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
 
 		let hasCreatedAreaForCurrentSetup = false;
 
