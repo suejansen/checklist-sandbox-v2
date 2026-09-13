@@ -811,6 +811,26 @@
 				<button type="button" data-need-q3-not-sure>I'm not sure</button>
 			</div>
 		</section>
+
+		<section id="screen-wasteful-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Could this still be useful to someone else?</h2>
+			<div class="working-controls">
+				<button type="button" data-wasteful-q1-yes>Yes</button>
+				<button type="button" data-wasteful-q1-no>No</button>
+				<button type="button" data-wasteful-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-find-home-q" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<h2>Would you like to find it another home?</h2>
+			<div class="working-controls">
+				<button type="button" data-find-home-yes>Yes</button>
+				<button type="button" data-find-home-no>No</button>
+				<button type="button" data-find-home-not-sure>I'm not sure</button>
+			</div>
+		</section>
 	</main>
 
 	<script>
@@ -831,7 +851,8 @@
 			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
 			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
 			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
-			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3'
+			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3',
+			'screen-wasteful-q1', 'screen-find-home-q'
 		];
 		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
 		let currentSetupIndex = 0;
@@ -1083,7 +1104,10 @@
 		const letGoOutcomeByKey = {
 			'gift': { heading: 'It\u2019s okay to let it go.', text: 'The gift was given and received. You can decide what happens to the object now.' },
 			'cost': { heading: 'You don\u2019t have to turn this into another job.', text: 'The original cost is already spent. Your time and effort still have value. You can give, donate, recycle or dispose of it appropriately.' },
-			'general': { heading: 'It\u2019s okay to let it go.', text: 'You can decide what happens to it now \u2014 give, sell, donate, recycle or dispose of it as feels right.' }
+			'general': { heading: 'It\u2019s okay to let it go.', text: 'You can decide what happens to it now \u2014 give, sell, donate, recycle or dispose of it as feels right.' },
+			'recycle-dispose-only': { heading: 'It\u2019s okay to let it go.', text: 'Recycle or dispose of it responsibly where appropriate.' },
+			'find-another-home': { heading: 'Find it another home.', text: 'You could give, donate or sell it.' },
+			'waiting-for-right-person': { heading: 'It\u2019s okay to let it go.', text: 'You don\u2019t have to keep something indefinitely while waiting for the right person. Recycle or dispose of it responsibly where appropriate.' }
 		};
 
 		const showLetGoOutcome = (key = 'gift') => {
@@ -1116,6 +1140,14 @@
 			}
 			if (reason === 'might-need-someday') {
 				showScreen('screen-need-q1');
+				return;
+			}
+			if (reason === 'feels-wasteful') {
+				showScreen('screen-wasteful-q1');
+				return;
+			}
+			if (reason === 'someone-else-might-want') {
+				showScreen('screen-find-home-q');
 				return;
 			}
 			if (decideLaterCopyByReason[reason]) {
@@ -1176,6 +1208,14 @@
 		document.querySelector('[data-need-q3-yes]').addEventListener('click', () => showKeepOutcome('need-someday-buy-again'));
 		document.querySelector('[data-need-q3-no]').addEventListener('click', () => showLetGoOutcome('general'));
 		document.querySelector('[data-need-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-wasteful-q1-yes]').addEventListener('click', () => showScreen('screen-find-home-q'));
+		document.querySelector('[data-wasteful-q1-no]').addEventListener('click', () => showLetGoOutcome('recycle-dispose-only'));
+		document.querySelector('[data-wasteful-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-find-home-yes]').addEventListener('click', () => showLetGoOutcome('find-another-home'));
+		document.querySelector('[data-find-home-no]').addEventListener('click', () => showLetGoOutcome('waiting-for-right-person'));
+		document.querySelector('[data-find-home-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
 
 		let hasCreatedAreaForCurrentSetup = false;
 
