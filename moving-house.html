@@ -22,9 +22,10 @@
 
 		* { box-sizing: border-box; }
 
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
 		body {
 			margin: 0;
-			min-width: 320px;
 			color: var(--ink);
 			background:
 				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
@@ -75,7 +76,7 @@
 		}
 
 		.home-link:hover { color: var(--ink); }
-		.home-link:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 4px; }
+		.home-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
 
 		header { margin: 54px 0 30px; }
 
@@ -175,6 +176,8 @@
 		.choice:has(input:focus-visible) {
 			border-color: var(--accent);
 			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
 		}
 
 		.submit-wrap {
@@ -190,7 +193,7 @@
 			border: 0;
 			border-radius: 12px;
 			color: #fff;
-			background: var(--accent);
+			background: var(--accent-dark);
 			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
 			cursor: pointer;
 			font: inherit;
@@ -199,9 +202,9 @@
 			transition: background 160ms ease, transform 160ms ease;
 		}
 
-		button:hover { background: var(--accent-dark); }
+		button:hover { background: #a5432d; }
 		button:active { transform: translateY(1px); }
-		button:focus-visible { outline: 3px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+		button:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
 
 		.saved-message {
 			min-height: 1.25em;
@@ -313,13 +316,27 @@
 			flex: 0 0 auto;
 		}
 
+		.task-check {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex: 0 0 44px;
+			height: 44px;
+			margin: -11px -12px -11px -12px;
+			cursor: pointer;
+		}
+
 		.task-toggle {
 			display: flex;
 			align-items: flex-start;
 			justify-content: space-between;
 			gap: 10px;
 			width: 100%;
-			padding: 0;
+			min-width: 0;
+			min-height: 0;
+			overflow-wrap: anywhere;
+			padding: 11px 0;
+			margin: -11px 0;
 			border: 0;
 			border-radius: 0;
 			color: inherit;
@@ -335,10 +352,10 @@
 
 		.task-toggle:hover,
 		.task-toggle:active { color: inherit; background: transparent; transform: none; }
-		.task-toggle:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+		.task-toggle:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
 
 		.task-chevron {
-			color: var(--accent);
+			color: var(--accent-dark);
 			font-size: 0.78rem;
 			font-weight: 600;
 			line-height: 1.25;
@@ -382,7 +399,7 @@
 			resize: vertical;
 		}
 
-		.task-note:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
+		.task-note:focus { border-color: var(--accent); outline: 2px solid var(--accent-dark); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
 
 		.task.completed {
 			color: var(--muted);
@@ -462,6 +479,7 @@
 		}
 
 		.purchase-options {
+			grid-template-columns: minmax(0, 1fr);
 			display: grid;
 			gap: 10px;
 			margin-top: 17px;
@@ -480,6 +498,7 @@
 		}
 
 		.purchase-option-heading {
+			flex-wrap: wrap;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -491,11 +510,10 @@
 
 		.best-value-label {
 			color: var(--accent-dark);
-			font-size: 0.7rem;
+			font-size: 0.75rem;
 			font-weight: 700;
 			letter-spacing: 0.04em;
 			text-transform: uppercase;
-			white-space: nowrap;
 		}
 
 		.purchase-option p {
@@ -506,6 +524,7 @@
 		}
 
 		.purchase-option button {
+			overflow-wrap: anywhere;
 			min-height: 50px;
 			padding: 11px 13px;
 			font-size: 0.92rem;
@@ -675,14 +694,14 @@
 			<h2 id="full-plan-title">Your full moving plan is ready</h2>
 			<p class="full-plan-intro">Take a look at what’s included in your personalized plan before deciding whether to unlock everything.</p>
 			<div id="journey-grid" class="journey-grid"></div>
-			<div class="purchase-options" aria-label="Unlock options">
+			<div class="purchase-options" role="group" aria-label="Unlock options">
 				<div class="purchase-option">
-					<div class="purchase-option-heading">Unlock Moving House · $2.99</div>
+					<div class="purchase-option-heading" aria-hidden="true">Unlock Moving House · $2.99</div>
 					<button type="button" data-purchase="moving-house">Unlock Moving House · $2.99</button>
 				</div>
 				<div class="purchase-option best-value">
 					<div class="purchase-option-heading">
-						<span>Unlock Everything Forever · $5.99</span>
+						<span aria-hidden="true">Unlock Everything Forever · $5.99</span>
 						<span class="best-value-label">Best value</span>
 					</div>
 					<p>Every current and future Nest &amp; Go checklist.</p>
@@ -690,7 +709,7 @@
 				</div>
 			</div>
 		</section>
-		<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
+		<p id="purchase-confirmation" class="purchase-confirmation" role="alert" hidden></p>
 	</main>
 
 	<script src="nest-and-go-shell.js"></script>
@@ -1284,6 +1303,7 @@
 				checkbox.id = `task-${task.id}`;
 				checkbox.checked = isComplete;
 				checkbox.dataset.taskId = task.id;
+				checkbox.setAttribute('aria-label', `Mark ${task.label} complete`);
 				checkbox.addEventListener('change', () => {
 					const updatedState = getCompletionState();
 					updatedState[task.id] = checkbox.checked;
@@ -1330,7 +1350,10 @@
 				});
 
 				details.append(guidance, noteLabel, note);
-				taskTop.append(checkbox, toggle);
+				const checkboxArea = document.createElement('label');
+				checkboxArea.className = 'task-check';
+				checkboxArea.append(checkbox);
+				taskTop.append(checkboxArea, toggle);
 				taskElement.append(taskTop, details);
 				return taskElement;
 			}));

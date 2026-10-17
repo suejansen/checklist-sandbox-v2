@@ -78,7 +78,7 @@
 	};
 
 	const styles = `
-		.ng-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+		.ng-topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
 		.ng-topbar .home-link { margin: 0; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--panel); }
 		.ng-topbar .home-link:hover { background: #fff2ed; }
 		.ng-menu-wrap { position: relative; }
@@ -86,19 +86,19 @@
 		.ng-icon-button:hover { background: #fff2ed; }
 		.ng-menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; display: grid; gap: 2px; width: 210px; max-width: calc(100vw - 40px); padding: 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); box-shadow: var(--shadow); }
 		.ng-menu[hidden] { display: none; }
-		.ng-menu button { min-height: 48px; padding: 10px 14px; border: 0; border-radius: 10px; color: var(--ink); background: transparent; box-shadow: none; font: inherit; font-size: 0.95rem; font-weight: 600; text-align: left; }
+		.ng-menu button { width: 100%; min-height: 48px; padding: 10px 14px; border: 0; border-radius: 10px; color: var(--ink); background: transparent; box-shadow: none; font: inherit; font-size: 0.95rem; font-weight: 600; text-align: left; }
 		.ng-menu button:hover { color: var(--ink); background: #fff2ed; }
 		.ng-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(32, 59, 58, 0.4); overflow-y: auto; }
 		.ng-dialog { width: min(100%, 420px); max-height: 100%; overflow-y: auto; padding: 22px 20px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--panel); box-shadow: var(--shadow); }
 		.ng-dialog h2 { margin: 0 0 10px; font-family: 'Fraunces', Georgia, serif; font-size: 1.5rem; font-weight: 600; line-height: 1.1; }
 		.ng-dialog p { margin: 0 0 18px; color: var(--muted); font-size: 0.96rem; line-height: 1.55; }
 		.ng-actions { display: grid; gap: 10px; }
-		.ng-btn { min-height: 52px; padding: 12px 16px; border: 1px solid transparent; border-radius: 12px; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; }
-		.ng-btn-primary, .ng-btn-primary:hover { color: #fff; background: var(--accent); box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18); }
-		.ng-btn-primary:hover { background: var(--accent-dark); }
+		.ng-btn { width: 100%; min-height: 52px; overflow-wrap: anywhere; padding: 12px 16px; border: 1px solid transparent; border-radius: 12px; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; }
+		.ng-btn-primary, .ng-btn-primary:hover { color: #fff; background: var(--accent-dark); box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18); }
+		.ng-btn-primary:hover { background: #a5432d; }
 		.ng-btn-secondary, .ng-btn-secondary:hover { color: var(--ink); border-color: var(--line); background: var(--panel); box-shadow: none; }
 		.ng-btn-secondary:hover { background: #fff2ed; }
-		.ng-btn:focus-visible, .ng-icon-button:focus-visible, .ng-menu button:focus-visible { outline: 3px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+		.ng-btn:focus-visible, .ng-icon-button:focus-visible, .ng-menu button:focus-visible, .ng-topbar .home-link:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
 		.ng-toast { position: fixed; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); left: 16px; z-index: 101; width: min(calc(100% - 32px), 420px); margin: 0 auto; padding: 13px 16px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: var(--panel); box-shadow: var(--shadow); font-size: 0.9rem; line-height: 1.45; text-align: center; }
 		.ng-toast[hidden] { display: none; }
 		@media (min-width: 600px) { .ng-actions { grid-template-columns: 1fr 1fr; } }
@@ -120,9 +120,11 @@
 	};
 
 	// Resolves true only if the user picks the confirm action. The safe (cancel) action is first, primary and focused.
-	const confirmDialog = ({ title, message, confirmLabel, cancelLabel }) => new Promise((resolve) => {
+	const confirmDialog = ({ title, message, confirmLabel, cancelLabel, returnFocusTo }) => new Promise((resolve) => {
 		ensureStyles();
-		const previouslyFocused = document.activeElement;
+		const previouslyFocused = returnFocusTo || document.activeElement;
+		const backgroundRoot = document.querySelector('main');
+		if (backgroundRoot) backgroundRoot.inert = true;
 		const overlay = createElement('div', 'ng-overlay');
 		const dialog = createElement('div', 'ng-dialog');
 		dialog.setAttribute('role', 'alertdialog');
@@ -146,6 +148,7 @@
 		const close = (result) => {
 			document.removeEventListener('keydown', onKeyDown, true);
 			overlay.remove();
+			if (backgroundRoot) backgroundRoot.inert = false;
 			if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
 			resolve(result);
 		};
@@ -178,12 +181,15 @@
 			toast = createElement('p', 'ng-toast');
 			toast.setAttribute('role', 'status');
 			toast.setAttribute('aria-live', 'polite');
+			toast.hidden = true;
 			document.body.append(toast);
 		}
-		toast.textContent = message;
+		// Set the text after the live region is visible so assistive technology announces it.
+		toast.textContent = '';
 		toast.hidden = false;
+		window.setTimeout(() => { toast.textContent = message; }, 60);
 		window.clearTimeout(toastTimer);
-		toastTimer = window.setTimeout(() => { toast.hidden = true; }, 4000);
+		toastTimer = window.setTimeout(() => { toast.hidden = true; }, 6000);
 	};
 
 	const initPlanShell = ({ planId, onEditSetup }) => {
@@ -199,12 +205,12 @@
 		const wrap = createElement('div', 'ng-menu-wrap');
 		const menuButton = createElement('button', 'ng-icon-button', '…');
 		menuButton.type = 'button';
-		menuButton.setAttribute('aria-label', `${plan.name} options`);
-		menuButton.setAttribute('aria-haspopup', 'menu');
+		menuButton.setAttribute('aria-label', 'Plan options');
 		menuButton.setAttribute('aria-expanded', 'false');
 
 		const menu = createElement('div', 'ng-menu');
-		menu.setAttribute('role', 'menu');
+		menu.id = 'ng-plan-menu';
+		menuButton.setAttribute('aria-controls', menu.id);
 		menu.hidden = true;
 
 		const closeMenu = (returnFocus) => {
@@ -216,7 +222,6 @@
 		const addItem = (label, handler) => {
 			const item = createElement('button', '', label);
 			item.type = 'button';
-			item.setAttribute('role', 'menuitem');
 			item.addEventListener('click', () => {
 				closeMenu(false);
 				handler();
@@ -230,7 +235,8 @@
 				title: 'Start over?',
 				message: `This will clear ${plan.clearedSummary} for ${plan.name} only. Your purchases will not be affected.`,
 				confirmLabel: 'Start over',
-				cancelLabel: 'Cancel'
+				cancelLabel: 'Cancel',
+				returnFocusTo: menuButton
 			});
 			if (!confirmed) return;
 			clearPlanData(planId);
@@ -249,6 +255,9 @@
 
 		document.addEventListener('click', (event) => {
 			if (!menu.hidden && !wrap.contains(event.target)) closeMenu(false);
+		});
+		wrap.addEventListener('focusout', (event) => {
+			if (!menu.hidden && event.relatedTarget && !wrap.contains(event.relatedTarget)) closeMenu(false);
 		});
 		menu.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape') {

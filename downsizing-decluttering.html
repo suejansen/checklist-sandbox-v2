@@ -21,9 +21,10 @@
 
 		* { box-sizing: border-box; }
 
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
 		body {
 			margin: 0;
-			min-width: 320px;
 			color: var(--ink);
 			background:
 				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
@@ -74,7 +75,7 @@
 		}
 
 		.home-link:hover { color: var(--ink); }
-		.home-link:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 4px; }
+		.home-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
 
 		header { margin: 54px 0 30px; }
 
@@ -176,6 +177,8 @@
 		.choice:has(input:focus-visible) {
 			border-color: var(--accent);
 			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
 		}
 
 		.choice-text { display: flex; flex-direction: column; gap: 3px; }
@@ -205,6 +208,8 @@
 		input[type="text"]:focus {
 			border-color: var(--accent);
 			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
 		}
 
 		.field-example {
@@ -225,6 +230,7 @@
 
 		.nav-wrap {
 			display: flex;
+			flex-wrap: wrap;
 			gap: 10px;
 			margin-top: 31px;
 			padding-top: 18px;
@@ -237,7 +243,7 @@
 			border: 0;
 			border-radius: 12px;
 			color: #fff;
-			background: var(--accent);
+			background: var(--accent-dark);
 			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
 			cursor: pointer;
 			font: inherit;
@@ -246,14 +252,16 @@
 			transition: background 160ms ease, transform 160ms ease;
 		}
 
-		button:hover { background: var(--accent-dark); }
+		button:hover { background: #a5432d; }
 		button:active { transform: translateY(1px); }
-		button:focus-visible { outline: 3px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+		button:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
 
-		.nav-wrap .next-button { flex: 1; }
+		.nav-wrap .next-button { flex: 1 1 9rem; }
 
 		.back-button {
-			flex: 0 0 auto;
+			flex: 0 1 auto;
+			max-width: 100%;
+			overflow-wrap: anywhere;
 			color: var(--ink);
 			background: var(--panel);
 			border: 1px solid var(--line);
@@ -322,7 +330,7 @@
 			box-shadow: none;
 			font-size: 0.88rem;
 			font-weight: 600;
-			min-height: auto;
+			min-height: 44px;
 			text-decoration: underline;
 		}
 
@@ -390,9 +398,9 @@
 			display: inline-flex;
 			align-items: center;
 			gap: 6px;
-			margin-bottom: 24px;
-			padding: 0;
-			min-height: auto;
+			margin-bottom: 14px;
+			padding: 0 8px 0 0;
+			min-height: 44px;
 			border: 0;
 			color: var(--muted);
 			background: transparent;
@@ -404,7 +412,7 @@
 		}
 
 		.quiet-link-button:hover { color: var(--ink); background: transparent; }
-		.quiet-link-button:focus-visible { outline: 2px solid rgba(229, 109, 79, 0.35); outline-offset: 4px; }
+		.quiet-link-button:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
 
 		.area-list {
 			display: grid;
@@ -414,6 +422,7 @@
 
 		.area-item {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
 			justify-content: space-between;
 			gap: 12px;
@@ -424,6 +433,8 @@
 		}
 
 		.area-item-name {
+			min-width: 0;
+			overflow-wrap: anywhere;
 			font-size: 0.98rem;
 			font-weight: 600;
 		}
@@ -438,6 +449,7 @@
 		[data-screen][hidden] { display: none; }
 
 		.purchase-options {
+			grid-template-columns: minmax(0, 1fr);
 			display: grid;
 			gap: 10px;
 			margin-top: 17px;
@@ -459,7 +471,7 @@
 
 		.best-value-label {
 			color: var(--accent-dark);
-			font-size: 0.7rem;
+			font-size: 0.75rem;
 			font-weight: 700;
 			letter-spacing: 0.04em;
 			text-transform: uppercase;
@@ -473,6 +485,7 @@
 		}
 
 		.purchase-option button {
+			overflow-wrap: anywhere;
 			width: 100%;
 			min-height: 50px;
 			padding: 11px 13px;
@@ -547,7 +560,7 @@
 		</section>
 
 		<section id="screen-finished-areas" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-your-areas>← Your Areas</button>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas><span aria-hidden="true">←</span> Your Areas</button>
 			<h2>Finished Areas</h2>
 			<div id="finished-areas-list" class="area-list"></div>
 			<p id="finished-areas-empty" class="panel-text" hidden>No finished areas yet.</p>
@@ -594,7 +607,7 @@
 				<button type="button" class="back-button" data-back-to-your-areas id="screen-1-back" hidden>Back</button>
 				<button type="button" class="next-button" data-next>Continue</button>
 			</div>
-			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
 		</section>
 
 		<section id="screen-2" class="panel" data-screen hidden>
@@ -620,7 +633,7 @@
 				<button type="button" class="back-button" data-back>Back</button>
 				<button type="button" class="next-button" data-next>Continue</button>
 			</div>
-			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
 		</section>
 
 		<section id="screen-3" class="panel" data-screen hidden>
@@ -628,15 +641,15 @@
 			<p class="panel-intro">What would you like to call the area you're working on?</p>
 			<div class="question">
 				<label class="question-label" for="area-name">Area name</label>
-				<input id="area-name" type="text" autocomplete="off">
-				<p class="field-example">Main bedroom wardrobe, kitchen junk drawer, cupboard under the stairs, Dad's workshop...</p>
+				<input id="area-name" type="text" autocomplete="off" aria-required="true" aria-describedby="area-name-example">
+				<p id="area-name-example" class="field-example">Main bedroom wardrobe, kitchen junk drawer, cupboard under the stairs, Dad's workshop...</p>
 			</div>
 
 			<div class="nav-wrap">
 				<button type="button" class="back-button" data-back>Back</button>
 				<button type="button" class="next-button" data-next>Continue</button>
 			</div>
-			<p class="field-error" data-error hidden>Please give this area a name before continuing.</p>
+			<p class="field-error" data-error role="alert" hidden>Please give this area a name before continuing.</p>
 		</section>
 
 		<section id="screen-4" class="panel" data-screen hidden>
@@ -660,7 +673,7 @@
 				<button type="button" class="back-button" data-back>Back</button>
 				<button type="button" class="next-button" data-next>Continue</button>
 			</div>
-			<p class="field-error" data-error hidden>Please choose an option to continue.</p>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
 		</section>
 
 		<section id="screen-preamble" class="panel" data-screen hidden>
@@ -684,7 +697,7 @@
 		</section>
 
 		<section id="screen-working" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-your-areas>← Your Areas</button>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas><span aria-hidden="true">←</span> Your Areas</button>
 			<h2 id="working-area-name">This area</h2>
 			<div class="working-controls">
 				<button type="button" data-open-decision-brain>I'm stuck on something</button>
@@ -712,7 +725,7 @@
 		</section>
 
 		<section id="screen-second-pass-clearer" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
 			<h2>Does this item feel any clearer to you now?</h2>
 			<div class="working-controls">
 				<button type="button" data-second-pass-clear-yes>Yes, I know what I want to do</button>
@@ -721,7 +734,7 @@
 		</section>
 
 		<section id="screen-second-pass-what-feels-right" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
 			<h2>What feels right now?</h2>
 			<div class="working-controls">
 				<button type="button" data-second-pass-keep>Keep it</button>
@@ -731,7 +744,7 @@
 		</section>
 
 		<section id="screen-second-pass-reasons" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
 			<h2>What's making you hesitate about it today?</h2>
 			<div class="working-controls">
 				<button type="button" data-second-pass-route="like-it">I like it</button>
@@ -775,7 +788,7 @@
 		</section>
 
 		<section id="screen-motivation" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
 			<h2>What would help right now?</h2>
 			<div class="working-controls">
 				<button type="button" data-quick-win>Give me a quick win</button>
@@ -819,7 +832,7 @@
 		</section>
 
 		<section id="screen-decision-reasons" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-working>← Back to sorting</button>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
 			<h2>What's making this difficult to decide?</h2>
 			<div class="working-controls">
 				<button type="button" data-reason="like-it">I like it</button>
@@ -838,7 +851,7 @@
 		<section id="screen-decision-unlock" class="panel" data-screen hidden>
 			<h2>Need help with another decision?</h2>
 			<p class="panel-text">You've tried Decision Brain once. Unlock Downsizing &amp; Decluttering to use it whenever you get stuck.</p>
-			<div class="purchase-options" aria-label="Unlock options">
+			<div class="purchase-options" role="group" aria-label="Unlock options">
 				<div class="purchase-option">
 					<button type="button" data-purchase="downsizing">Unlock Downsizing &amp; Decluttering · $2.99</button>
 				</div>
@@ -854,7 +867,7 @@
 		</section>
 
 		<section id="screen-decision-placeholder" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<p class="panel-text">We'll add this decision route next.</p>
 			<div class="nav-wrap">
 				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
@@ -862,7 +875,7 @@
 		</section>
 
 		<section id="screen-decision-keep" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2 id="keep-heading">Then keep it.</h2>
 			<p id="keep-text" class="panel-text"></p>
 			<div class="nav-wrap">
@@ -871,7 +884,7 @@
 		</section>
 
 		<section id="screen-decision-decide-later" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Decide Later</h2>
 			<p id="decide-later-text" class="panel-text"></p>
 			<p class="panel-text">Don't put it back where you found it.</p>
@@ -881,7 +894,7 @@
 		</section>
 
 		<section id="screen-decision-let-go" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2 id="let-go-heading">It's okay to let it go.</h2>
 			<p id="let-go-text" class="panel-text"></p>
 			<div class="nav-wrap">
@@ -890,7 +903,7 @@
 		</section>
 
 		<section id="screen-decision-sell" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Sell it.</h2>
 			<p class="panel-text">If getting some of the money back feels worth the effort, set it aside to sell.</p>
 			<div class="nav-wrap">
@@ -899,7 +912,7 @@
 		</section>
 
 		<section id="screen-gift-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>If this hadn't been a gift, would you choose to keep it?</h2>
 			<div class="working-controls">
 				<button type="button" data-gift-q1-yes>Yes</button>
@@ -908,7 +921,7 @@
 		</section>
 
 		<section id="screen-gift-q2" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would the person who gave it to you ever know you no longer have it?</h2>
 			<div class="working-controls">
 				<button type="button" data-gift-q2-continue>Yes</button>
@@ -919,7 +932,7 @@
 		</section>
 
 		<section id="screen-gift-q3" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would their feelings about it matter enough to you that you want to keep it?</h2>
 			<div class="working-controls">
 				<button type="button" data-gift-q3-yes>Yes</button>
@@ -929,7 +942,7 @@
 		</section>
 
 		<section id="screen-memory-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>How does having this item make you feel?</h2>
 			<div class="working-controls">
 				<button type="button" data-memory-like-it>I like having it around</button>
@@ -939,7 +952,7 @@
 		</section>
 
 		<section id="screen-memory-q2" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would you still feel connected to that person or memory without keeping this particular item?</h2>
 			<div class="working-controls">
 				<button type="button" data-memory-q2-yes>Yes</button>
@@ -949,7 +962,7 @@
 		</section>
 
 		<section id="screen-memory-could-let-go" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>You could let the item go.</h2>
 			<p class="panel-text">If the memory matters more than the object, you could preserve the connection another way.</p>
 			<ul class="prep-list">
@@ -965,7 +978,7 @@
 		</section>
 
 		<section id="screen-cost-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would you choose this item for your life today?</h2>
 			<div class="working-controls">
 				<button type="button" data-cost-q1-yes>Yes</button>
@@ -975,7 +988,7 @@
 		</section>
 
 		<section id="screen-cost-q2" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would getting some of the money back make it worth the effort of selling it?</h2>
 			<div class="working-controls">
 				<button type="button" data-cost-q2-yes>Yes</button>
@@ -984,7 +997,7 @@
 		</section>
 
 		<section id="screen-need-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>If you needed this again, how difficult would it be to manage without or replace it?</h2>
 			<p class="panel-intro">If this is a genuinely important safety, emergency, legal or medical item, consider it separately from general decluttering.</p>
 			<div class="working-controls">
@@ -995,7 +1008,7 @@
 		</section>
 
 		<section id="screen-need-q2" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Is there a real reason you expect to need it, or is it more of a "just in case"?</h2>
 			<div class="working-controls">
 				<button type="button" data-need-q2-real-reason>A real reason</button>
@@ -1004,7 +1017,7 @@
 		</section>
 
 		<section id="screen-need-q3" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>If you didn't already own it, would you buy one today just in case?</h2>
 			<div class="working-controls">
 				<button type="button" data-need-q3-yes>Yes</button>
@@ -1014,7 +1027,7 @@
 		</section>
 
 		<section id="screen-wasteful-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Could this still be useful to someone else?</h2>
 			<div class="working-controls">
 				<button type="button" data-wasteful-q1-yes>Yes</button>
@@ -1024,7 +1037,7 @@
 		</section>
 
 		<section id="screen-find-home-q" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>Would you like to find it another home?</h2>
 			<div class="working-controls">
 				<button type="button" data-find-home-yes>Yes</button>
@@ -1034,7 +1047,7 @@
 		</section>
 
 		<section id="screen-guilt-q1" class="panel" data-screen hidden>
-			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
 			<h2>What about letting it go feels difficult today?</h2>
 			<div class="working-controls">
 				<button type="button" data-guilt-route="was-a-gift">It was a gift</button>
@@ -1049,7 +1062,7 @@
 		</section>
 	</main>
 
-	<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
+	<p id="purchase-confirmation" class="purchase-confirmation" role="alert" hidden></p>
 
 	<script src="nest-and-go-shell.js"></script>
 	<script>
@@ -1109,11 +1122,19 @@
 			document.querySelector('#decide-later-section').hidden = !(area && area.hasDecideLater);
 		};
 
+		let hasShownScreen = false;
 		const showScreen = (id) => {
 			allScreens.forEach((screenId) => {
 				document.querySelector(`#${screenId}`).hidden = screenId !== id;
 			});
 			if (id === 'screen-working') refreshDecideLaterSection();
+			// Move focus to the new screen's heading so keyboard and screen-reader users aren't left on a hidden button.
+			const screenHeading = document.querySelector(`#${id} h2`);
+			if (hasShownScreen && screenHeading) {
+				screenHeading.tabIndex = -1;
+				screenHeading.focus({ preventScroll: true });
+			}
+			hasShownScreen = true;
 			// Only stable destinations become the Continue location; Decision Brain, setup and confirmation screens never do.
 			if (id === 'screen-working' && currentAreaId) NestGo.saveLocation('downsizing-decluttering', { screen: 'working', areaId: currentAreaId });
 			else if (id === 'screen-your-areas') NestGo.saveLocation('downsizing-decluttering', { screen: 'your-areas' });
@@ -1154,7 +1175,14 @@
 			}
 
 			if (errorMessage) errorMessage.hidden = isValid;
-			if (!isValid) return;
+			areaNameInput.setAttribute('aria-invalid', String(screen.id === 'screen-3' && !isValid));
+			if (!isValid) {
+				const goalChosen = Boolean(screen.querySelector('input[name="goal"]:checked'));
+				const firstInvalid = screen.id === 'screen-3' ? areaNameInput
+					: (screen.id === 'screen-1' && goalChosen && !lovedOneQuestion.hidden ? lovedOneInputs[0] : screen.querySelector('input[type="radio"]'));
+				if (firstInvalid) firstInvalid.focus();
+				return;
+			}
 
 			if (editingAreaId && currentSetupIndex === setupOrder.length - 1) {
 				finishEditSetup();

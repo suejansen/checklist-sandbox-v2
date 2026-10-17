@@ -22,9 +22,10 @@
 
 		* { box-sizing: border-box; }
 
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
 		body {
 			margin: 0;
-			min-width: 320px;
 			color: var(--ink);
 			background:
 				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
@@ -85,6 +86,7 @@
 
 		.event-grid {
 			display: grid;
+			grid-template-columns: minmax(0, 1fr);
 			gap: 10px;
 		}
 
@@ -109,7 +111,7 @@
 		}
 
 		.event-card.active:focus-visible {
-			outline: 3px solid rgba(229, 109, 79, 0.35);
+			outline: 3px solid var(--accent-dark);
 			outline-offset: 3px;
 		}
 
@@ -177,7 +179,7 @@
 		.settings-button:hover { background: #fff2ed; }
 		.settings-button:focus-visible,
 		.settings-row:focus-visible,
-		.settings-back:focus-visible { outline: 3px solid rgba(229, 109, 79, 0.35); outline-offset: 3px; }
+		.settings-back:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
 		.settings-button[hidden] { display: none; }
 
 		.settings-view, .about-view { margin-top: 26px; }
@@ -331,7 +333,7 @@
 		</div>
 
 		<section id="settings-view" class="settings-view" hidden aria-labelledby="settings-title">
-			<button type="button" class="settings-back" data-settings-close>← Back</button>
+			<button type="button" class="settings-back" data-settings-close><span aria-hidden="true">←</span> Back</button>
 			<h2 id="settings-title">Settings</h2>
 			<p id="settings-notice" class="settings-notice" role="status" aria-live="polite" hidden></p>
 			<ul class="settings-list">
@@ -351,7 +353,7 @@
 		</section>
 
 		<section id="about-view" class="about-view" hidden aria-labelledby="about-title">
-			<button type="button" class="settings-back" data-about-close>← Settings</button>
+			<button type="button" class="settings-back" data-about-close><span aria-hidden="true">←</span> Settings</button>
 			<h2 id="about-title">Nest &amp; Go</h2>
 			<p class="about-lead">Life checklists, made personal.</p>
 			<p>Tell us what’s happening. We’ll work out what matters.</p>
@@ -434,6 +436,7 @@
 
 			NestGo.eraseAllPlanData();
 			showView('foyer');
+			settingsOpen.focus();
 			refreshPlanActions();
 			NestGo.notify('All plan data has been erased.');
 		};
@@ -447,8 +450,10 @@
 				settingsNotice.hidden = true;
 				eraseAllData();
 			} else {
-				settingsNotice.textContent = settingNotices[setting];
+				// Show the live region first, then set its text, so assistive technology announces it.
+				settingsNotice.textContent = '';
 				settingsNotice.hidden = false;
+				window.setTimeout(() => { settingsNotice.textContent = settingNotices[setting]; }, 60);
 			}
 		}));
 	</script>
