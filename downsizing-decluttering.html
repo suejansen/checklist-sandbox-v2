@@ -1051,6 +1051,7 @@
 
 	<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
 
+	<script src="nest-and-go-shell.js"></script>
 	<script>
 		const areasStorageKey = 'downsizing-decluttering-areas';
 		const lastAreaIdStorageKey = 'downsizing-decluttering-last-area-id';
@@ -1087,7 +1088,11 @@
 			'screen-decide-later-revisit', 'screen-decide-later-empty-confirm', 'screen-finish-decide-later-check',
 			'screen-second-pass-clearer', 'screen-second-pass-what-feels-right', 'screen-second-pass-reasons'
 		];
-		const setupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
+		const fullSetupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
+		// Edit setup revisits only the answers saved on the area (the manageable-scope question is never stored).
+		const editSetupOrder = ['screen-1', 'screen-3', 'screen-4'];
+		let setupOrder = fullSetupOrder;
+		let editingAreaId = null;
 		let currentSetupIndex = 0;
 		let currentAreaId = null;
 
@@ -1109,6 +1114,9 @@
 				document.querySelector(`#${screenId}`).hidden = screenId !== id;
 			});
 			if (id === 'screen-working') refreshDecideLaterSection();
+			// Only stable destinations become the Continue location; Decision Brain, setup and confirmation screens never do.
+			if (id === 'screen-working' && currentAreaId) NestGo.saveLocation('downsizing-decluttering', { screen: 'working', areaId: currentAreaId });
+			else if (id === 'screen-your-areas') NestGo.saveLocation('downsizing-decluttering', { screen: 'your-areas' });
 		};
 
 		const showSetupScreen = (index) => {
@@ -1148,6 +1156,11 @@
 			if (errorMessage) errorMessage.hidden = isValid;
 			if (!isValid) return;
 
+			if (editingAreaId && currentSetupIndex === setupOrder.length - 1) {
+				finishEditSetup();
+				return;
+			}
+
 			showSetupScreen(currentSetupIndex + 1);
 		}));
 
@@ -1162,12 +1175,19 @@
 			hasCreatedAreaForCurrentSetup = false;
 		};
 
+		const endEditSetup = () => {
+			setupOrder = fullSetupOrder;
+			editingAreaId = null;
+		};
+
 		const startNewAreaSetup = () => {
+			endEditSetup();
 			resetSetupForm();
 			showSetupScreen(0);
 		};
 
 		const openWorkingScreen = (area) => {
+			endEditSetup();
 			currentAreaId = area.id;
 			workingAreaName.textContent = area.name;
 			setLastAreaId(area.id);
@@ -1202,9 +1222,58 @@
 		};
 
 		const goToYourAreas = () => {
+			endEditSetup();
 			renderYourAreas();
 			showScreen('screen-your-areas');
 		};
+
+		const finishEditSetup = () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === editingAreaId);
+			if (area) {
+				const route = document.querySelector('input[name="goal"]:checked')?.value || null;
+				area.route = route;
+				area.lovedOneSituation = route === 'loved-ones-home'
+					? (document.querySelector('input[name="lovedOneSituation"]:checked')?.value || null)
+					: null;
+				area.name = areaNameInput.value.trim() || 'This area';
+				area.areaType = document.querySelector('input[name="areaType"]:checked')?.value || null;
+				saveAreas(areas);
+			}
+			resetSetupForm();
+			if (area && area.status === 'active') openWorkingScreen(area);
+			else goToYourAreas();
+		};
+
+		const startEditSetup = () => {
+			const areas = getAreas();
+			if (areas.length === 0) {
+				startNewAreaSetup();
+				return;
+			}
+
+			const area = areas.find((candidate) => candidate.id === currentAreaId)
+				|| areas.find((candidate) => candidate.id === getLastAreaId())
+				|| areas.find((candidate) => candidate.status === 'active')
+				|| areas[0];
+
+			resetSetupForm();
+			setupOrder = editSetupOrder;
+			editingAreaId = area.id;
+
+			const goalInput = [...document.querySelectorAll('input[name="goal"]')].find((input) => input.value === area.route);
+			if (goalInput) goalInput.checked = true;
+			updateLovedOneQuestion();
+			const situationInput = lovedOneInputs.find((input) => input.value === area.lovedOneSituation);
+			if (situationInput) situationInput.checked = true;
+			areaNameInput.value = area.name;
+			const areaTypeInput = [...document.querySelectorAll('input[name="areaType"]')].find((input) => input.value === area.areaType);
+			if (areaTypeInput) areaTypeInput.checked = true;
+
+			showSetupScreen(0);
+		};
+
+		NestGo.initPlanShell({ planId: 'downsizing-decluttering', onEditSetup: startEditSetup });
 
 		const renderFinishedAreas = () => {
 			const finishedAreas = getAreas().filter((area) => area.status === 'finished');
@@ -1569,6 +1638,19 @@
 			const areas = getAreas();
 			if (areas.length === 0) {
 				showSetupScreen(0);
+				return;
+			}
+
+			const savedLocation = NestGo.getLocation('downsizing-decluttering');
+			if (savedLocation && savedLocation.screen === 'working') {
+				const savedArea = areas.find((area) => area.id === savedLocation.areaId && area.status === 'active');
+				if (savedArea) {
+					openWorkingScreen(savedArea);
+					return;
+				}
+			}
+			if (savedLocation && savedLocation.screen === 'your-areas') {
+				goToYourAreas();
 				return;
 			}
 

@@ -678,6 +678,7 @@
 
 			<div class="submit-wrap">
 				<button type="submit">Build My Plan</button>
+				<button type="button" id="cancel-edit-setup" class="ng-btn ng-btn-secondary" hidden>Cancel</button>
 				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
 			</div>
 		</form>
@@ -741,6 +742,7 @@
 		<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
 	</main>
 
+	<script src="nest-and-go-shell.js"></script>
 	<script>
 		const form = document.querySelector('#dog-setup');
 		const dogAgeInputs = [...form.elements.dogAge];
@@ -1244,6 +1246,7 @@
 		const renderPlan = (answers) => {
 			const isUnlocked = hasDogEntitlement();
 			if (!isUnlocked) currentStage = 'getting-ready';
+			NestGo.saveLocation('bringing-home-a-dog', { stage: currentStage, lastChecklistStage });
 			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
 			planNavigation.hidden = !isUnlocked;
 			fullPlanPreview.hidden = isUnlocked;
@@ -1378,11 +1381,51 @@
 
 		dogAgeInputs.forEach((input) => input.addEventListener('change', updateHouseTrainingQuestion));
 
+		const cancelEditButton = document.querySelector('#cancel-edit-setup');
+		const validStages = ['getting-ready', 'coming-home', 'arrival-day', 'first-night', 'first-week', 'welcome-family'];
+
+		// With a saved plan the questionnaire is only shown while editing setup.
+		const setEditingSetup = (isEditing) => {
+			form.hidden = !isEditing;
+			cancelEditButton.hidden = !isEditing;
+			if (isEditing) {
+				plan.hidden = true;
+				fullPlanPreview.hidden = true;
+				purchaseConfirmation.hidden = true;
+			}
+			window.scrollTo(0, 0);
+		};
+
+		const showPlanView = (answers) => {
+			renderPlan(answers);
+			setEditingSetup(false);
+		};
+
+		NestGo.initPlanShell({
+			planId: 'bringing-home-a-dog',
+			onEditSetup: () => {
+				const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+				if (!currentSetup) return;
+				restoreSetupForm(currentSetup);
+				savedMessage.textContent = '';
+				setEditingSetup(true);
+			}
+		});
+
+		cancelEditButton.addEventListener('click', () => {
+			if (currentAnswers) showPlanView(currentAnswers);
+		});
+
 		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
 		if (savedSetup) {
 			currentAnswers = savedSetup;
+			const savedLocation = NestGo.getLocation('bringing-home-a-dog');
+			if (savedLocation && validStages.includes(savedLocation.stage)) {
+				currentStage = savedLocation.stage;
+				if (validStages.slice(0, 5).includes(savedLocation.lastChecklistStage)) lastChecklistStage = savedLocation.lastChecklistStage;
+			}
 			restoreSetupForm(savedSetup);
-			renderPlan(savedSetup);
+			showPlanView(savedSetup);
 		}
 
 		form.addEventListener('submit', (event) => {
@@ -1398,8 +1441,8 @@
 			if (answers.dogAge !== 'adult-dog') delete answers.houseTraining;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
 			currentAnswers = answers;
-			savedMessage.textContent = 'Your answers are saved.';
-			renderPlan(answers);
+			savedMessage.textContent = '';
+			showPlanView(answers);
 		});
 	</script>
 </body>

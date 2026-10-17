@@ -635,6 +635,7 @@
 
 			<div class="submit-wrap">
 				<button type="submit">Build My Checklist</button>
+				<button type="button" id="cancel-edit-setup" class="ng-btn ng-btn-secondary" hidden>Cancel</button>
 				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
 			</div>
 		</form>
@@ -692,6 +693,7 @@
 		<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
 	</main>
 
+	<script src="nest-and-go-shell.js"></script>
 	<script>
 		const form = document.querySelector('#moving-setup');
 		const savedMessage = document.querySelector('#saved-message');
@@ -1463,11 +1465,46 @@
 			});
 		});
 
+		const cancelEditButton = document.querySelector('#cancel-edit-setup');
+
+		// With a saved plan the questionnaire is only shown while editing setup.
+		const setEditingSetup = (isEditing) => {
+			form.hidden = !isEditing;
+			cancelEditButton.hidden = !isEditing;
+			if (isEditing) {
+				checklist.hidden = true;
+				fullPlanPreview.hidden = true;
+				purchaseConfirmation.hidden = true;
+			}
+			window.scrollTo(0, 0);
+		};
+
+		const showPlanView = (answers) => {
+			renderChecklist(answers);
+			setEditingSetup(false);
+			NestGo.saveLocation('moving-house', { view: 'checklist' });
+		};
+
+		NestGo.initPlanShell({
+			planId: 'moving-house',
+			onEditSetup: () => {
+				const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+				if (!currentSetup) return;
+				restoreSetupForm(currentSetup);
+				savedMessage.textContent = '';
+				setEditingSetup(true);
+			}
+		});
+
+		cancelEditButton.addEventListener('click', () => {
+			const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+			if (currentSetup) showPlanView(currentSetup);
+		});
+
 		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
 		if (savedSetup) {
 			restoreSetupForm(savedSetup);
-			renderChecklist(savedSetup);
-			showSavedMessage(savedSetup);
+			showPlanView(savedSetup);
 		}
 
 		form.addEventListener('submit', (event) => {
@@ -1490,8 +1527,7 @@
 			answers.currentStage = currentStage;
 			localStorage.setItem(storageKey, JSON.stringify(answers));
 
-			renderChecklist(answers);
-			showSavedMessage(answers);
+			showPlanView(answers);
 		});
 	</script>
 </body>
