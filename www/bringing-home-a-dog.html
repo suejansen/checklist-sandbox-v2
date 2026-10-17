@@ -1,0 +1,1477 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#f7f4ef">
+	<title>Bringing Home a Dog | Set up your plan</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap');
+
+		:root {
+			--ink: #203b3a;
+			--muted: #657572;
+			--paper: #f7f4ef;
+			--panel: #fffdf9;
+			--line: #d9e0da;
+			--accent: #e56d4f;
+			--accent-dark: #bd4e35;
+			--shadow: 0 18px 45px rgba(37, 65, 58, 0.09);
+		}
+
+		* { box-sizing: border-box; }
+
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
+				linear-gradient(145deg, #f7f4ef 0%, #eef3ee 100%);
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		main {
+			width: min(100%, 680px);
+			min-height: 100svh;
+			margin: 0 auto;
+			padding: 28px 20px 32px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--muted);
+			font-size: 0.77rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 30px;
+			height: 30px;
+			place-items: center;
+			border-radius: 9px;
+			color: #fff;
+			background: var(--accent);
+			font-size: 1.05rem;
+			line-height: 1;
+		}
+
+		.home-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 24px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.home-link:hover { color: var(--ink); }
+		.home-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
+
+		header { margin: 54px 0 30px; }
+
+		h1 {
+			max-width: 560px;
+			margin: 0 0 26px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.65rem, 12vw, 4.5rem);
+			font-weight: 600;
+			letter-spacing: -0.03em;
+			line-height: 0.98;
+		}
+
+		h2 {
+			margin: 0 0 14px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.1rem, 9vw, 3.2rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1;
+		}
+
+		.intro {
+			max-width: 480px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		form {
+			padding: 24px 18px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.question + .question { margin-top: 29px; }
+
+		fieldset {
+			min-width: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		legend, .question-label {
+			display: block;
+			margin-bottom: 11px;
+			color: var(--ink);
+			font-size: 1rem;
+			font-weight: 700;
+			line-height: 1.35;
+		}
+
+		.choice-grid {
+			display: grid;
+			gap: 9px;
+		}
+
+		.choice {
+			position: relative;
+			display: flex;
+			align-items: center;
+			min-height: 56px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			cursor: pointer;
+			transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+		}
+
+		.choice:hover { border-color: #a9bbb1; }
+		.choice:has(input:checked) {
+			border-color: var(--accent);
+			background: #fff2ed;
+		}
+		.choice:active { transform: scale(0.99); }
+
+		.choice input {
+			width: 20px;
+			height: 20px;
+			margin: 0 11px 0 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.choice span { font-size: 0.96rem; font-weight: 500; }
+
+		input[type="date"] {
+			width: 100%;
+			min-height: 56px;
+			padding: 0 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			outline: 0;
+		}
+
+		input[type="date"]:focus,
+		.choice:has(input:focus-visible) {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
+		}
+
+		#house-training-question[hidden] { display: none; }
+
+		.submit-wrap {
+			margin-top: 31px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		button {
+			width: 100%;
+			min-height: 58px;
+			padding: 14px 18px;
+			border: 0;
+			border-radius: 12px;
+			color: #fff;
+			background: var(--accent-dark);
+			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
+			cursor: pointer;
+			font: inherit;
+			font-size: 1rem;
+			font-weight: 700;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		button:hover { background: #a5432d; }
+		button:active { transform: translateY(1px); }
+		button:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+
+		.saved-message {
+			min-height: 1.25em;
+			margin: 12px 0 0;
+			color: #34715d;
+			font-size: 0.87rem;
+			text-align: center;
+		}
+
+		.plan {
+			margin-top: 28px;
+			padding: 24px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.plan h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.8rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.plan-summary {
+			margin-bottom: 25px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.plan-summary p {
+			margin: 5px 0 0;
+			color: var(--muted);
+			font-size: 0.96rem;
+		}
+
+		.plan-navigation {
+			margin-top: 18px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		.plan-navigation h3 {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
+			font-weight: 700;
+		}
+
+		.stage-switch {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 8px;
+			margin-top: 12px;
+		}
+
+		.stage-switch button {
+			min-height: 44px;
+			padding: 10px 12px;
+			border: 1px solid var(--line);
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: none;
+			font-size: 0.88rem;
+		}
+
+		.stage-switch button:hover { background: #fff2ed; }
+		.stage-switch button[aria-current="step"] {
+			border-color: var(--accent);
+			background: #fff2ed;
+			font-weight: 700;
+		}
+
+		.stage-switch button[aria-current="step"]::before {
+			content: "✓ ";
+			content: "✓ " / "";
+		}
+
+		.completion-view {
+			padding: 18px 4px 4px;
+			text-align: center;
+		}
+
+		.completion-view h3 {
+			margin: 0 0 16px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.1rem, 9vw, 3.2rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1;
+		}
+
+		.completion-view p {
+			max-width: 500px;
+			margin: 0 auto 15px;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		.completion-view .completion-close {
+			margin-top: 9px;
+			margin-bottom: 0;
+			color: var(--ink);
+			font-weight: 700;
+		}
+
+		.completion-view button {
+			max-width: 280px;
+			margin-top: 12px;
+		}
+
+		.finish-plan {
+			margin-top: 24px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		.finish-plan button { margin-top: 0; }
+
+		.plan-section-title {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
+			font-weight: 700;
+		}
+
+		.progress-summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 8px 0 10px;
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+
+		.progress-bar {
+			height: 8px;
+			margin-bottom: 17px;
+			border-radius: 999px;
+			background: #dcece4;
+			overflow: hidden;
+		}
+
+		.progress-bar-fill {
+			width: 0%;
+			height: 100%;
+			border-radius: inherit;
+			background: var(--accent);
+			transition: width 160ms ease;
+		}
+
+		.task {
+			padding: 13px 0;
+			border-top: 1px solid var(--line);
+			font-size: 0.96rem;
+			line-height: 1.4;
+		}
+
+		.task-top {
+			display: flex;
+			align-items: flex-start;
+			gap: 11px;
+		}
+
+		.task input {
+			width: 20px;
+			height: 20px;
+			margin: 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.task-check {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex: 0 0 44px;
+			height: 44px;
+			margin: -11px -12px -11px -12px;
+			cursor: pointer;
+		}
+
+		.task-toggle {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 10px;
+			width: 100%;
+			min-width: 0;
+			min-height: 0;
+			overflow-wrap: anywhere;
+			padding: 11px 0;
+			margin: -11px 0;
+			border: 0;
+			border-radius: 0;
+			color: inherit;
+			background: transparent;
+			box-shadow: none;
+			cursor: pointer;
+			font: inherit;
+			font-size: inherit;
+			font-weight: 500;
+			line-height: inherit;
+			text-align: left;
+		}
+
+		.task-toggle:hover,
+		.task-toggle:active { color: inherit; background: transparent; transform: none; }
+		.task-toggle:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
+
+		.task-chevron {
+			color: var(--accent-dark);
+			font-size: 0.78rem;
+			font-weight: 600;
+			line-height: 1.25;
+			white-space: nowrap;
+		}
+
+		.task-details {
+			margin: 12px 0 0 31px;
+			padding: 13px 0 2px;
+			border-top: 1px solid var(--line);
+		}
+
+		.task-guidance {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+			white-space: pre-line;
+		}
+
+		.task-note-label {
+			display: block;
+			margin-bottom: 6px;
+			color: var(--ink);
+			font-size: 0.82rem;
+			font-weight: 700;
+		}
+
+		.task-note {
+			display: block;
+			width: 100%;
+			min-height: 72px;
+			padding: 9px 10px;
+			border: 1px solid var(--line);
+			border-radius: 9px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			line-height: 1.4;
+			resize: vertical;
+		}
+
+		.task-note:focus { border-color: var(--accent); outline: 2px solid var(--accent-dark); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
+
+		.task.completed {
+			color: var(--muted);
+			text-decoration: line-through;
+		}
+
+		.full-plan-preview {
+			margin-top: 18px;
+			padding: 22px 16px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.9);
+			box-shadow: var(--shadow);
+		}
+
+		.full-plan-preview h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.full-plan-intro {
+			margin: 7px 0 17px;
+			color: var(--muted);
+			font-size: 0.92rem;
+			line-height: 1.5;
+		}
+
+		.journey-grid {
+			display: grid;
+			gap: 8px;
+		}
+
+		.journey-stage {
+			padding: 11px 12px;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: rgba(255, 253, 249, 0.72);
+		}
+
+		.journey-stage.current {
+			border-color: rgba(229, 109, 79, 0.48);
+			background: #fff6f2;
+		}
+
+		.journey-stage-header {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 10px;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.journey-stage-count {
+			flex: 0 0 auto;
+			color: var(--muted);
+			font-size: 0.76rem;
+			font-weight: 600;
+			white-space: nowrap;
+		}
+
+		.journey-stage p {
+			margin: 4px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.journey-stage .journey-preview-note {
+			margin-top: 7px;
+			color: var(--accent-dark);
+			font-size: 0.79rem;
+			font-weight: 500;
+		}
+
+		.purchase-options {
+			grid-template-columns: minmax(0, 1fr);
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading {
+			flex-wrap: wrap;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-bottom: 10px;
+			font-size: 0.91rem;
+			font-weight: 700;
+		}
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.purchase-option p {
+			margin: -3px 0 10px;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			overflow-wrap: anywhere;
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+
+		.purchase-confirmation span {
+			margin-top: 2px;
+			color: var(--muted);
+		}
+
+		@media (min-width: 600px) {
+			main { padding: 38px 30px 48px; }
+			form { padding: 30px; }
+			.plan { padding: 30px; }
+			.full-plan-preview { padding: 28px; }
+			.choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.question:first-child .choice-grid,
+			.question:last-child .choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.journey-grid,
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<a class="home-link" href="index.html" aria-label="Return to Home">← Home</a>
+		<div class="brand"><span class="brand-mark" aria-hidden="true">✓</span> Nest &amp; Go</div>
+
+		<header>
+			<h1>Bringing Home a Dog</h1>
+			<h2>Let’s get ready.</h2>
+			<p class="intro">A few details will help us shape a plan for bringing your new dog home.</p>
+		</header>
+
+		<form id="dog-setup" novalidate>
+			<fieldset class="question">
+				<legend>Who are you bringing home?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="dogAge" value="puppy" required><span>A puppy</span></label>
+					<label class="choice"><input type="radio" name="dogAge" value="adult-dog"><span>An adult dog</span></label>
+				</div>
+			</fieldset>
+
+			<div class="question">
+				<label class="question-label" for="arrival-date">When are they coming home?</label>
+				<input id="arrival-date" name="arrivalDate" type="date" required>
+			</div>
+
+			<fieldset class="question">
+				<legend>Are there already pets at home?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="existingPets" value="none" required><span>No</span></label>
+					<label class="choice"><input type="radio" name="existingPets" value="dogs"><span>Yes, dog(s)</span></label>
+					<label class="choice"><input type="radio" name="existingPets" value="cats"><span>Yes, cat(s)</span></label>
+					<label class="choice"><input type="radio" name="existingPets" value="dogs-and-cats"><span>Yes, both dogs and cats</span></label>
+					<label class="choice"><input type="radio" name="existingPets" value="other"><span>Yes, other pets</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Are there children living at home?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="children" value="none" required><span>No</span></label>
+					<label class="choice"><input type="radio" name="children" value="younger"><span>Yes, younger children</span></label>
+					<label class="choice"><input type="radio" name="children" value="older"><span>Yes, older children</span></label>
+					<label class="choice"><input type="radio" name="children" value="younger-and-older"><span>Yes, both younger and older children</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset id="house-training-question" class="question" hidden>
+				<legend>Is your dog house-trained?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="houseTraining" value="yes"><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="houseTraining" value="no"><span>No</span></label>
+					<label class="choice"><input type="radio" name="houseTraining" value="not-sure"><span>Not sure</span></label>
+				</div>
+			</fieldset>
+
+			<div class="submit-wrap">
+				<button type="submit">Build My Plan</button>
+				<button type="button" id="cancel-edit-setup" class="ng-btn ng-btn-secondary" hidden>Cancel</button>
+				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
+			</div>
+		</form>
+
+		<section id="plan" class="plan" hidden aria-labelledby="plan-title">
+			<div class="plan-summary">
+				<h2 id="plan-title">0 days until they come home</h2>
+				<p id="plan-date-summary">Getting Ready</p>
+				<nav id="plan-navigation" class="plan-navigation" aria-labelledby="plan-navigation-title">
+					<h3 id="plan-navigation-title">Your plan</h3>
+					<div class="stage-switch">
+						<button type="button" data-stage="getting-ready" aria-current="step">Getting Ready</button>
+						<button type="button" data-stage="coming-home">Coming Home</button>
+						<button type="button" data-stage="arrival-day">Arrival Day</button>
+						<button type="button" data-stage="first-night">First Night</button>
+						<button type="button" data-stage="first-week">First Week</button>
+					</div>
+				</nav>
+			</div>
+			<section id="checklist-view" aria-labelledby="stage-title">
+				<h3 id="stage-title" class="plan-section-title">Getting Ready</h3>
+				<div class="progress-summary">
+					<span>Progress</span>
+					<strong id="progress-percent">0% complete</strong>
+				</div>
+				<div class="progress-bar" role="progressbar" aria-label="Getting Ready progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div id="progress-bar-fill" class="progress-bar-fill"></div>
+				</div>
+				<div id="task-list"></div>
+				<div id="finish-plan" class="finish-plan" hidden>
+					<button id="finish-plan-button" type="button">Finish My Plan</button>
+				</div>
+			</section>
+			<section id="completion-view" class="completion-view" hidden aria-labelledby="completion-title">
+				<h3 id="completion-title">Welcome to the family</h3>
+				<p>The preparations are done, the first night is behind you, and you're finding your rhythm together.</p>
+				<p>Keep building on the routines you've started, give your dog time to feel completely at home, and remember that neither of you needs to get everything perfect straight away.</p>
+				<p class="completion-close">You've got this.</p>
+				<button id="view-plan" type="button">View My Plan</button>
+			</section>
+		</section>
+		<section id="full-plan-preview" class="full-plan-preview" hidden aria-labelledby="full-plan-title">
+			<h2 id="full-plan-title">Your full plan is ready</h2>
+			<p class="full-plan-intro">Here’s what’s waiting in your personalised plan.</p>
+			<div id="journey-grid" class="journey-grid"></div>
+			<div class="purchase-options" role="group" aria-label="Unlock options">
+				<div class="purchase-option">
+					<div class="purchase-option-heading" aria-hidden="true">Unlock Bringing Home a Dog · $2.99</div>
+					<button type="button" data-purchase="bringing-home-a-dog">Unlock Bringing Home a Dog · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading">
+						<span aria-hidden="true">Unlock Everything Forever · $5.99</span>
+						<span class="best-value-label">Best value</span>
+					</div>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+				</div>
+			</div>
+		</section>
+		<p id="purchase-confirmation" class="purchase-confirmation" role="alert" hidden></p>
+	</main>
+
+	<script src="nest-and-go-shell.js"></script>
+	<script>
+		const form = document.querySelector('#dog-setup');
+		const dogAgeInputs = [...form.elements.dogAge];
+		const houseTrainingQuestion = document.querySelector('#house-training-question');
+		const houseTrainingInputs = [...form.elements.houseTraining];
+		const savedMessage = document.querySelector('#saved-message');
+		const plan = document.querySelector('#plan');
+		const taskList = document.querySelector('#task-list');
+		const progressPercent = document.querySelector('#progress-percent');
+		const progressBar = document.querySelector('.progress-bar');
+		const progressBarFill = document.querySelector('#progress-bar-fill');
+		const planTitle = document.querySelector('#plan-title');
+		const stageTitle = document.querySelector('#stage-title');
+		const stageDateSummary = document.querySelector('#plan-date-summary');
+		const stageProgressBar = document.querySelector('.progress-bar');
+		const stageButtons = [...document.querySelectorAll('[data-stage]')];
+		const checklistView = document.querySelector('#checklist-view');
+		const completionView = document.querySelector('#completion-view');
+		const finishPlan = document.querySelector('#finish-plan');
+		const finishPlanButton = document.querySelector('#finish-plan-button');
+		const viewPlanButton = document.querySelector('#view-plan');
+		const planNavigation = document.querySelector('#plan-navigation');
+		const fullPlanPreview = document.querySelector('#full-plan-preview');
+		const journeyGrid = document.querySelector('#journey-grid');
+		const purchaseConfirmation = document.querySelector('#purchase-confirmation');
+		const storageKey = 'bringing-home-a-dog-setup';
+		// DEVELOPMENT/PROTOTYPE ONLY: temporary localStorage test scaffolding; MUST be replaced with verified App Store purchase entitlements.
+		const developmentDogEntitlementKey = 'development-prototype-bringing-home-a-dog-entitlement';
+		// Shared with moving-house.html so an Everything Forever purchase in either plan unlocks both.
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
+		const gettingReadyCompletionStorageKey = 'bringing-home-a-dog-task-completion';
+		const gettingReadyNotesStorageKey = 'bringing-home-a-dog-task-notes';
+		const comingHomeCompletionStorageKey = 'bringing-home-a-dog-coming-home-task-completion';
+		const comingHomeNotesStorageKey = 'bringing-home-a-dog-coming-home-task-notes';
+		const arrivalDayCompletionStorageKey = 'bringing-home-a-dog-arrival-day-task-completion';
+		const arrivalDayNotesStorageKey = 'bringing-home-a-dog-arrival-day-task-notes';
+		const firstNightCompletionStorageKey = 'bringing-home-a-dog-first-night-task-completion';
+		const firstNightNotesStorageKey = 'bringing-home-a-dog-first-night-task-notes';
+		const firstWeekCompletionStorageKey = 'bringing-home-a-dog-first-week-task-completion';
+		const firstWeekNotesStorageKey = 'bringing-home-a-dog-first-week-task-notes';
+		const gettingReadyTasks = [
+			{
+				id: 'get-essentials-ready',
+				label: 'Get the essentials ready',
+				guidance: (answers) => [
+					'Prepare the basics your dog will need from the start.',
+					'',
+					'- Food appropriate to what they are already eating',
+					'- Food and water bowls',
+					'- Bed or sleeping setup',
+					'- Collar or harness, lead and identification',
+					'- Poo bags',
+					'- Suitable toys',
+					'- Basic grooming supplies',
+					'- Cleaning supplies',
+					'- Safe travel restraint or carrier where appropriate',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppy-appropriate toys and chew items',
+						'- Supplies to support toilet training, such as cleaning products and easy-to-clean surfaces'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'prepare-home',
+				label: 'Prepare your home',
+				guidance: (answers) => [
+					'Make the home ready for a safe, calm arrival.',
+					'',
+					'- Remove or secure hazards',
+					'- Protect or put away accessible cables, chemicals, medications, unsafe foods and other unsafe objects',
+					'- Decide which areas your dog can access',
+					'- Prepare a calm, safe resting space',
+					'- Check outdoor fencing, gates and security where applicable',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppy-proof for accessible cables, small objects, chewing hazards and anything reachable by a curious puppy'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- Prepare an easy-to-clean area and supplies in case toilet training or house-training support is needed'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'plan-dog-routine',
+				label: 'Plan your dog’s routine',
+				guidance: (answers) => [
+					'Think through the everyday pattern you want to establish.',
+					'',
+					'- Decide where your dog will eat, sleep and toilet',
+					'- Consider feeding, walks and play, quiet time, bedtime and household expectations',
+					'- Aim for consistency while leaving room to respond to what your dog needs',
+					...(answers.dogAge === 'puppy' ? [
+						'- Plan frequent toilet opportunities',
+						'- Make room for plenty of rest and sleep',
+						'- Begin with simple, consistent routines'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- Include regular toilet opportunities while you learn what your dog needs and support house-training'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'gather-records-routine',
+				label: 'Gather their records and current routine information',
+				guidance: 'Collect the information that will help you understand and care for your dog.\n\n- Medical and vaccination records\n- Microchip information and medications\n- Current food and feeding schedule\n- Toilet, sleeping and walking or exercise routine\n- Familiar commands\n- Behaviour around people, children and animals\n- Fears, triggers and sensitivities\n- Favourite toys or comfort items\n- Existing veterinarian details\n- Relevant breeder, adoption or rehoming paperwork'
+			},
+			{
+				id: 'choose-veterinarian',
+				label: 'Choose a veterinarian',
+				guidance: 'Make the basic veterinary arrangements before or soon after your dog comes home.\n\n- Identify a veterinary practice\n- Check whether they are accepting new patients\n- Find the appropriate emergency veterinary option\n- Arrange an initial appointment when appropriate'
+			},
+			{
+				id: 'plan-first-few-days',
+				label: 'Make a plan for the first few days',
+				guidance: (answers) => [
+					'Give your dog time and space to adjust to their new surroundings.',
+					'',
+					'- Decide who will be available',
+					'- Keep the schedule reasonably quiet',
+					'- Limit unnecessary visitors and activities',
+					'- Give your dog time to adjust rather than immediately filling the first days with outings and introductions',
+					...(answers.dogAge === 'puppy' ? [
+						'- Introduce the home calmly',
+						'- Prepare for early training and socialisation in a gentle, manageable way'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'plan-safe-pet-introductions',
+				label: 'Plan safe introductions to your existing pets',
+				showWhen: (answers) => answers.existingPets && answers.existingPets !== 'none',
+				guidance: (answers) => {
+					if (answers.existingPets === 'dogs') {
+						return 'Plan controlled introductions with your existing dog or dogs.\n\n- Keep resources separate initially\n- Supervise interactions closely\n- Give each dog space to settle and rest';
+					}
+					if (answers.existingPets === 'cats') {
+						return 'Plan a gradual introduction with your existing cat or cats.\n\n- Prepare separate safe areas\n- Provide escape routes or high spaces where appropriate\n- Avoid forced face-to-face contact\n- Supervise the process and let the animals adjust gradually';
+					}
+					if (answers.existingPets === 'dogs-and-cats') {
+						return 'Plan gradual, controlled introductions with your existing dogs and cats.\n\n- Keep resources separate initially\n- Prepare separate safe areas and escape routes or high spaces for cats where appropriate\n- Avoid forced face-to-face contact\n- Supervise interactions closely and let the animals adjust gradually';
+					}
+					return 'Plan safe introductions with your existing pets.\n\n- Make sure their habitats are secure\n- Plan species-appropriate separation\n- Use controlled introductions and close supervision';
+				}
+			},
+			{
+				id: 'prepare-children-for-dog',
+				label: 'Prepare your children for the new dog',
+				showWhen: (answers) => answers.children && answers.children !== 'none',
+				guidance: (answers) => {
+					const youngerGuidance = [
+						'- Provide close adult supervision',
+						'- Encourage calm behaviour and let the dog approach',
+						'- No grabbing, hugging or chasing',
+						'- Do not disturb the dog while eating or sleeping',
+						'- Respect the dog’s safe space'
+					];
+					const olderGuidance = [
+						'- Plan calm introductions',
+						'- Agree consistent household rules',
+						'- Help children recognise when the dog wants space',
+						'- Agree appropriate ways to help with routines'
+					];
+					const guidance = ['Prepare everyone for calm, respectful interactions with the new dog.', ''];
+
+					if (['younger', 'younger-and-older'].includes(answers.children)) guidance.push(...youngerGuidance);
+					if (answers.children === 'younger-and-older') guidance.push('', 'For older children:');
+					if (['older', 'younger-and-older'].includes(answers.children)) guidance.push(...olderGuidance);
+
+					return guidance.join('\n');
+				}
+			}
+		];
+
+		const comingHomeTasks = [
+			{
+				id: 'everything-before-leaving',
+				label: 'Make sure you have everything before you leave',
+				guidance: 'Do a final handover check before setting off with your dog.\n\n- Relevant medical and vaccination records\n- Medication\n- Microchip information or transfer details\n- Current food and feeding information\n- Routine information\n- Relevant paperwork\n- Familiar belongings such as bedding or toys where available'
+			},
+			{
+				id: 'safe-journey-home',
+				label: 'Keep your dog safe on the journey home',
+				guidance: (answers) => [
+					'Use a secure, comfortable travel arrangement for the journey home.',
+					'',
+					'- Use an appropriate secure carrier or vehicle restraint',
+					'- Make sure the collar or harness and lead are secure before vehicle doors are opened',
+					'- Keep the vehicle comfortable',
+					'- Take sensible toilet or rest breaks where needed',
+					'- Never leave your dog unattended in the vehicle',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies may need more frequent breaks and may have accidents or experience travel sickness',
+						'- Having another adult available for the journey can be helpful where practical'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'calm-journey-home',
+				label: 'Keep the journey calm',
+				guidance: 'Keep the journey home straightforward and low-stress.\n\n- Keep unnecessary stops, introductions and excitement to a minimum\n- Focus on getting your dog safely home rather than turning collection day into a series of outings'
+			}
+		];
+
+		const arrivalDayTasks = [
+			{
+				id: 'arrival-toilet-opportunity',
+				label: 'Give them a toilet opportunity first',
+				guidance: (answers) => [
+					'Before beginning introductions or exploring the house, calmly give your dog an opportunity to toilet in the area you intend them to use.',
+					'',
+					'- Give them time',
+					'- Calmly praise success',
+					'- Do not make a fuss about accidents',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies will need frequent toilet opportunities while they learn the routine'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- A new environment may require extra toilet opportunities and supervision while their habits become clear'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'introduce-new-home-slowly',
+				label: 'Introduce them to their new home slowly',
+				guidance: 'Begin with a small, manageable part of the home rather than immediately showing them everywhere.\n\n- Make water, their bed or resting area and safe space available\n- Let them explore gradually\n- Keep external doors, gates and other escape routes secure'
+			},
+			{
+				id: 'keep-first-hours-calm',
+				label: 'Keep their first few hours calm',
+				guidance: 'Give them time to sniff, rest and observe.\n\n- Keep visitors, outings and unnecessary excitement to a minimum\n- Where possible, use familiar food, belongings and routines rather than changing everything at once'
+			},
+			{
+				id: 'introduce-household-carefully',
+				label: 'Introduce the household carefully',
+				showWhen: (answers) => (answers.existingPets && answers.existingPets !== 'none') || (answers.children && answers.children !== 'none'),
+				guidance: (answers) => {
+					const guidance = [];
+					const hasDogs = ['dogs', 'dogs-and-cats'].includes(answers.existingPets);
+					const hasCats = ['cats', 'dogs-and-cats'].includes(answers.existingPets);
+					const hasOtherPets = answers.existingPets === 'other';
+					const hasYoungerChildren = ['younger', 'younger-and-older'].includes(answers.children);
+					const hasOlderChildren = ['older', 'younger-and-older'].includes(answers.children);
+
+					if (hasDogs) guidance.push('For existing dogs:', '- Use controlled introductions, with neutral or outdoor introductions where practical', '- Supervise interactions', '- Initially provide separate resources such as food, beds and valued items');
+					if (hasCats) guidance.push('For existing cats:', '- Begin with separation', '- Provide secure escape or high spaces where appropriate', '- Allow gradual, scent-based introductions', '- Do not force face-to-face interaction');
+					if (hasOtherPets) guidance.push('For other pets:', '- Keep habitats secure', '- Use species-appropriate separation and controlled introductions', '- Do not assume direct interaction is appropriate for every species');
+					if (hasYoungerChildren) guidance.push('For younger children:', '- Provide close adult supervision', '- Encourage calm behaviour and allow the dog to approach rather than grabbing, hugging or chasing', '- Do not disturb the dog while eating or sleeping', '- Respect the dog’s safe space');
+					if (hasOlderChildren) guidance.push('For older children:', '- Plan calm introductions', '- Agree consistent household rules', '- Help them recognise when the dog wants space', '- Involve them appropriately in the dog’s routine');
+
+					return guidance.join('\n');
+				}
+			},
+			{
+				id: 'start-home-routine',
+				label: 'Start the routine you want to keep',
+				guidance: 'Begin establishing the basics of everyday life, including meals, water, toilet opportunities, rest, household boundaries and simple expectations. Keep it gentle and consistent.\n\nYou don’t need to teach everything today. Just begin showing them how life works here.'
+			}
+		];
+
+		const firstNightTasks = [
+			{
+				id: 'settle-for-the-night',
+				label: 'Settle them for the night',
+				guidance: 'Use the sleeping place you planned before your dog arrived and provide a comfortable, calm sleeping environment.\n\n- Use familiar bedding or comfort items where available\n- Keep the environment quiet and predictable\n- Offer reassurance where needed without turning bedtime into an exciting event\n- Some dogs may sleep, whine, pace or seem unsettled on their first night\n- The first night is an adjustment period and is not necessarily representative of future nights'
+			},
+			{
+				id: 'handle-overnight-toilet-breaks',
+				label: 'Handle overnight toilet breaks calmly',
+				showWhen: (answers) => answers.dogAge === 'puppy' || (answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining)),
+				guidance: (answers) => [
+					'Keep overnight toilet trips quiet and boring.',
+					'',
+					'- Calmly take your dog to the intended toilet area',
+					'- Give them an opportunity to toilet',
+					'- Calmly praise success',
+					'- Return to the sleeping area',
+					'- Keep lights, talking, stimulation and play to a minimum',
+					'- The aim is to help your dog understand that nighttime toilet trips are for toileting, not entertainment',
+					...(answers.dogAge === 'puppy' ? [
+						'- Puppies may need overnight toilet opportunities while they are learning the routine'
+					] : []),
+					...(answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining) ? [
+						'- A new environment may temporarily require closer attention to your dog’s toilet needs'
+					] : [])
+				].join('\n')
+			}
+		];
+
+		const firstWeekTasks = [
+			{
+				id: 'settle-daily-routine',
+				label: 'Settle into a daily routine',
+				guidance: (answers) => [
+					'Gradually establish predictable meals, toilet opportunities, rest, sleep, walks or play and quiet time.',
+					'',
+					'- Aim for consistency without requiring a rigid timetable',
+					'- Gradually introduce your dog to their neighbourhood and everyday experiences at a pace appropriate to their age, health and confidence',
+					'- Avoid pressure to do everything immediately',
+					...(answers.dogAge === 'puppy' ? [
+						'- Expect frequent toilet opportunities, plenty of rest and gentle, age-appropriate experiences'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'check-health-records',
+				label: 'Check their health and important records',
+				guidance: 'Make sure the important administrative details are in order.\n\n- Make sure your chosen veterinarian has or can obtain relevant medical and vaccination records\n- Arrange an initial appointment where appropriate\n- Understand any existing medication or ongoing care\n- Make sure microchip ownership and contact details are transferred or updated where applicable\n- Check identification and contact information\n- Deal with local licensing or registration requirements where applicable\n- Consider insurance if relevant to you\n- Know the appropriate emergency veterinary option'
+			},
+			{
+				id: 'start-toilet-training-if-needed',
+				label: 'Start toilet training if needed',
+				showWhen: (answers) => answers.dogAge === 'puppy' || (answers.dogAge === 'adult-dog' && ['no', 'not-sure'].includes(answers.houseTraining)),
+				guidance: 'Support toilet training with regular opportunities and a consistent, patient approach.\n\n- Learn your dog’s signals\n- Calmly reward success\n- Respond to accidents without punishment\n- Be consistent and patient\n- Avoid rigid schedules and remember that dogs do not all learn at the same speed'
+			},
+			{
+				id: 'begin-simple-training-rules',
+				label: 'Begin simple training and household rules',
+				guidance: (answers) => [
+					'Keep early training short, positive and practical.',
+					'',
+					'- Begin with useful foundations such as responding to their name, attention, recall foundations and simple cues',
+					'- Calmly establish household boundaries',
+					'- Use consistent cues and expectations across household members',
+					'- Include gentle handling and everyday routines',
+					...(answers.dogAge === 'puppy' ? [
+						'- Gently prepare your puppy for wider socialisation and new experiences, with safe exposure appropriate to their health and veterinary guidance'
+					] : [])
+				].join('\n')
+			},
+			{
+				id: 'practice-being-alone',
+				label: 'Gently practise being alone',
+				guidance: 'Do not wait until your dog suddenly has to be left for several hours. Begin with very short, manageable periods when your dog is safe and settled. Gradually increase the time according to how they are coping.\n\n- Keep departures and returns calm and ordinary\n- If your dog struggles, reduce the difficulty rather than simply pushing through\n- The aim is to gently teach that people leaving and returning is a normal part of life\n- Dogs do not all progress at the same speed'
+			},
+			{
+				id: 'notice-settling-in',
+				label: 'Notice how they’re settling in',
+				guidance: (answers) => {
+					const guidance = [
+						'Become familiar with what is normal for your dog as they settle in.',
+						'',
+						'- Notice general appetite, drinking, toileting, sleep, confidence, behaviour and interactions',
+						'- If you are concerned about your dog’s health or behaviour, contact an appropriate veterinarian or qualified professional'
+					];
+					const hasExistingPets = answers.existingPets && answers.existingPets !== 'none';
+					const hasChildren = answers.children && answers.children !== 'none';
+
+					if (hasExistingPets) guidance.push('', 'With existing pets:', '- Continue gradual introductions and supervision', '- Use separate resources or safe spaces where appropriate', '- Watch how relationships are developing');
+					if (hasChildren) guidance.push('', 'With children:', '- Continue appropriate supervision and household rules', '- Keep respecting the dog’s safe space', '- Help children recognise when the dog needs space');
+
+					return guidance.join('\n');
+				}
+			}
+		];
+
+		let currentStage = 'getting-ready';
+		let currentAnswers = null;
+		let lastChecklistStage = 'getting-ready';
+
+		const getStageConfig = (stage) => stage === 'coming-home'
+			? {
+				name: 'Coming Home',
+				tasks: comingHomeTasks,
+				completionKey: comingHomeCompletionStorageKey,
+				notesKey: comingHomeNotesStorageKey
+			}
+			: stage === 'arrival-day'
+			? {
+				name: 'Arrival Day',
+				tasks: arrivalDayTasks,
+				completionKey: arrivalDayCompletionStorageKey,
+				notesKey: arrivalDayNotesStorageKey
+			}
+			: stage === 'first-night'
+			? {
+				name: 'First Night',
+				tasks: firstNightTasks,
+				completionKey: firstNightCompletionStorageKey,
+				notesKey: firstNightNotesStorageKey
+			}
+			: stage === 'first-week'
+			? {
+				name: 'First Week',
+				tasks: firstWeekTasks,
+				completionKey: firstWeekCompletionStorageKey,
+				notesKey: firstWeekNotesStorageKey
+			}
+			: {
+				name: 'Getting Ready',
+				tasks: gettingReadyTasks,
+				completionKey: gettingReadyCompletionStorageKey,
+				notesKey: gettingReadyNotesStorageKey
+			};
+
+		const getCompletionState = (stageConfig) => JSON.parse(localStorage.getItem(stageConfig.completionKey) || '{}');
+		const getNotesState = (stageConfig) => JSON.parse(localStorage.getItem(stageConfig.notesKey) || '{}');
+
+		const getDaysUntilHome = (arrivalDate) => {
+			const [year, month, day] = arrivalDate.split('-').map(Number);
+			const comingHomeDate = new Date(Date.UTC(year, month - 1, day));
+			const today = new Date();
+			const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+			return Math.round((comingHomeDate - todayUtc) / (1000 * 60 * 60 * 24));
+		};
+
+		const getHomeSummary = (daysUntilHome) => {
+			if (daysUntilHome > 1) return `${daysUntilHome} days until they come home`;
+			if (daysUntilHome === 1) return 'They come home tomorrow';
+			if (daysUntilHome === 0) return 'They come home today';
+			return `${Math.abs(daysUntilHome)} days since they were due home`;
+		};
+
+		const getApplicableTasks = (answers, stageConfig) => stageConfig.tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+
+		const journeyStages = [
+			{ key: 'getting-ready', description: 'Prepare your home, supplies and household before your dog arrives.' },
+			{ key: 'coming-home', description: 'Finalise the practical plans for the journey and the days around it.' },
+			{ key: 'arrival-day', description: 'Make the first hours calm, safe and manageable.' },
+			{ key: 'first-night', description: 'Help everyone settle for the first night at home.' },
+			{ key: 'first-week', description: 'Build gentle routines as your dog gets to know their new home.' }
+		];
+
+		const hasDogEntitlement = () => (
+			localStorage.getItem(developmentDogEntitlementKey) === 'true'
+			|| localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true'
+		);
+
+		const renderTaskRows = (answers, applicableTasks, stageConfig) => {
+			const completionState = getCompletionState(stageConfig);
+			const notesState = getNotesState(stageConfig);
+			const orderedTasks = [...applicableTasks].sort((firstTask, secondTask) => {
+				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
+			});
+
+			taskList.replaceChildren(...orderedTasks.map((task) => {
+				const isComplete = Boolean(completionState[task.id]);
+				const taskElement = document.createElement('div');
+				taskElement.className = `task${isComplete ? ' completed' : ''}`;
+
+				const taskTop = document.createElement('div');
+				taskTop.className = 'task-top';
+
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.id = `task-${task.id}`;
+				checkbox.checked = isComplete;
+				checkbox.setAttribute('aria-label', `Mark ${task.label} complete`);
+				checkbox.addEventListener('change', () => {
+					const updatedState = getCompletionState(stageConfig);
+					updatedState[task.id] = checkbox.checked;
+					localStorage.setItem(stageConfig.completionKey, JSON.stringify(updatedState));
+					renderPlan(answers);
+				});
+
+				const toggle = document.createElement('button');
+				toggle.type = 'button';
+				toggle.className = 'task-toggle';
+				toggle.setAttribute('aria-expanded', 'false');
+				toggle.setAttribute('aria-controls', `details-${task.id}`);
+				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">Expand ›</span>`;
+
+				const details = document.createElement('div');
+				details.className = 'task-details';
+				details.id = `details-${task.id}`;
+				details.hidden = true;
+
+				const guidance = document.createElement('p');
+				guidance.className = 'task-guidance';
+				guidance.textContent = typeof task.guidance === 'function' ? task.guidance(answers) : task.guidance;
+
+				const noteLabel = document.createElement('label');
+				noteLabel.className = 'task-note-label';
+				noteLabel.htmlFor = `note-${task.id}`;
+				noteLabel.textContent = 'Add a note';
+
+				const note = document.createElement('textarea');
+				note.className = 'task-note';
+				note.id = `note-${task.id}`;
+				note.placeholder = 'Add your own information';
+				note.value = notesState[task.id] || '';
+				note.addEventListener('input', () => {
+					const updatedNotes = getNotesState(stageConfig);
+					updatedNotes[task.id] = note.value;
+					localStorage.setItem(stageConfig.notesKey, JSON.stringify(updatedNotes));
+				});
+
+				toggle.addEventListener('click', () => {
+					const isExpanded = !details.hidden;
+					details.hidden = isExpanded;
+					toggle.setAttribute('aria-expanded', String(!isExpanded));
+					taskElement.classList.toggle('expanded', !isExpanded);
+					toggle.querySelector('.task-chevron').textContent = isExpanded ? 'Expand ›' : 'Close ‹';
+				});
+
+				details.append(guidance, noteLabel, note);
+				const checkboxArea = document.createElement('label');
+				checkboxArea.className = 'task-check';
+				checkboxArea.append(checkbox);
+				taskTop.append(checkboxArea, toggle);
+				taskElement.append(taskTop, details);
+				return taskElement;
+			}));
+		};
+
+		const renderPlan = (answers) => {
+			const isUnlocked = hasDogEntitlement();
+			if (!isUnlocked) currentStage = 'getting-ready';
+			NestGo.saveLocation('bringing-home-a-dog', { stage: currentStage, lastChecklistStage });
+			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
+			planNavigation.hidden = !isUnlocked;
+			fullPlanPreview.hidden = isUnlocked;
+			if (currentStage === 'welcome-family') {
+				planTitle.textContent = getHomeSummary(daysUntilHome);
+				stageDateSummary.textContent = 'Welcome to the family';
+				checklistView.hidden = true;
+				completionView.hidden = false;
+				plan.hidden = false;
+				return;
+			}
+
+			const stageConfig = getStageConfig(currentStage);
+			const applicableTasks = getApplicableTasks(answers, stageConfig);
+			const completionState = getCompletionState(stageConfig);
+			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
+			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
+			const visibleTasks = isUnlocked ? applicableTasks : applicableTasks.slice(0, 3);
+
+			planTitle.textContent = getHomeSummary(daysUntilHome);
+			stageTitle.textContent = stageConfig.name;
+			stageDateSummary.textContent = stageConfig.name;
+			progressPercent.textContent = `${percentage}% complete`;
+			stageProgressBar.setAttribute('aria-label', `${stageConfig.name} progress`);
+			stageProgressBar.setAttribute('aria-valuenow', percentage);
+			progressBarFill.style.width = `${percentage}%`;
+			stageButtons.forEach((button) => {
+				if (button.dataset.stage === currentStage) button.setAttribute('aria-current', 'step');
+				else button.removeAttribute('aria-current');
+			});
+			checklistView.hidden = false;
+			completionView.hidden = true;
+			finishPlan.hidden = currentStage !== 'first-week';
+			renderTaskRows(answers, visibleTasks, stageConfig);
+			plan.hidden = false;
+
+			if (!isUnlocked) {
+				const fragment = document.createDocumentFragment();
+				journeyStages.forEach(({ key, description }) => {
+					const stageConfigForCount = getStageConfig(key);
+					const taskTotal = getApplicableTasks(answers, stageConfigForCount).length;
+					const stageCard = document.createElement('div');
+					stageCard.className = `journey-stage${key === 'getting-ready' ? ' current' : ''}`;
+
+					const stageHeader = document.createElement('div');
+					stageHeader.className = 'journey-stage-header';
+					const stageName = document.createElement('span');
+					stageName.textContent = stageConfigForCount.name;
+					const taskCount = document.createElement('span');
+					taskCount.className = 'journey-stage-count';
+					taskCount.textContent = `${taskTotal} ${taskTotal === 1 ? 'task' : 'tasks'}`;
+					stageHeader.append(stageName, taskCount);
+
+					const stageDescription = document.createElement('p');
+					stageDescription.textContent = description;
+					stageCard.append(stageHeader, stageDescription);
+
+					if (key === 'getting-ready') {
+						const previewNote = document.createElement('p');
+						previewNote.className = 'journey-preview-note';
+						previewNote.textContent = 'You’re here now.';
+						stageCard.append(previewNote);
+					}
+
+					fragment.append(stageCard);
+				});
+				journeyGrid.replaceChildren(fragment);
+			}
+		};
+
+		const showPurchaseConfirmation = (message) => {
+			purchaseConfirmation.replaceChildren();
+			const title = document.createElement('strong');
+			title.textContent = 'Purchase successful';
+			const details = document.createElement('span');
+			details.textContent = message;
+			purchaseConfirmation.append(title, details);
+			purchaseConfirmation.hidden = false;
+			window.setTimeout(() => { purchaseConfirmation.hidden = true; }, 4000);
+		};
+
+		document.querySelectorAll('[data-purchase]').forEach((button) => {
+			button.addEventListener('click', () => {
+				if (button.dataset.purchase === 'bringing-home-a-dog') {
+					localStorage.setItem(developmentDogEntitlementKey, 'true');
+					if (currentAnswers) renderPlan(currentAnswers);
+					showPurchaseConfirmation('Your full Bringing Home a Dog plan is unlocked.');
+					return;
+				}
+
+				localStorage.setItem(developmentEverythingForeverEntitlementKey, 'true');
+				if (currentAnswers) renderPlan(currentAnswers);
+				showPurchaseConfirmation('All current and future Nest & Go plans are now yours.');
+			});
+		});
+
+		stageButtons.forEach((button) => button.addEventListener('click', () => {
+			if (!hasDogEntitlement()) return;
+			if (currentStage !== 'welcome-family') lastChecklistStage = currentStage;
+			currentStage = button.dataset.stage;
+			if (currentAnswers) renderPlan(currentAnswers);
+		}));
+
+		finishPlanButton.addEventListener('click', () => {
+			lastChecklistStage = currentStage;
+			currentStage = 'welcome-family';
+			if (currentAnswers) renderPlan(currentAnswers);
+		});
+
+		viewPlanButton.addEventListener('click', () => {
+			currentStage = lastChecklistStage;
+			if (currentAnswers) renderPlan(currentAnswers);
+		});
+
+		const updateHouseTrainingQuestion = () => {
+			const isAdultDog = form.elements.dogAge.value === 'adult-dog';
+			houseTrainingQuestion.hidden = !isAdultDog;
+			houseTrainingInputs.forEach((input) => {
+				input.required = isAdultDog;
+				if (!isAdultDog) input.checked = false;
+			});
+		};
+
+		const restoreSetupForm = (answers) => {
+			form.elements.arrivalDate.value = answers.arrivalDate || '';
+			['dogAge', 'existingPets', 'children', 'houseTraining'].forEach((fieldName) => {
+				const option = [...form.elements[fieldName]].find((input) => input.value === answers[fieldName]);
+				if (option) option.checked = true;
+			});
+			updateHouseTrainingQuestion();
+		};
+
+		dogAgeInputs.forEach((input) => input.addEventListener('change', updateHouseTrainingQuestion));
+
+		const cancelEditButton = document.querySelector('#cancel-edit-setup');
+		const validStages = ['getting-ready', 'coming-home', 'arrival-day', 'first-night', 'first-week', 'welcome-family'];
+
+		// With a saved plan the questionnaire is only shown while editing setup.
+		const setEditingSetup = (isEditing) => {
+			form.hidden = !isEditing;
+			cancelEditButton.hidden = !isEditing;
+			if (isEditing) {
+				plan.hidden = true;
+				fullPlanPreview.hidden = true;
+				purchaseConfirmation.hidden = true;
+			}
+			window.scrollTo(0, 0);
+		};
+
+		const showPlanView = (answers) => {
+			renderPlan(answers);
+			setEditingSetup(false);
+		};
+
+		NestGo.initPlanShell({
+			planId: 'bringing-home-a-dog',
+			onEditSetup: () => {
+				const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+				if (!currentSetup) return;
+				restoreSetupForm(currentSetup);
+				savedMessage.textContent = '';
+				setEditingSetup(true);
+			}
+		});
+
+		cancelEditButton.addEventListener('click', () => {
+			if (currentAnswers) showPlanView(currentAnswers);
+		});
+
+		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+		if (savedSetup) {
+			currentAnswers = savedSetup;
+			const savedLocation = NestGo.getLocation('bringing-home-a-dog');
+			if (savedLocation && validStages.includes(savedLocation.stage)) {
+				currentStage = savedLocation.stage;
+				if (validStages.slice(0, 5).includes(savedLocation.lastChecklistStage)) lastChecklistStage = savedLocation.lastChecklistStage;
+			}
+			restoreSetupForm(savedSetup);
+			showPlanView(savedSetup);
+		}
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			updateHouseTrainingQuestion();
+
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const answers = Object.fromEntries(new FormData(form).entries());
+			if (answers.dogAge !== 'adult-dog') delete answers.houseTraining;
+			localStorage.setItem(storageKey, JSON.stringify(answers));
+			currentAnswers = answers;
+			savedMessage.textContent = '';
+			showPlanView(answers);
+		});
+	</script>
+</body>
+</html>

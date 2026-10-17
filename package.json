@@ -1,0 +1,26 @@
+{
+  "name": "checklist-sandbox-v2",
+  "version": "1.0.0",
+  "description": "Moving Checklist V2",
+  "main": "nest-and-go-shell.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suejansen/checklist-sandbox-v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/suejansen/checklist-sandbox-v2/issues"
+  },
+  "homepage": "https://github.com/suejansen/checklist-sandbox-v2#readme",
+  "dependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3"
+  }
+}

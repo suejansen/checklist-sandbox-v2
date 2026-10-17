@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#f7f4ef">
+	<title>Nest &amp; Go | Life planning made simpler</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap');
+
+		:root {
+			--ink: #203b3a;
+			--muted: #657572;
+			--paper: #f7f4ef;
+			--panel: #fffdf9;
+			--line: #d9e0da;
+			--accent: #e56d4f;
+			--accent-dark: #bd4e35;
+			--mint: #dcece4;
+			--shadow: 0 18px 45px rgba(37, 65, 58, 0.09);
+		}
+
+		* { box-sizing: border-box; }
+
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
+				linear-gradient(145deg, #f7f4ef 0%, #eef3ee 100%);
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		main {
+			width: min(100%, 760px);
+			min-height: 100svh;
+			margin: 0 auto;
+			padding: 28px 20px 40px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--muted);
+			font-size: 0.77rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 30px;
+			height: 30px;
+			place-items: center;
+			border-radius: 9px;
+			color: #fff;
+			background: var(--accent);
+			font-size: 1.05rem;
+			line-height: 1;
+		}
+
+		header { margin: 62px 0 34px; }
+
+		h1 {
+			max-width: 620px;
+			margin: 0 0 15px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.7rem, 12vw, 4.7rem);
+			font-weight: 600;
+			letter-spacing: -0.03em;
+			line-height: 0.98;
+		}
+
+		.intro {
+			max-width: 510px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		.event-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			gap: 10px;
+		}
+
+		.event-card {
+			position: relative;
+			display: block;
+			min-height: 140px;
+			padding: 17px 21px;
+			border: 1px solid var(--line);
+			border-radius: 17px;
+			color: inherit;
+			background: rgba(255, 253, 249, 0.9);
+			box-shadow: var(--shadow);
+			text-decoration: none;
+			transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+		}
+
+		.event-card.active:hover {
+			border-color: rgba(229, 109, 79, 0.7);
+			box-shadow: 0 20px 45px rgba(37, 65, 58, 0.13);
+			transform: translateY(-2px);
+		}
+
+		.event-card.active:focus-visible {
+			outline: 3px solid var(--accent-dark);
+			outline-offset: 3px;
+		}
+
+		.event-card h2 {
+			margin: 0 0 8px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			line-height: 1.05;
+		}
+
+		.event-card p {
+			max-width: 500px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 0.94rem;
+			line-height: 1.45;
+		}
+
+		.card-footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 14px;
+			color: var(--accent-dark);
+			font-size: 0.83rem;
+			font-weight: 700;
+		}
+
+		.coming-soon {
+			color: var(--muted);
+			font-size: 0.76rem;
+			letter-spacing: 0.07em;
+			text-transform: uppercase;
+		}
+
+		.card-arrow {
+			font-size: 1.25rem;
+			line-height: 1;
+		}
+
+		.event-card.inactive { background: rgba(255, 253, 249, 0.68); }
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+		}
+
+		.settings-button {
+			display: grid;
+			flex: 0 0 auto;
+			width: 44px;
+			height: 44px;
+			padding: 0;
+			place-items: center;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			color: var(--ink);
+			background: var(--panel);
+			cursor: pointer;
+		}
+
+		.settings-button:hover { background: #fff2ed; }
+		.settings-button:focus-visible,
+		.settings-row:focus-visible,
+		.settings-back:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+		.settings-button[hidden] { display: none; }
+
+		.settings-view, .about-view { margin-top: 26px; }
+		.settings-view[hidden], .about-view[hidden], #foyer-view[hidden] { display: none; }
+
+		.settings-back {
+			min-height: 44px;
+			margin: 0 0 14px;
+			padding: 0;
+			border: 0;
+			color: var(--muted);
+			background: transparent;
+			cursor: pointer;
+			font: inherit;
+			font-size: 0.88rem;
+			font-weight: 700;
+		}
+
+		.settings-back:hover { color: var(--ink); }
+
+		.settings-view h2, .about-view h2 {
+			margin: 0 0 16px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(1.9rem, 8vw, 2.6rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1.05;
+		}
+
+		.settings-notice {
+			margin: 0 0 14px;
+			padding: 13px 15px;
+			border: 1px solid rgba(229, 109, 79, 0.45);
+			border-radius: 13px;
+			background: #fff6f2;
+			font-size: 0.92rem;
+			line-height: 1.45;
+		}
+
+		.settings-notice[hidden] { display: none; }
+
+		.settings-list {
+			display: grid;
+			gap: 9px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.settings-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			width: 100%;
+			min-height: 56px;
+			padding: 12px 16px;
+			border: 1px solid var(--line);
+			border-radius: 14px;
+			color: var(--ink);
+			background: rgba(255, 253, 249, 0.9);
+			cursor: pointer;
+			font: inherit;
+			font-size: 1rem;
+			font-weight: 600;
+			text-align: left;
+		}
+
+		.settings-row:hover { border-color: rgba(229, 109, 79, 0.7); }
+		.settings-row-arrow { color: var(--accent-dark); }
+		.settings-list .settings-danger { margin-top: 12px; }
+
+		.settings-footer {
+			margin-top: 34px;
+			color: var(--muted);
+			font-size: 0.8rem;
+			line-height: 1.6;
+			text-align: center;
+		}
+
+		.settings-footer p { margin: 0; }
+
+		.about-view p {
+			margin: 0 0 12px;
+			color: var(--muted);
+			line-height: 1.55;
+		}
+
+		.about-view .about-lead {
+			color: var(--ink);
+			font-size: 1.1rem;
+			font-weight: 600;
+		}
+
+		@media (min-width: 600px) {
+			main { padding: 38px 30px 60px; }
+			.event-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+			.event-card { min-height: 190px; padding: 25px; }
+			.card-footer { margin-top: 18px; }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { transition-duration: 0.01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<div class="topbar">
+			<div class="brand"><span class="brand-mark" aria-hidden="true">✓</span> Nest &amp; Go</div>
+			<button type="button" id="settings-open" class="settings-button" aria-label="Settings">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+					<circle cx="12" cy="12" r="3"/>
+					<circle cx="12" cy="12" r="6.5"/>
+					<circle cx="12" cy="12" r="9" stroke-width="3" stroke-dasharray="2.4 4.67"/>
+				</svg>
+			</button>
+		</div>
+
+		<div id="foyer-view">
+		<header>
+			<h1>What are you planning?</h1>
+			<p class="intro">Choose a life event and we’ll help you figure out what needs doing, and when.</p>
+		</header>
+
+		<section class="event-grid" aria-label="Life events">
+			<a class="event-card active" href="moving-house.html">
+				<h2>Moving House</h2>
+				<p>A personalised moving plan that keeps you one step ahead.</p>
+				<span class="card-footer"><span id="moving-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
+			</a>
+
+			<a class="event-card active" href="bringing-home-a-dog.html">
+				<h2>Bringing Home a Dog</h2>
+				<p>A personalised plan to help you prepare, bring them home and settle in together.</p>
+				<span class="card-footer"><span id="dog-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
+			</a>
+
+			<a class="event-card active" href="downsizing-decluttering.html">
+				<h2>Downsizing &amp; Decluttering</h2>
+				<p>Gentle help to sort through belongings, make decisions and work through your home at your own pace.</p>
+				<span class="card-footer"><span id="downsizing-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
+			</a>
+
+			<div class="event-card inactive">
+				<h2>Starting College</h2>
+				<p>Everything you need to get ready for your next chapter.</p>
+				<div class="card-footer"><span class="coming-soon">Coming Soon</span></div>
+			</div>
+		</section>
+		</div>
+
+		<section id="settings-view" class="settings-view" hidden aria-labelledby="settings-title">
+			<button type="button" class="settings-back" data-settings-close><span aria-hidden="true">←</span> Back</button>
+			<h2 id="settings-title">Settings</h2>
+			<p id="settings-notice" class="settings-notice" role="status" aria-live="polite" hidden></p>
+			<ul class="settings-list">
+				<li><button type="button" class="settings-row" data-setting="about">About Nest &amp; Go <span class="settings-row-arrow" aria-hidden="true">›</span></button></li>
+				<li><button type="button" class="settings-row" data-setting="restore">Restore Purchases</button></li>
+				<li><button type="button" class="settings-row" data-setting="privacy">Privacy Policy</button></li>
+				<li><button type="button" class="settings-row" data-setting="support">Support</button></li>
+				<li><button type="button" class="settings-row" data-setting="feedback">Send Feedback</button></li>
+				<li><button type="button" class="settings-row" data-setting="rate">Rate Nest &amp; Go</button></li>
+				<li class="settings-danger"><button type="button" class="settings-row" data-setting="erase">Erase All Data</button></li>
+			</ul>
+			<div class="settings-footer">
+				<p>Nest &amp; Go</p>
+				<p>Version 1.0.0</p>
+				<p>Tidy Chaos Labs</p>
+			</div>
+		</section>
+
+		<section id="about-view" class="about-view" hidden aria-labelledby="about-title">
+			<button type="button" class="settings-back" data-about-close><span aria-hidden="true">←</span> Settings</button>
+			<h2 id="about-title">Nest &amp; Go</h2>
+			<p class="about-lead">Life checklists, made personal.</p>
+			<p>Tell us what’s happening. We’ll work out what matters.</p>
+			<p>Created by Tidy Chaos Labs</p>
+			<p>Version 1.0.0</p>
+		</section>
+	</main>
+
+	<script src="nest-and-go-shell.js"></script>
+	<script>
+		const planActions = {
+			'moving-house': '#moving-action',
+			'bringing-home-a-dog': '#dog-action',
+			'downsizing-decluttering': '#downsizing-action'
+		};
+
+		const refreshPlanActions = () => {
+			Object.entries(planActions).forEach(([planId, selector]) => {
+				document.querySelector(selector).textContent = NestGo.hasActivity(planId) ? 'Continue' : 'Start';
+			});
+		};
+
+		refreshPlanActions();
+		// Returning with the browser Back button can restore this page from cache.
+		window.addEventListener('pageshow', refreshPlanActions);
+
+		const foyerView = document.querySelector('#foyer-view');
+		const settingsView = document.querySelector('#settings-view');
+		const aboutView = document.querySelector('#about-view');
+		const settingsOpen = document.querySelector('#settings-open');
+		const settingsNotice = document.querySelector('#settings-notice');
+
+		const showView = (view) => {
+			foyerView.hidden = view !== 'foyer';
+			settingsView.hidden = view !== 'settings';
+			aboutView.hidden = view !== 'about';
+			settingsOpen.hidden = view !== 'foyer';
+			settingsNotice.hidden = true;
+			window.scrollTo(0, 0);
+		};
+
+		settingsOpen.addEventListener('click', () => {
+			showView('settings');
+			settingsView.querySelector('.settings-back').focus();
+		});
+		document.querySelector('[data-settings-close]').addEventListener('click', () => {
+			showView('foyer');
+			settingsOpen.focus();
+		});
+		document.querySelector('[data-about-close]').addEventListener('click', () => {
+			showView('settings');
+			settingsView.querySelector('[data-setting="about"]').focus();
+		});
+
+		// Browser prototype only: these are clearly marked placeholders until the native app and real destinations exist.
+		const settingNotices = {
+			restore: 'Restore Purchases will connect to the App Store in the native version of Nest & Go. Nothing has been changed.',
+			privacy: 'Privacy Policy placeholder: the link to the Tidy Chaos Labs privacy policy will be added here.',
+			support: 'Support placeholder: a support contact will be added here.',
+			feedback: 'Send Feedback placeholder: a feedback option will be added here.',
+			rate: 'Rate Nest & Go placeholder: this will open the App Store review prompt in the native version.'
+		};
+
+		const eraseAllData = async () => {
+			const firstConfirmed = await NestGo.confirmDialog({
+				title: 'Erase all data?',
+				message: 'This erases all locally stored Nest & Go plan data across all plans, including setup answers, progress, notes, areas and saved Continue locations. Purchases are not cancelled or erased.',
+				confirmLabel: 'Continue',
+				cancelLabel: 'Cancel'
+			});
+			if (!firstConfirmed) return;
+
+			const secondConfirmed = await NestGo.confirmDialog({
+				title: 'Are you sure?',
+				message: 'This cannot be undone.',
+				confirmLabel: 'Erase all data',
+				cancelLabel: 'Go back'
+			});
+			if (!secondConfirmed) return;
+
+			NestGo.eraseAllPlanData();
+			showView('foyer');
+			settingsOpen.focus();
+			refreshPlanActions();
+			NestGo.notify('All plan data has been erased.');
+		};
+
+		document.querySelectorAll('[data-setting]').forEach((button) => button.addEventListener('click', () => {
+			const setting = button.dataset.setting;
+			if (setting === 'about') {
+				showView('about');
+				aboutView.querySelector('.settings-back').focus();
+			} else if (setting === 'erase') {
+				settingsNotice.hidden = true;
+				eraseAllData();
+			} else {
+				// Show the live region first, then set its text, so assistive technology announces it.
+				settingsNotice.textContent = '';
+				settingsNotice.hidden = false;
+				window.setTimeout(() => { settingsNotice.textContent = settingNotices[setting]; }, 60);
+			}
+		}));
+	</script>
+</body>
+</html>

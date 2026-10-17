@@ -1,0 +1,1557 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#f7f4ef">
+	<title>Moving House | Set up your checklist</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap');
+
+		:root {
+			--ink: #203b3a;
+			--muted: #657572;
+			--paper: #f7f4ef;
+			--panel: #fffdf9;
+			--line: #d9e0da;
+			--accent: #e56d4f;
+			--accent-dark: #bd4e35;
+			--mint: #dcece4;
+			--shadow: 0 18px 45px rgba(37, 65, 58, 0.09);
+		}
+
+		* { box-sizing: border-box; }
+
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
+				linear-gradient(145deg, #f7f4ef 0%, #eef3ee 100%);
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		main {
+			width: min(100%, 680px);
+			min-height: 100svh;
+			margin: 0 auto;
+			padding: 28px 20px 32px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--muted);
+			font-size: 0.77rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 30px;
+			height: 30px;
+			place-items: center;
+			border-radius: 9px;
+			color: #fff;
+			background: var(--accent);
+			font-size: 1.05rem;
+			line-height: 1;
+		}
+
+		.home-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 24px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.home-link:hover { color: var(--ink); }
+		.home-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
+
+		header { margin: 54px 0 30px; }
+
+		h1 {
+			max-width: 560px;
+			margin: 0 0 14px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.65rem, 12vw, 4.5rem);
+			font-weight: 600;
+			letter-spacing: -0.03em;
+			line-height: 0.98;
+		}
+
+		.intro {
+			max-width: 480px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		form {
+			padding: 24px 18px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		fieldset {
+			min-width: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		.question + .question { margin-top: 29px; }
+
+		legend, .question-label {
+			display: block;
+			margin-bottom: 11px;
+			color: var(--ink);
+			font-size: 1rem;
+			font-weight: 700;
+			line-height: 1.35;
+		}
+
+		.choice-grid {
+			display: grid;
+			gap: 9px;
+		}
+
+		.choice {
+			position: relative;
+			display: flex;
+			align-items: center;
+			min-height: 56px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			cursor: pointer;
+			transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+		}
+
+		.choice:hover { border-color: #a9bbb1; }
+		.choice:has(input:checked) {
+			border-color: var(--accent);
+			background: #fff2ed;
+		}
+		.choice:active { transform: scale(0.99); }
+
+		.choice input {
+			width: 20px;
+			height: 20px;
+			margin: 0 11px 0 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.choice span { font-size: 0.96rem; font-weight: 500; }
+
+		input[type="date"] {
+			width: 100%;
+			min-height: 56px;
+			padding: 0 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			outline: 0;
+		}
+
+		input[type="date"]:focus,
+		.choice:has(input:focus-visible) {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
+		}
+
+		.submit-wrap {
+			margin-top: 31px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		button {
+			width: 100%;
+			min-height: 58px;
+			padding: 14px 18px;
+			border: 0;
+			border-radius: 12px;
+			color: #fff;
+			background: var(--accent-dark);
+			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
+			cursor: pointer;
+			font: inherit;
+			font-size: 1rem;
+			font-weight: 700;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		button:hover { background: #a5432d; }
+		button:active { transform: translateY(1px); }
+		button:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+
+		.saved-message {
+			min-height: 1.25em;
+			margin: 12px 0 0;
+			color: #34715d;
+			font-size: 0.87rem;
+			text-align: center;
+		}
+
+		.checklist {
+			margin-top: 28px;
+			padding: 24px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.checklist h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.8rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.move-summary {
+			margin-bottom: 25px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.move-summary p {
+			margin: 5px 0 0;
+			color: var(--muted);
+			font-size: 0.96rem;
+		}
+
+		.checklist-section-title {
+			margin: 0 0 11px;
+			font-size: 1.05rem;
+			font-weight: 700;
+		}
+
+		.earlier-message,
+		.later-message,
+		.focus-message {
+			margin: -2px 0 16px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+		}
+
+		.earlier-tasks {
+			margin-top: 28px;
+			padding-top: 22px;
+			border-top: 1px solid var(--line);
+		}
+
+		.coming-later {
+			margin-top: 28px;
+			padding-top: 22px;
+			border-top: 1px solid var(--line);
+		}
+
+		.progress-summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 8px 0 10px;
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+
+		.progress-bar {
+			height: 8px;
+			margin-bottom: 17px;
+			border-radius: 999px;
+			background: var(--mint);
+			overflow: hidden;
+		}
+
+		.progress-bar-fill {
+			width: 0%;
+			height: 100%;
+			border-radius: inherit;
+			background: var(--accent);
+			transition: width 160ms ease;
+		}
+
+		.task {
+			padding: 13px 0;
+			border-top: 1px solid var(--line);
+			font-size: 0.96rem;
+			line-height: 1.4;
+		}
+
+		.task-top {
+			display: flex;
+			align-items: flex-start;
+			gap: 11px;
+		}
+
+		.task input {
+			width: 20px;
+			height: 20px;
+			margin: 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.task-check {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex: 0 0 44px;
+			height: 44px;
+			margin: -11px -12px -11px -12px;
+			cursor: pointer;
+		}
+
+		.task-toggle {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 10px;
+			width: 100%;
+			min-width: 0;
+			min-height: 0;
+			overflow-wrap: anywhere;
+			padding: 11px 0;
+			margin: -11px 0;
+			border: 0;
+			border-radius: 0;
+			color: inherit;
+			background: transparent;
+			box-shadow: none;
+			cursor: pointer;
+			font: inherit;
+			font-size: inherit;
+			font-weight: 500;
+			line-height: inherit;
+			text-align: left;
+		}
+
+		.task-toggle:hover,
+		.task-toggle:active { color: inherit; background: transparent; transform: none; }
+		.task-toggle:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
+
+		.task-chevron {
+			color: var(--accent-dark);
+			font-size: 0.78rem;
+			font-weight: 600;
+			line-height: 1.25;
+			white-space: nowrap;
+		}
+
+		.task-details {
+			margin: 12px 0 0 31px;
+			padding: 13px 0 2px;
+			border-top: 1px solid var(--line);
+		}
+
+		.task-guidance {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			line-height: 1.5;
+			white-space: pre-line;
+		}
+
+		.task-note-label {
+			display: block;
+			margin-bottom: 6px;
+			color: var(--ink);
+			font-size: 0.82rem;
+			font-weight: 700;
+		}
+
+		.task-note {
+			display: block;
+			width: 100%;
+			min-height: 72px;
+			padding: 9px 10px;
+			border: 1px solid var(--line);
+			border-radius: 9px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			line-height: 1.4;
+			resize: vertical;
+		}
+
+		.task-note:focus { border-color: var(--accent); outline: 2px solid var(--accent-dark); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17); }
+
+		.task.completed {
+			color: var(--muted);
+			text-decoration: line-through;
+		}
+
+		.full-plan-preview {
+			margin-top: 18px;
+			padding: 22px 16px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.9);
+			box-shadow: var(--shadow);
+		}
+
+		.full-plan-preview h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.full-plan-intro {
+			margin: 7px 0 17px;
+			color: var(--muted);
+			font-size: 0.92rem;
+			line-height: 1.5;
+		}
+
+		.journey-grid {
+			display: grid;
+			gap: 8px;
+		}
+
+		.journey-stage {
+			padding: 11px 12px;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: rgba(255, 253, 249, 0.72);
+		}
+
+		.journey-stage.current {
+			border-color: rgba(229, 109, 79, 0.48);
+			background: #fff6f2;
+		}
+
+		.journey-stage-header {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 10px;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.journey-stage-count {
+			flex: 0 0 auto;
+			color: var(--muted);
+			font-size: 0.76rem;
+			font-weight: 600;
+			white-space: nowrap;
+		}
+
+		.journey-stage p {
+			margin: 4px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.journey-stage .journey-preview-note {
+			margin-top: 7px;
+			color: var(--accent-dark);
+			font-size: 0.79rem;
+			font-weight: 500;
+		}
+
+		.purchase-options {
+			grid-template-columns: minmax(0, 1fr);
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading {
+			flex-wrap: wrap;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-bottom: 10px;
+			font-size: 0.91rem;
+			font-weight: 700;
+		}
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.purchase-option p {
+			margin: -3px 0 10px;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			overflow-wrap: anywhere;
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+
+		.purchase-confirmation span {
+			margin-top: 2px;
+			color: var(--muted);
+		}
+
+		@media (min-width: 600px) {
+			main { padding: 38px 30px 48px; }
+			form { padding: 30px; }
+			.checklist { padding: 30px; }
+			.full-plan-preview { padding: 28px; }
+			.choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.question:first-child .choice-grid,
+			.question:last-child .choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.journey-grid,
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<a class="home-link" href="index.html" aria-label="Return to Home">← Home</a>
+		<div class="brand"><span class="brand-mark" aria-hidden="true">✓</span> Nest &amp; Go</div>
+
+		<header>
+			<h1>Let’s get you moving.</h1>
+			<p class="intro">A few details will help us shape a moving plan that fits your life.</p>
+		</header>
+
+		<form id="moving-setup" novalidate>
+			<div class="question">
+				<label class="question-label" for="moving-date">When are you moving?</label>
+				<input id="moving-date" name="movingDate" type="date" required>
+			</div>
+
+			<fieldset class="question">
+				<legend>Your current home</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="homeType" value="renting" required><span>Renting</span></label>
+					<label class="choice"><input type="radio" name="homeType" value="own"><span>Own</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>How are you moving?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="movingMethod" value="moving-company" required><span>Moving company</span></label>
+					<label class="choice"><input type="radio" name="movingMethod" value="doing-it-myself"><span>Doing it myself</span></label>
+					<label class="choice"><input type="radio" name="movingMethod" value="not-sure"><span>Not sure yet</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Where are you moving?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="destination" value="locally" required><span>Locally</span></label>
+					<label class="choice"><input type="radio" name="destination" value="different-province-state"><span>Different province or state</span></label>
+					<label class="choice"><input type="radio" name="destination" value="different-country"><span>Different country</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Are any pets moving with you?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="pets" value="yes" required><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="pets" value="no"><span>No</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Are any children moving with you?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="children" value="yes" required><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="children" value="no"><span>No</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Will either home have building access or moving restrictions?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="accessRestrictions" value="current-home" required><span>Current home</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="new-home"><span>New home</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="both"><span>Both</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="neither"><span>Neither</span></label>
+					<label class="choice"><input type="radio" name="accessRestrictions" value="not-sure"><span>Not sure</span></label>
+				</div>
+			</fieldset>
+
+			<fieldset class="question">
+				<legend>Will you need storage between moving out and moving in?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="storageNeeded" value="yes" required><span>Yes</span></label>
+					<label class="choice"><input type="radio" name="storageNeeded" value="no"><span>No</span></label>
+					<label class="choice"><input type="radio" name="storageNeeded" value="not-sure"><span>Not sure</span></label>
+				</div>
+			</fieldset>
+
+			<div class="submit-wrap">
+				<button type="submit">Build My Checklist</button>
+				<button type="button" id="cancel-edit-setup" class="ng-btn ng-btn-secondary" hidden>Cancel</button>
+				<p id="saved-message" class="saved-message" role="status" aria-live="polite"></p>
+			</div>
+		</form>
+
+		<section id="checklist" class="checklist" hidden aria-labelledby="checklist-title">
+			<div class="move-summary">
+				<h2 id="checklist-title">0 days until your move</h2>
+				<p id="stage-summary">You're currently in the 3 Months Out stage</p>
+			</div>
+			<section aria-labelledby="focus-title">
+				<h3 id="focus-title" class="checklist-section-title">Focus on this now</h3>
+				<p id="focus-message" class="focus-message" hidden></p>
+				<div id="current-tasks-heading"><h3 class="checklist-section-title">3 Months Out</h3></div>
+				<div class="progress-summary">
+					<span>Progress</span>
+					<strong id="progress-percent">0% complete</strong>
+				</div>
+				<div class="progress-bar" role="progressbar" aria-label="Checklist progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div id="progress-bar-fill" class="progress-bar-fill"></div>
+				</div>
+				<div id="task-list"></div>
+			</section>
+			<section id="earlier-tasks-section" class="earlier-tasks" hidden aria-labelledby="earlier-tasks-title">
+				<h3 id="earlier-tasks-title" class="checklist-section-title">Earlier tasks</h3>
+				<p class="earlier-message">These are earlier-stage tasks. Any incomplete items may still need attention.</p>
+				<div id="earlier-task-list"></div>
+			</section>
+			<section class="coming-later" aria-labelledby="later-title">
+				<h3 id="later-title" class="checklist-section-title">Coming later</h3>
+				<p class="later-message">Your later moving stages will appear here.</p>
+				<div id="later-tasks" hidden>
+					<div id="later-task-list"></div>
+				</div>
+			</section>
+		</section>
+		<section id="full-plan-preview" class="full-plan-preview" hidden aria-labelledby="full-plan-title">
+			<h2 id="full-plan-title">Your full moving plan is ready</h2>
+			<p class="full-plan-intro">Take a look at what’s included in your personalized plan before deciding whether to unlock everything.</p>
+			<div id="journey-grid" class="journey-grid"></div>
+			<div class="purchase-options" role="group" aria-label="Unlock options">
+				<div class="purchase-option">
+					<div class="purchase-option-heading" aria-hidden="true">Unlock Moving House · $2.99</div>
+					<button type="button" data-purchase="moving-house">Unlock Moving House · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading">
+						<span aria-hidden="true">Unlock Everything Forever · $5.99</span>
+						<span class="best-value-label">Best value</span>
+					</div>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+				</div>
+			</div>
+		</section>
+		<p id="purchase-confirmation" class="purchase-confirmation" role="alert" hidden></p>
+	</main>
+
+	<script src="nest-and-go-shell.js"></script>
+	<script>
+		const form = document.querySelector('#moving-setup');
+		const savedMessage = document.querySelector('#saved-message');
+		const checklist = document.querySelector('#checklist');
+		const fullPlanPreview = document.querySelector('#full-plan-preview');
+		const journeyGrid = document.querySelector('#journey-grid');
+		const purchaseConfirmation = document.querySelector('#purchase-confirmation');
+		const comingLaterSection = document.querySelector('.coming-later');
+		const taskList = document.querySelector('#task-list');
+		const earlierTasksSection = document.querySelector('#earlier-tasks-section');
+		const earlierTaskList = document.querySelector('#earlier-task-list');
+		const laterTasksSection = document.querySelector('#later-tasks');
+		const laterTaskList = document.querySelector('#later-task-list');
+		const progressPercent = document.querySelector('#progress-percent');
+		const progressBar = document.querySelector('.progress-bar');
+		const progressBarFill = document.querySelector('#progress-bar-fill');
+		const checklistTitle = document.querySelector('#checklist-title');
+		const stageSummary = document.querySelector('#stage-summary');
+		const focusMessage = document.querySelector('#focus-message');
+		const currentTasksHeading = document.querySelector('#current-tasks-heading');
+		const currentTasksTitle = currentTasksHeading.querySelector('h3');
+		const storageKey = 'moving-house-setup';
+		const completionStorageKey = 'moving-house-task-completion';
+		const notesStorageKey = 'moving-house-task-notes';
+		// DEVELOPMENT/PROTOTYPE ONLY: temporary localStorage test scaffolding; MUST be replaced with verified App Store purchase entitlements.
+		const developmentMovingHouseEntitlementKey = 'development-prototype-moving-house-entitlement';
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
+		const tasks = [
+			{ id: 'moving-budget', stage: '3 Months Out', label: 'Estimate your moving costs', guidance: (answers) => [
+				'Get a rough idea of what your move is likely to cost so there are fewer surprises later. You don’t need an exact figure yet — just include the main expenses you’re likely to have.',
+				'',
+				'- Moving company or rental vehicle',
+				'- Packing supplies or reusable moving crates',
+				'- Cleaning',
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? ['- Building/elevator fees if applicable'] : []),
+				'- Insurance',
+				'- Travel or fuel',
+				'- Mail forwarding',
+				'- Utility setup fees',
+				...(answers.pets === 'yes' ? ['- Pet-related costs if pets are moving'] : []),
+				...(answers.children === 'yes' ? ['- Childcare costs if children are moving'] : []),
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Storage costs if bridging storage is needed'] : []),
+				'- A contingency for unexpected costs'
+			].join('\n') },
+			{ id: 'book-moving-company', stage: '3 Months Out', label: 'Research and book your moving company', guidance: 'Get more than one quote where practical\n- Check exactly what is included\n- Check reputation and reviews\n- Ask about insurance/liability coverage\n- Check possible extra charges\n- Check cancellation or change terms\n- Confirm moving date and expected timing\n- Check deposit and payment requirements\n- Keep written booking confirmation', showWhen: (answers) => answers.movingMethod === 'moving-company' },
+			{ id: 'rent-moving-truck', stage: '3 Months Out', label: 'Plan your DIY move', guidance: 'Work out what size vehicle you will need\n- Decide who will help with loading and unloading\n- Check whether you need dollies, moving blankets or straps\n- Check driving/licence requirements where applicable\n- Estimate fuel and mileage costs\n- Once the moving date is known, reserve the rental truck or van early, especially for busy moving dates', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'decide-how-to-move', stage: '3 Months Out', label: 'Decide how you’ll move', guidance: 'Compare using a moving company with doing the move yourself, considering cost, time, physical effort, vehicle needs, helpers, distance and complexity.', showWhen: (answers) => answers.movingMethod === 'not-sure' },
+			{ id: 'declutter-belongings', stage: '3 Months Out', label: 'Start decluttering', guidance: 'Encourage the user to reduce what they will need to pack, transport and unpack.\n\n- Keep\n- Sell\n- Donate\n- Recycle or dispose\n- Not sure\n\nStart with the things that have been boxed since your last move.' },
+			{ id: 'school-childcare-planning', stage: '3 Months Out', label: 'Think ahead about school or childcare', guidance: 'If your move will affect your child’s school, daycare or childcare arrangements, now is a good time to find out what you’ll need to do. You may need to notify their current school/provider, arrange a new place, or transfer records. If nothing is changing, there’s nothing you need to do.\n\n- Will school or childcare change?\n- Are there registration or notice dates?\n- Will records need to be transferred?\n- Will transportation arrangements change?\n- Is there anything a new provider will need?', showWhen: (answers) => answers.children === 'yes' },
+			{ id: 'check-home-moving-requirements', stage: '3 Months Out', label: 'Check moving requirements at both homes', guidance: 'Check:\n- Permitted moving hours or restricted days\n- Elevator booking requirements\n- Loading or parking reservations\n- Whether management needs advance notice\n- Deposits or fees\n- Mover insurance/document requirements\n- Keys, fobs or access arrangements\n- Protection requirements for common areas\n- When any required bookings open', showWhen: (answers) => ['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) },
+			{ id: 'check-bridging-storage', stage: '3 Months Out', label: 'Check whether you’ll need storage between homes', guidance: (answers) => `${answers.storageNeeded === 'not-sure' ? 'First compare the move-out date with the move-in/possession date to determine whether storage will be needed.\n\n' : ''}Plan your bridging storage by considering:\n- Confirm whether there is a gap between homes\n- Estimate the amount of storage needed\n- Check minimum rental periods\n- Check access hours\n- Check insurance/security\n- Check cancellation or change terms\n- Plan how belongings will get into storage and back out again`, showWhen: (answers) => ['yes', 'not-sure'].includes(answers.storageNeeded) },
+			{ id: 'research-province-state-changes', stage: '3 Months Out', label: 'Check what you’ll need to update for your new province or state', guidance: 'Investigate what applies to your move, including:\n- Driver’s licence\n- Vehicle registration\n- Health coverage\n- Insurance\n- Tax or residency implications\n- Professional registrations', showWhen: (answers) => answers.destination === 'different-province-state' },
+			{ id: 'review-international-requirements', stage: '3 Months Out', label: 'Check the requirements for your international move', guidance: 'Investigate what applies to your move, including:\n- Immigration, visa or residency requirements\n- Passport validity\n- Customs requirements for household goods\n- Prohibited or restricted imports\n- Shipping options and lead times\n- Insurance for shipped belongings\n- Important or certified documents\n- Driving/licensing requirements\n- Healthcare or insurance arrangements\n- Banking or tax considerations', showWhen: (answers) => answers.destination === 'different-country' },
+			{ id: 'international-pet-requirements', stage: '3 Months Out', label: 'Check the requirements for taking your pet abroad', guidance: 'Check:\n- Destination-country pet import rules\n- Microchip requirements\n- Vaccination timing\n- Rabies documentation or testing where applicable\n- Veterinary health certificates\n- Import permits where applicable\n- Quarantine requirements where applicable\n- Airline or carrier rules\n- Approved crate requirements\n- Whether a pet relocation service may be useful\n- Keep original documents accessible\n- Find out how far in advance each requirement must be completed\n\nStart with the deadlines, not the paperwork.', showWhen: (answers) => answers.destination === 'different-country' && answers.pets === 'yes' },
+			{ id: 'make-packing-plan', stage: '2 Months Out', label: 'Make a packing plan', guidance: (answers) => [
+				'Decide how you are going to pack before the serious packing begins. A simple system now will make packing, moving and unpacking much easier.',
+				'',
+				'Packing containers:',
+				'- Buy moving boxes',
+				'- Rent reusable plastic moving totes or crates',
+				'- Use suitable boxes you already own',
+				'- Source sturdy used boxes',
+				'- Use suitcases, storage bins or suitable bags where useful',
+				'',
+				'If renting reusable crates/totes, check:',
+				'- Delivery and collection dates',
+				'- Rental period',
+				'- Extension charges',
+				'- Available sizes',
+				'- Whether the service operates at both ends of the move where relevant',
+				'',
+				'Labelling:',
+				'- Choose a simple labelling system before packing',
+				'- Consider using a colour for each room or destination',
+				'- Label boxes clearly on more than one side so labels remain visible when stacked',
+				'- Number boxes if useful',
+				'- Use clear labels such as “Open First” and “Keep With Me”',
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Use a distinct “Storage” label or colour for items that may go into storage'] : [])
+			].join('\n') },
+			{ id: 'pack-rarely-used', stage: '2 Months Out', label: 'Start packing things you rarely use', guidance: (answers) => [
+				'Start with belongings you are unlikely to need before moving day so you can make steady progress without disrupting everyday life.',
+				'',
+				'Examples can include:',
+				'- Seasonal clothing',
+				'- Books',
+				'- Decorations',
+				'- Spare linens',
+				'- Rarely used kitchenware',
+				'- Hobby or leisure equipment',
+				'',
+				'If you find something you have not used for a long time, consider whether it needs to come with you at all.',
+				'',
+				'Keep accessible for now:',
+				'- Important documents',
+				'- Medication',
+				'- Daily toiletries',
+				'- Everyday clothing',
+				'- Chargers',
+				'- Work or school necessities',
+				'- Moving paperwork',
+				...(answers.children === 'yes' ? ['- Children’s everyday essentials'] : []),
+				...(answers.pets === 'yes' ? ['- Pet essentials'] : [])
+			].join('\n') },
+			{ id: 'moving-day-logistics', stage: '2 Months Out', label: 'Think through moving-day logistics', guidance: (answers) => [
+				'Walk through moving day in your head now and look for anything that could cause delays or confusion. You do not need to finalize every detail yet. The goal is to spot problems while there is still plenty of time to solve them.',
+				'',
+				'- Access at both homes',
+				'- Travel time between the homes',
+				'- Parking and loading/unloading',
+				'- Who needs to be where',
+				'- Keys, fobs or access arrangements',
+				'- Any difference between move-out and move-in/possession times',
+				...(answers.movingMethod === 'moving-company' ? ['- Think about the access information and instructions the movers will need'] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? ['- Think about helpers, vehicle arrangements, loading and unloading'] : []),
+				...(answers.movingMethod === 'not-sure' ? ['- Your moving method will need to be finalized soon'] : []),
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? ['- Elevators, loading areas, permitted moving times and building access'] : []),
+				...(answers.children === 'yes' ? ['- Who will be responsible for the children during the move'] : []),
+				...(answers.pets === 'yes' ? ['- Where the pet can safely be during loading/unloading and who will be responsible for them'] : []),
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- The possibility that some belongings may have a different destination from the rest of the move'] : [])
+			].join('\n') },
+			{ id: 'arrange-utilities-services', stage: '1 Month Out', label: 'Arrange utilities and services for both homes', guidance: 'Coordinate stopping services at the old home and starting them at the new home so you are not left without essentials.\n\n- Electricity\n- Gas\n- Water\n- Internet\n- TV or phone services if used\n- Waste/recycling if individually arranged\n- Security or alarm monitoring\n- Rented equipment or services tied to the property\n- Confirm final billing arrangements for the old address\n- Confirm activation/start dates for the new address' },
+			{ id: 'arrange-mail-forwarding', stage: '1 Month Out', label: 'Arrange mail forwarding', guidance: 'Arrange postal mail forwarding or redirection to begin around moving day. Forwarding is a safety net, not a replacement for updating important organizations directly.\n\n- Make sure all relevant household names are covered\n- Choose an appropriate start date around the move\n- Continue updating important senders directly\n- After the move, watch forwarded mail for senders you may have forgotten' },
+			{ id: 'start-updating-address', stage: '1 Month Out', label: 'Start updating your address', guidance: (answers) => [
+				'Start changing your address with the organizations and people that need your new details.',
+				'',
+				'- Government records',
+				'- Driver’s licence or identification',
+				'- Vehicle registration where applicable',
+				'- Banks and credit cards',
+				'- Insurance',
+				'- Employer or payroll',
+				'- Healthcare providers',
+				...(answers.children === 'yes' ? ['- Schools or childcare'] : []),
+				'- Subscriptions and memberships',
+				'- Delivery and shopping accounts',
+				'- Friends and family',
+				'',
+				'Suggest using any forwarded mail received after the move as a reminder of senders that were missed.'
+			].join('\n') },
+			{ id: 'pack-room-by-room', stage: '1 Month Out', label: 'Start packing room by room', guidance: (answers) => [
+				'Move from occasional packing into steady room-by-room packing. Finish one area at a time where practical rather than opening boxes and projects throughout the whole home.',
+				'',
+				'- Continue using the labelling system chosen earlier',
+				'- Label boxes clearly on more than one side',
+				'- Use room/destination colours if that is the chosen system',
+				'- Keep decluttering as you pack',
+				'- Keep “Open First” and “Keep With Me” items separate',
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Keep using a distinct Storage label/colour for items likely to go into storage'] : []),
+				'- Do not pack important documents, medication or immediate everyday essentials yet'
+			].join('\n') },
+			{ id: 'arrange-move-cleaning', stage: '1 Month Out', label: 'Arrange your move-out and move-in cleaning', guidance: 'Decide whether each home will be cleaned by you or by professional cleaners. If using cleaners, book them now while suitable dates are still available.\n\n- Coordinate cleaning with move-out, possession and access times\n- If cleaning yourself, keep cleaning supplies accessible rather than packing them\n- Cupboards\n- Appliances\n- Bathrooms\n- Floors\n- Storage areas\n- Balcony or patio where relevant\n- Fridge/freezer\n- Rubbish/recycling\n- If possible, clean the new home before furniture and boxes arrive\n\nThe final move-out clean will happen closer to Moving Day.' },
+			{ id: 'confirm-building-arrangements', stage: '1 Month Out', label: 'Confirm your moving-day building arrangements', guidance: (answers) => `${answers.accessRestrictions === 'not-sure' ? 'Confirm whether restrictions apply before moving day.\n\n' : ''}Now confirm or book the arrangements researched earlier, including where relevant:\n- Elevator reservation\n- Loading or parking reservation\n- Permitted moving hours\n- Building/management notification\n- Deposits or fees\n- Mover insurance or required documentation\n- Keys, fobs or access arrangements\n- Protection requirements for common areas`, showWhen: (answers) => ['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) },
+			{ id: 'arrange-bridging-storage', stage: '1 Month Out', label: 'Arrange your bridging storage', guidance: 'Arrange the temporary storage needed between moving out and moving in.\n\n- Confirm storage size\n- Booking dates\n- Minimum rental period\n- Access hours\n- Insurance/security\n- Cancellation or change terms\n- How belongings will get into storage\n- How and when they will leave storage for the new home', showWhen: (answers) => answers.storageNeeded === 'yes' },
+			{ id: 'children-moving-day-plan', stage: '1 Month Out', label: 'Make a plan for the children on moving day', guidance: 'Decide what will work best for the children on moving day, whether they stay with you or are cared for by someone else.\n\n- Whether they will be with you or cared for by someone else\n- Who will be responsible for them\n- Who they will travel with\n- Pickup/drop-off arrangements if relevant\n- Car seat or booster arrangements where needed\n- Any medication or important information the responsible person will need', showWhen: (answers) => answers.children === 'yes' },
+			{ id: 'pet-moving-day-plan', stage: '1 Month Out', label: 'Make a plan for your pet on moving day', guidance: 'Decide where your pet will be during packing, loading, travel and arrival so they can be kept safe and as settled as possible.\n\n- Whether the pet will stay with you, family/friends, a sitter, boarding/daycare, or another suitable arrangement\n- Who will be responsible for the pet\n- Who will transport the pet\n- Where the pet needs to be and when\n- Safe arrangements during loading and unloading\n- Any carrier, crate, leash or travel needs\n- Medication or important care information', showWhen: (answers) => answers.pets === 'yes' },
+			{ id: 'pack-without-two-weeks', stage: '2 Weeks Out', label: 'Pack everything you can live without for two weeks', guidance: (answers) => [
+				'At this point, most things that are not needed for everyday life can be packed. The aim is to make steady progress now so Moving Week is about finishing rather than starting.',
+				'',
+				'- Finish packing decorative and rarely used items',
+				'- Pack most books, hobby items and spare household items',
+				'- Reduce kitchen items to what you expect to use over the next two weeks',
+				'- Reduce clothing and shoes to a practical two-week selection',
+				'- Pack spare linens and towels',
+				'- Keep using the labelling system chosen earlier',
+				'- Label boxes clearly on more than one side',
+				'- Keep decluttering as you pack',
+				'',
+				'Keep accessible:',
+				'- Important documents and valuables',
+				'- Medication',
+				'- Daily toiletries',
+				'- Everyday clothing needed for the remaining two weeks',
+				'- Chargers and essential electronics',
+				'- Work or school necessities',
+				'- Moving paperwork',
+				'- Basic cleaning supplies',
+				'- A small selection of kitchen essentials',
+				...(answers.children === 'yes' ? ['- Children’s everyday essentials'] : []),
+				...(answers.pets === 'yes' ? ['- Pet food, medication and everyday pet essentials'] : []),
+				...(answers.storageNeeded === 'yes' ? ['- Keep storage-bound belongings clearly separated and labelled for storage'] : [])
+			].join('\n') },
+			{ id: 'confirm-moving-day-plan', stage: '2 Weeks Out', label: 'Confirm your moving-day plan', guidance: (answers) => [
+				'Turn the moving-day logistics you thought through earlier into a confirmed plan. Make sure the people involved know when and where they need to be and what they are responsible for.',
+				'',
+				'- Confirm the moving date and expected timing',
+				'- Confirm access at both homes',
+				'- Confirm keys, fobs or other access arrangements',
+				'- Check parking and loading/unloading arrangements',
+				'- Check travel time between locations',
+				'- Check move-out and move-in/possession times',
+				'- Make sure important contact numbers are easy to find',
+				'- Make sure everyone involved knows the plan',
+				...(answers.movingMethod === 'moving-company' ? ['- Reconfirm the booking, arrival window and contact details', '- Confirm the addresses and access instructions', '- Confirm any special instructions', '- Check payment arrangements and what is due on moving day'] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? ['- Confirm the rental vehicle if using one', '- Confirm helpers and when they are arriving', '- Confirm who will drive', '- Confirm loading and unloading help', '- Make sure required moving equipment such as dollies, blankets or straps is arranged'] : []),
+				...(answers.movingMethod === 'not-sure' ? ['- The moving method now needs to be finalized immediately'] : []),
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? ['- Reconfirm elevator bookings, loading areas, permitted moving times and building access', '- Check any required deposits, documentation or mover insurance requirements'] : []),
+				...(answers.children === 'yes' ? ['- Confirm who will be responsible for the children', '- Confirm who they will travel with', '- Confirm pickup/drop-off arrangements if relevant'] : []),
+				...(answers.pets === 'yes' ? ['- Confirm who will be responsible for the pet', '- Confirm who will transport the pet', '- Confirm where the pet will safely be during loading and unloading'] : []),
+				...(answers.storageNeeded === 'yes' ? ['- Confirm which belongings are going to storage', '- Confirm how they will get there', '- Make sure everyone helping with the move knows which items have a different destination'] : [])
+			].join('\n') },
+			{ id: 'important-documents-valuables', stage: '2 Weeks Out', label: 'Set aside important documents and valuables', guidance: (answers) => [
+				'Start gathering the things that should stay with you throughout the move rather than being packed with general household belongings or loaded onto the moving truck.',
+				'',
+				'- Identification and passports',
+				'- Moving paperwork and booking confirmations',
+				'- Keys, fobs and access information',
+				'- Wallet, purse and payment cards',
+				'- Important financial or legal documents',
+				'- Jewellery and small valuables',
+				'- Medication',
+				'- Essential electronics and chargers',
+				'- Items that would be difficult or distressing to replace',
+				...(answers.children === 'yes' ? ['- Children’s identification or important documents', '- Children’s medication', '- Important school, childcare or medical information needed during the move'] : []),
+				...(answers.pets === 'yes' ? ['- Veterinary or vaccination records', '- Medication', '- Important pet travel paperwork'] : []),
+				...(answers.destination === 'different-country' ? ['- Keep passports, immigration/visa/residency documents, customs paperwork and other essential international-move documents accessible', '- Keep original documents with you rather than in general packed belongings'] : []),
+				'',
+				'Keep these items with you or under your direct control where practical.'
+			].join('\n') },
+			{ id: 'update-important-services', stage: '2 Weeks Out', label: 'Update your address with important services', guidance: (answers) => [
+				'You started changing your address earlier. Now make sure the important organizations and services have been updated before the move.',
+				'',
+				'- Government records',
+				'- Driver’s licence or identification',
+				'- Vehicle registration where applicable',
+				'- Banks and credit cards',
+				'- Insurance',
+				'- Employer or payroll',
+				'- Healthcare providers',
+				'- Subscriptions and memberships',
+				'- Delivery and shopping accounts',
+				...(answers.children === 'yes' ? ['- School, daycare or childcare records where needed'] : []),
+				'',
+				'Concentrate on important organizations first. Less important accounts can still be caught later.',
+				'',
+				'Mail forwarding is a safety net and does not replace updating important senders directly.'
+			].join('\n') },
+			{ id: 'pack-essentials-bag', stage: 'Moving Week', label: 'Finish packing', guidance: (answers) => [
+				'Finish packing the things you still need for everyday life, leaving out only what you genuinely need before moving day.',
+				'',
+				'- Finish packing the remaining rooms, cupboards and everyday belongings',
+				'- Check easy-to-forget places such as the attic or loft, basement, garage, shed, balcony, storage locker and outdoor areas where applicable',
+				'- Open every cupboard, drawer and closet as you work through each room so nothing gets left behind',
+				'- Keep "Open First" items clearly separated',
+				'- Keep "Keep With Me" items clearly separated',
+				...(answers.storageNeeded === 'yes' || answers.storageNeeded === 'not-sure' ? ['- Keep items going into storage clearly separated and labelled if storage is part of the move'] : []),
+				'- Make sure packed boxes are clearly labelled on more than one side',
+				'- Keep cleaning supplies needed for the final clean accessible',
+				'- Do not pack important documents, medication, valuables, chargers, keys or moving paperwork that should stay with you'
+			].join('\n') },
+			{ id: 'finish-labeling-boxes', stage: 'Moving Week', label: 'Prepare your Open First essentials', guidance: (answers) => [
+				'Pack the things you are likely to want soon after arriving at your new home together, and label them clearly so they are easy to identify and do not disappear into the general pile of boxes.',
+				'',
+				'- Toilet paper',
+				'- Hand soap',
+				'- Towels',
+				'- Basic toiletries',
+				'- Bedding and pillows',
+				'- A change of clothes',
+				'- Phone and device chargers',
+				'- Basic cleaning supplies',
+				'- A few mugs, glasses, plates and pieces of cutlery',
+				'- Kettle or coffee maker, plus tea or coffee if wanted',
+				'- Snacks and drinks',
+				'- Basic tools, scissors or a box cutter',
+				'- Bin or garbage bags',
+				'- Paper towel or cleaning cloths',
+				'- Any immediate work or school essentials',
+				...(answers.children === 'yes' ? ['- Children’s bedtime and comfort items', '- Children’s immediate everyday essentials'] : []),
+				...(answers.pets === 'yes' ? ['- Pet food and bowls', '- Pet medication if needed', '- Leash, carrier or other immediate pet equipment', '- Litter supplies where relevant'] : []),
+				'',
+				'Keep these items together and make sure everyone helping with the move knows they are Open First items.'
+			].join('\n') },
+			{ id: 'pack-moving-day-bag', stage: 'Moving Week', label: 'Pack your moving-day bag', guidance: (answers) => [
+				'Pack one bag with the things you are likely to need during moving day itself. Keep it with you rather than loading it with the general household belongings.',
+				'',
+				'- Phone and charger or power bank',
+				'- Wallet, identification and payment cards',
+				'- Keys, fobs and access information',
+				'- Moving paperwork, booking details and important contact numbers',
+				'- Medication',
+				'- Water and snacks',
+				'- Basic toiletries',
+				'- A change of clothes',
+				'- Weather-appropriate clothing',
+				'- Small first-aid kit',
+				'- Paper towel, wipes or tissues',
+				'- Rubbish or garbage bags',
+				'- A few basic tools if useful',
+				...(answers.children === 'yes' ? [
+					'',
+					'Children:',
+					'- Children’s comfort or favourite item',
+					'- Change of clothes',
+					'- Snacks and drinks',
+					'- Medication if needed',
+					'- Toiletries',
+					'- Entertainment or headphones',
+					'- Chargers',
+					'- Bedtime essentials',
+					'- Baby supplies if applicable'
+				] : []),
+				...(answers.pets === 'yes' ? [
+					'',
+					'Pets:',
+					'- Pet food and water',
+					'- Food and water bowls',
+					'- Medication if needed',
+					'- Leash, harness, carrier or crate as appropriate',
+					'- Familiar blanket, bed or comfort item',
+					'- Waste bags or litter supplies as appropriate',
+					'- Veterinary or vaccination information if it may be needed',
+					'- Check that your pet’s microchip registration and contact details are up to date',
+					'- Check that ID tags show a current phone number'
+				] : [])
+			].join('\n') },
+			{ id: 'clean-current-home', stage: 'Moving Week', label: 'Clean and check your current home', guidance: (answers) => [
+				'Work through your current home as it empties, completing the final cleaning and checking each area before you leave.',
+				'',
+				'- Clean each room as it becomes empty',
+				'- Check inside every cupboard, drawer and closet for anything left behind',
+				'- Clean kitchen surfaces, cupboards and appliances where applicable',
+				'- Clean bathrooms',
+				'- Vacuum, sweep or mop floors as appropriate',
+				'- Check storage areas, garage, shed, balcony or outdoor areas where applicable',
+				'- Remove remaining rubbish and recycling',
+				'- Check for belongings behind doors, inside appliances and in other easy-to-miss places',
+				'- Note any damage, repairs or final jobs that still need attention',
+				'- Keep the cleaning supplies you still need accessible until the final clean is finished',
+				...(answers.homeType === 'renting' ? [
+					'',
+					'- Check any move-out or cleaning requirements provided by your landlord or property manager',
+					'- Take photos of the condition of the home once it is empty and clean',
+					'- Gather any keys, fobs, remotes or parking passes that need to be returned',
+					'- Confirm how and when these items need to be handed back'
+				] : []),
+				...(answers.homeType === 'own' ? [
+					'',
+					'- Gather keys, fobs, garage remotes and other items that belong with the property',
+					'- Gather useful appliance manuals, warranties or property information for the new owner where available',
+					'- Leave useful household information such as waste/recycling collection details or relevant property instructions where helpful',
+					'- Transfer or reset smart-home devices appropriately rather than leaving personal passwords or account details',
+					'- Make sure anything intended to remain with the property is clearly separated from belongings being moved'
+				] : [])
+			].join('\n') },
+			{ id: 'final-moving-day-checks', stage: 'Moving Week', label: 'Do your final moving-day checks', guidance: (answers) => [
+				'Do one final check of the practical arrangements for moving day. Most of the planning is already done. This is simply to make sure nothing important has changed or been overlooked.',
+				'',
+				'- Confirm the moving date and expected timing',
+				'- Make sure everyone helping knows when and where they need to be',
+				'- Confirm how you will access both homes',
+				'- Make sure keys, fobs and access information are easy to reach',
+				'- Check the weather forecast and adjust your plans if needed',
+				'- Charge phones and power banks',
+				'- Keep important contact numbers easy to find',
+				'- Make sure your "Keep With Me", "Moving-Day Bag" and "Open First" items are clearly separated from general packed belongings',
+				...(answers.movingMethod === 'moving-company' ? [
+					'',
+					'- Reconfirm the mover arrival window',
+					'- Confirm the addresses and any access instructions',
+					'- Confirm the main contact details',
+					'- Check any payment arrangements or amount due on moving day'
+				] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? [
+					'',
+					'- Reconfirm the rental vehicle or moving vehicle arrangements',
+					'- Confirm pickup time and location if renting a vehicle',
+					'- Make sure helpers know when and where to arrive',
+					'- Check that moving equipment such as dollies, blankets or straps is ready if needed'
+				] : []),
+				...(['current-home', 'new-home', 'both', 'not-sure'].includes(answers.accessRestrictions) ? [
+					'',
+					'- Reconfirm elevator bookings if applicable',
+					'- Reconfirm loading or parking arrangements',
+					'- Check permitted moving times',
+					'- Make sure any required access arrangements, deposits or documentation are complete'
+				] : []),
+				...(answers.storageNeeded === 'yes' ? [
+					'',
+					'- Confirm the storage access arrangements',
+					'- Make sure belongings going into storage are clearly identified',
+					'- Make sure everyone helping knows which belongings have a different destination'
+				] : [])
+			].join('\n') },
+			{ id: 'confirm-vehicle-helpers-ready', stage: 'Moving Week', label: 'Confirm your moving vehicle and helpers are ready', guidance: 'Recheck the vehicle, fuel, equipment, route, and helper availability before moving day.', showWhen: (answers) => answers.movingMethod === 'doing-it-myself' },
+			{ id: 'final-old-home-walkthrough', stage: 'Moving Day', label: 'Do one final check before you leave', guidance: (answers) => [
+				'Before you leave your current home for the last time, do one final walk-through. Check the places that are easiest to overlook and make sure the things that need to stay with you are actually with you.',
+				'',
+				'- Walk through every room one last time',
+				'- Open cupboards, drawers and closets',
+				'- Check inside appliances',
+				'- Check behind doors and in other easy-to-miss places',
+				'- Check the garage, shed, balcony, storage locker and outdoor areas where applicable',
+				'- Remove any final rubbish or recycling',
+				'- Make sure nothing belonging to the property has accidentally been packed',
+				'- Make sure your "Keep With Me" items and moving-day bag are with you',
+				'- Make sure your "Open First" items are clearly identifiable',
+				'- Take final meter readings or photos where applicable',
+				'- Close and secure windows',
+				'- Turn off anything that should be turned off',
+				'- Make sure doors are secured when you leave',
+				...(answers.homeType === 'renting' ? [
+					'',
+					'- Take final photos of the condition of the home',
+					'- Check that any keys, fobs, remotes or parking passes being returned are together',
+					'- Follow the agreed key or property handover arrangements',
+					'- Complete any final landlord or property-manager instructions that apply'
+				] : []),
+				...(answers.homeType === 'own' ? [
+					'',
+					'- Make sure agreed keys, remotes and other property items are left or handed over as arranged',
+					'- Make sure anything included with the property has not accidentally been packed',
+					'- Leave any property information, manuals or other handover items you prepared for the new owner as arranged'
+				] : [])
+			].join('\n') },
+			{ id: 'track-what-goes-where', stage: 'Moving Day', label: 'Keep track of what goes where', guidance: (answers) => [
+				'As belongings are loaded and unloaded, keep an eye on where everything is going so important items stay with you and boxes end up in the right place.',
+				'',
+				'- Keep your "Keep With Me" items physically with you rather than loading them with general household belongings',
+				'- Make sure "Open First" boxes are easy to identify and retrieve',
+				'- Point out fragile or particularly important items to anyone helping with the move',
+				'- Use the box labels or room colours you prepared earlier to direct belongings to the right rooms',
+				...(answers.storageNeeded === 'yes' ? ['- If some belongings are going into storage, make sure they are clearly separated and sent to the correct destination'] : []),
+				'- At the new home, direct boxes to their labelled rooms rather than allowing everything to collect in one place',
+				'- Before the moving vehicle leaves, check that everything intended for that destination has been unloaded',
+				...(answers.movingMethod === 'moving-company' ? ['- If using a moving company, note any obvious damage or missing items and raise it promptly'] : [])
+			].join('\n') },
+			{ id: 'check-new-home-arrival', stage: 'Moving Day', label: 'Check your new home as you arrive', guidance: (answers) => [
+				"Before everything starts coming through the door, take a few minutes to check your new home and make sure you're ready for unloading.",
+				'',
+				'- Walk through the home and check for anything unexpected',
+				'- Take photos of the condition of the property before belongings are moved in',
+				'- Check that electricity, water and other essential services are working',
+				'- Locate the electrical panel, water shut-off and other important controls where practical',
+				'- Check that doors and windows lock securely',
+				'- Make sure you have the keys, fobs, garage remotes or other access items you expect',
+				'- Identify where movers or helpers should bring boxes and furniture',
+				'- Protect floors or other surfaces if needed before unloading begins',
+				'- Put toilet paper and hand soap somewhere immediately accessible',
+				'- If anything is damaged, missing or not as expected, document it before unloading where practical'
+			].join('\n') },
+			{ id: 'check-everything-arrived', stage: 'Moving Day', label: 'Check everything has arrived', guidance: (answers) => [
+				'Before the moving vehicle leaves and everyone starts heading home, make sure everything that was meant to arrive has actually arrived.',
+				'',
+				'- Check the moving vehicle is completely empty',
+				'- Check boxes and furniture against what you expected to arrive',
+				'- Look for anything obviously missing',
+				'- Check furniture and larger items for obvious damage',
+				'- Make sure nothing intended for storage has accidentally come to the new home, or vice versa',
+				'- Confirm your "Open First" items are accounted for',
+				'- Make sure your "Keep With Me" items are still safely with you',
+				'- Keep any paperwork, receipts or delivery documents from the move',
+				...(answers.movingMethod === 'moving-company' ? ['- Raise any missing or damaged items with the moving company before they leave where practical'] : [])
+			].join('\n') },
+			{ id: 'check-move-damage', stage: 'After the Move', label: 'Check your belongings for damage or missing items', guidance: (answers) => [
+				'As you unpack, keep an eye out for anything that is missing or has been damaged during the move. If you used a moving company, check any paperwork you were given and report problems promptly rather than waiting until everything is unpacked.',
+				'',
+				'- Check furniture and larger items for damage',
+				'- Look for damaged or crushed boxes as you unpack',
+				'- Make sure important or valuable items are accounted for',
+				'- Photograph any damage before repairing, cleaning or disposing of anything',
+				'- Keep damaged packaging where practical until you know whether it is needed',
+				'- Keep moving paperwork, receipts and photographs together',
+				...(answers.movingMethod === 'moving-company' ? [
+					'',
+					'- Check the moving company’s process and timeframe for reporting damage or missing items',
+					'- Report any problems promptly'
+				] : []),
+				...(answers.movingMethod === 'doing-it-myself' ? [
+					'',
+					'- Note anything damaged that may need repair or replacement',
+					'- Check whether any relevant insurance may cover the damage'
+				] : [])
+			].join('\n') },
+			{ id: 'finish-address-updates', stage: 'After the Move', label: 'Finish updating your address', guidance: (answers) => [
+				'You probably updated the most important places before moving. Now catch anything you missed. Over the next few weeks, forwarded mail, emails and accounts you use can be useful reminders of places that still have your old address.',
+				'',
+				'- Government records and identification',
+				"- Driver's licence and vehicle registration where applicable",
+				'- Banks, credit cards and other financial accounts',
+				'- Insurance providers',
+				'- Employer, payroll and pension providers',
+				'- Healthcare providers',
+				'- Schools or childcare where relevant',
+				'- Subscriptions and memberships',
+				'- Online shopping and delivery accounts',
+				'- Loyalty programs',
+				'- Professional organizations or licences',
+				'- Friends and family',
+				'- Any organizations that send tax documents, statements or other important mail',
+				'- Check forwarded mail as it arrives and update any sender still using your old address',
+				'- Check saved delivery addresses in frequently used apps and websites',
+				...(answers.destination === 'different-province-state' || answers.destination === 'different-country' ? ['- Check whether government, licensing, vehicle, healthcare, insurance or residency records need additional updates because you moved to a different jurisdiction'] : [])
+			].join('\n') },
+			{ id: 'unpack-essentials-first', stage: 'After the Move', label: 'Unpack your essentials first', guidance: (answers) => [
+				'Start with the things that will make your first evening and morning easier. Get the basics working before worrying about unpacking everything else.',
+				'',
+				'- Find and unpack your "Open First" boxes',
+				'- Set up beds and bedding',
+				'- Put out towels, toiletries, toilet paper and hand soap',
+				'- Get basic food and drink essentials accessible',
+				'- Find phone and device chargers',
+				'- Put medication somewhere safe and easy to reach',
+				'- Set up anything needed for work or school the next day',
+				'- Keep basic cleaning supplies and rubbish bags handy',
+				...(answers.children === 'yes' ? ['- Make children’s bedtime essentials easy to find'] : []),
+				...(answers.pets === 'yes' ? ['- Set up food, water, bedding and other immediate pet essentials'] : []),
+				'',
+				'Then stop if you want to. The rest of the boxes can wait.'
+			].join('\n') },
+			{ id: 'complete-moveout-followup', stage: 'After the Move', label: 'Complete any required move-out follow-up', guidance: 'Finish any remaining arrangements with your landlord or property manager so your move-out is properly wrapped up.\n\n- Complete any final move-out inspection or check-out process\n- Return any remaining keys, fobs, parking passes or remotes\n- Confirm the landlord or property manager has your current contact details if needed\n- Keep copies of inspection reports, handover documents and relevant photographs\n- Follow up on your damage or security deposit and find out when it should be returned\n- Check for any final rent, utility or property-related charges\n- Keep important correspondence until the tenancy is completely settled\n\nOnce everything has been returned, documented and settled, you can finally close the door on the old place.', showWhen: (answers) => answers.homeType === 'renting' },
+			{ id: 'help-pet-settle', stage: 'After the Move', label: 'Help your pet settle into the new home', guidance: 'Give your pet time to adjust to their new surroundings. Keeping things calm and familiar can help them settle in.\n\n- Set up their food, water, bed and familiar belongings\n- Give them a quiet, secure place away from unpacking activity\n- Keep feeding, walking and bedtime routines as normal as possible\n- Check doors, windows, gates and fences before allowing them to explore\n- Introduce the new home gradually if your pet seems unsettled\n- Keep their collar or identification on where appropriate\n- Make sure their microchip registration and contact details show your new address or current contact information\n- Find a new veterinarian if your move takes you away from your previous one\n- Keep veterinary records and medication somewhere accessible\n- Watch for unusual behaviour, appetite changes or signs that they are struggling to settle\n\nSome pets settle immediately and others need a little longer. Give them time to make the new place theirs too.', showWhen: (answers) => answers.pets === 'yes' }
+		];
+
+		const getCalendarDate = (date) => new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+
+		const getCurrentStage = (daysUntilMove) => {
+			if (daysUntilMove > 60) return '3 Months Out';
+			if (daysUntilMove >= 31) return '2 Months Out';
+			if (daysUntilMove >= 15) return '1 Month Out';
+			if (daysUntilMove >= 8) return '2 Weeks Out';
+			if (daysUntilMove >= 2) return 'Moving Week';
+			if (daysUntilMove === 1) return 'Tomorrow';
+			if (daysUntilMove === 0) return 'Moving Day';
+			return 'After the Move';
+		};
+
+		const getCompletionState = () => JSON.parse(localStorage.getItem(completionStorageKey) || '{}');
+		const getNotesState = () => JSON.parse(localStorage.getItem(notesStorageKey) || '{}');
+
+		const getMoveSummary = (daysUntilMove) => {
+			if (daysUntilMove > 1) return `${daysUntilMove} days until your move`;
+			if (daysUntilMove === 1) return 'Tomorrow is your move';
+			if (daysUntilMove === 0) return 'Today is your move';
+			return 'Your move has already happened';
+		};
+
+		const restoreSetupForm = (answers) => {
+			form.elements.movingDate.value = answers.movingDate || '';
+			['homeType', 'movingMethod', 'destination', 'pets', 'children', 'accessRestrictions', 'storageNeeded'].forEach((fieldName) => {
+				const option = [...form.elements[fieldName]].find((input) => input.value === answers[fieldName]);
+				if (option) option.checked = true;
+			});
+		};
+
+		const showSavedMessage = (answers) => {
+			if (answers.daysUntilMove > 1) {
+				savedMessage.textContent = `Your move is in ${answers.daysUntilMove} days. You are currently in the ${answers.currentStage} stage.`;
+			} else if (answers.daysUntilMove === 1) {
+				savedMessage.textContent = `Your move is tomorrow. You are currently in the ${answers.currentStage} stage.`;
+			} else if (answers.daysUntilMove === 0) {
+				savedMessage.textContent = `Your move is today. You are currently in the ${answers.currentStage} stage.`;
+			} else {
+				savedMessage.textContent = `Your move has already happened. You are currently in the ${answers.currentStage} stage.`;
+			}
+		};
+
+		const stageOrder = ['3 Months Out', '2 Months Out', '1 Month Out', '2 Weeks Out', 'Moving Week', 'Moving Day', 'After the Move'];
+		const stageDescriptions = {
+			'3 Months Out': 'Start planning, compare options and take care of early arrangements.',
+			'2 Months Out': 'Get organized and begin packing less-used belongings.',
+			'1 Month Out': 'Confirm services, address changes and practical preparations.',
+			'2 Weeks Out': 'Handle final arrangements and set aside important essentials.',
+			'Moving Week': 'Finish packing and prepare both homes for moving day.',
+			'Moving Day': 'Keep the move on track and check both homes and belongings.',
+			'After the Move': 'Settle in, unpack essentials and wrap up remaining details.'
+		};
+
+		const hasMovingHouseEntitlement = () => (
+			localStorage.getItem(developmentMovingHouseEntitlementKey) === 'true'
+			|| localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true'
+		);
+
+		const renderTaskRows = (container, stageTasks, answers, completionState, notesState) => {
+			const orderedTasks = [...stageTasks].sort((firstTask, secondTask) => {
+				return Number(Boolean(completionState[firstTask.id])) - Number(Boolean(completionState[secondTask.id]));
+			});
+
+			container.replaceChildren(...orderedTasks.map((task) => {
+				const isComplete = Boolean(completionState[task.id]);
+				const taskElement = document.createElement('div');
+				taskElement.className = `task${isComplete ? ' completed' : ''}`;
+
+				const taskTop = document.createElement('div');
+				taskTop.className = 'task-top';
+
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.id = `task-${task.id}`;
+				checkbox.checked = isComplete;
+				checkbox.dataset.taskId = task.id;
+				checkbox.setAttribute('aria-label', `Mark ${task.label} complete`);
+				checkbox.addEventListener('change', () => {
+					const updatedState = getCompletionState();
+					updatedState[task.id] = checkbox.checked;
+					localStorage.setItem(completionStorageKey, JSON.stringify(updatedState));
+					renderChecklist(answers);
+				});
+
+				const toggle = document.createElement('button');
+				toggle.type = 'button';
+				toggle.className = 'task-toggle';
+				toggle.setAttribute('aria-expanded', 'false');
+				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">Expand ›</span>`;
+
+				const details = document.createElement('div');
+				details.className = 'task-details';
+				details.hidden = true;
+
+				const guidance = document.createElement('p');
+				guidance.className = 'task-guidance';
+				guidance.textContent = typeof task.guidance === 'function' ? task.guidance(answers) : task.guidance;
+
+				const noteLabel = document.createElement('label');
+				noteLabel.className = 'task-note-label';
+				noteLabel.htmlFor = `note-${task.id}`;
+				noteLabel.textContent = 'Add a note';
+
+				const note = document.createElement('textarea');
+				note.className = 'task-note';
+				note.id = `note-${task.id}`;
+				note.placeholder = 'Add your own information';
+				note.value = notesState[task.id] || '';
+				note.addEventListener('input', () => {
+					const updatedNotes = getNotesState();
+					updatedNotes[task.id] = note.value;
+					localStorage.setItem(notesStorageKey, JSON.stringify(updatedNotes));
+				});
+
+				toggle.addEventListener('click', () => {
+					const isExpanded = !details.hidden;
+					details.hidden = isExpanded;
+					toggle.setAttribute('aria-expanded', String(!isExpanded));
+					taskElement.classList.toggle('expanded', !isExpanded);
+					toggle.querySelector('.task-chevron').textContent = isExpanded ? 'Expand ›' : 'Close ‹';
+				});
+
+				details.append(guidance, noteLabel, note);
+				const checkboxArea = document.createElement('label');
+				checkboxArea.className = 'task-check';
+				checkboxArea.append(checkbox);
+				taskTop.append(checkboxArea, toggle);
+				taskElement.append(taskTop, details);
+				return taskElement;
+			}));
+		};
+
+		const renderChecklist = (answers) => {
+			const currentStageIndex = stageOrder.indexOf(answers.currentStage);
+			const applicableTasks = tasks.filter((task) => !task.showWhen || task.showWhen(answers));
+			const currentTasks = applicableTasks.filter((task) => task.stage === answers.currentStage);
+			const earlierTasks = applicableTasks.filter((task) => {
+				const taskStageIndex = stageOrder.indexOf(task.stage);
+				return taskStageIndex !== -1 && (currentStageIndex === -1 || taskStageIndex < currentStageIndex);
+			});
+			const futureTasks = applicableTasks.filter((task) => {
+				const taskStageIndex = stageOrder.indexOf(task.stage);
+				return taskStageIndex > currentStageIndex;
+			});
+			const completionState = getCompletionState();
+			const notesState = getNotesState();
+			const isUnlocked = hasMovingHouseEntitlement();
+			const previewStage = answers.currentStage === 'Tomorrow' ? 'Moving Week' : answers.currentStage;
+			const previewStageIndex = stageOrder.indexOf(previewStage);
+			const previewCurrentTasks = answers.currentStage === 'Tomorrow'
+				? applicableTasks.filter((task) => task.stage === previewStage)
+				: currentTasks;
+			const previewEarlierTasks = isUnlocked ? earlierTasks : applicableTasks.filter((task) => {
+				const taskStageIndex = stageOrder.indexOf(task.stage);
+				return taskStageIndex !== -1 && taskStageIndex < previewStageIndex;
+			});
+			const previewTasks = isUnlocked ? [] : [...previewCurrentTasks, ...previewEarlierTasks].slice(0, 3);
+			const visibleCurrentTasks = isUnlocked
+				? currentTasks
+				: previewCurrentTasks.filter((task) => previewTasks.includes(task));
+			const visibleEarlierTasks = isUnlocked
+				? earlierTasks
+				: previewEarlierTasks.filter((task) => previewTasks.includes(task));
+
+			renderTaskRows(taskList, visibleCurrentTasks, answers, completionState, notesState);
+			renderTaskRows(earlierTaskList, visibleEarlierTasks, answers, completionState, notesState);
+			laterTaskList.replaceChildren();
+			if (isUnlocked) stageOrder.slice(currentStageIndex + 1).forEach((stage) => {
+				const stageTasks = futureTasks.filter((task) => task.stage === stage);
+				if (!stageTasks.length) return;
+
+				const stageHeading = document.createElement('h4');
+				stageHeading.className = 'checklist-section-title';
+				stageHeading.textContent = stage;
+				laterTaskList.append(stageHeading);
+
+				const stageTaskList = document.createElement('div');
+				renderTaskRows(stageTaskList, stageTasks, answers, completionState, notesState);
+				laterTaskList.append(stageTaskList);
+			});
+
+			const completedCount = visibleCurrentTasks.filter((task) => completionState[task.id]).length;
+			const progressTaskCount = isUnlocked ? currentTasks.length : applicableTasks.filter((task) => task.stage === answers.currentStage).length;
+			const percentage = progressTaskCount ? Math.round((completedCount / progressTaskCount) * 100) : 0;
+			progressPercent.textContent = `${percentage}% complete`;
+			progressBar.setAttribute('aria-valuenow', percentage);
+			progressBarFill.style.width = `${percentage}%`;
+			checklistTitle.textContent = getMoveSummary(answers.daysUntilMove);
+			stageSummary.textContent = `You're currently in the ${answers.currentStage} stage`;
+			const hasCurrentTasks = visibleCurrentTasks.length > 0;
+			currentTasksHeading.hidden = !hasCurrentTasks;
+			currentTasksTitle.textContent = !isUnlocked && answers.currentStage === 'Tomorrow'
+				? previewStage
+				: answers.currentStage;
+			earlierTasksSection.hidden = visibleEarlierTasks.length === 0;
+			focusMessage.hidden = hasCurrentTasks;
+			focusMessage.textContent = `Tasks for the ${answers.currentStage} stage will appear here.`;
+			comingLaterSection.hidden = !isUnlocked;
+			laterTasksSection.hidden = !isUnlocked || futureTasks.length === 0;
+			checklist.hidden = false;
+			fullPlanPreview.hidden = isUnlocked;
+
+			if (!isUnlocked) {
+				const fragment = document.createDocumentFragment();
+				stageOrder.forEach((stage) => {
+					const stageTasks = applicableTasks.filter((task) => task.stage === stage);
+					const stageCard = document.createElement('div');
+					stageCard.className = `journey-stage${stage === previewStage ? ' current' : ''}`;
+
+					const stageHeader = document.createElement('div');
+					stageHeader.className = 'journey-stage-header';
+					const stageName = document.createElement('span');
+					stageName.textContent = stage;
+					const taskCount = document.createElement('span');
+					taskCount.className = 'journey-stage-count';
+					taskCount.textContent = `${stageTasks.length} ${stageTasks.length === 1 ? 'task' : 'tasks'}`;
+					stageHeader.append(stageName, taskCount);
+
+					const description = document.createElement('p');
+					description.textContent = stageDescriptions[stage];
+					stageCard.append(stageHeader, description);
+
+					if (stage === previewStage) {
+						const previewNote = document.createElement('p');
+						previewNote.className = 'journey-preview-note';
+						previewNote.textContent = "You're here now.";
+						stageCard.append(previewNote);
+					}
+
+					fragment.append(stageCard);
+				});
+				journeyGrid.replaceChildren(fragment);
+			}
+		};
+
+		const showPurchaseConfirmation = (message) => {
+			purchaseConfirmation.replaceChildren();
+			const title = document.createElement('strong');
+			title.textContent = 'Purchase successful';
+			const details = document.createElement('span');
+			details.textContent = message;
+			purchaseConfirmation.append(title, details);
+			purchaseConfirmation.hidden = false;
+			window.setTimeout(() => { purchaseConfirmation.hidden = true; }, 4000);
+		};
+
+		document.querySelectorAll('[data-purchase]').forEach((button) => {
+			button.addEventListener('click', () => {
+				if (button.dataset.purchase === 'moving-house') {
+					localStorage.setItem(developmentMovingHouseEntitlementKey, 'true');
+					renderChecklist(JSON.parse(localStorage.getItem(storageKey)));
+					showPurchaseConfirmation('Your full Moving House plan is unlocked.');
+					return;
+				}
+
+				localStorage.setItem(developmentEverythingForeverEntitlementKey, 'true');
+				renderChecklist(JSON.parse(localStorage.getItem(storageKey)));
+				showPurchaseConfirmation('All current and future Nest & Go plans are now yours.');
+			});
+		});
+
+		const cancelEditButton = document.querySelector('#cancel-edit-setup');
+
+		// With a saved plan the questionnaire is only shown while editing setup.
+		const setEditingSetup = (isEditing) => {
+			form.hidden = !isEditing;
+			cancelEditButton.hidden = !isEditing;
+			if (isEditing) {
+				checklist.hidden = true;
+				fullPlanPreview.hidden = true;
+				purchaseConfirmation.hidden = true;
+			}
+			window.scrollTo(0, 0);
+		};
+
+		const showPlanView = (answers) => {
+			renderChecklist(answers);
+			setEditingSetup(false);
+			NestGo.saveLocation('moving-house', { view: 'checklist' });
+		};
+
+		NestGo.initPlanShell({
+			planId: 'moving-house',
+			onEditSetup: () => {
+				const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+				if (!currentSetup) return;
+				restoreSetupForm(currentSetup);
+				savedMessage.textContent = '';
+				setEditingSetup(true);
+			}
+		});
+
+		cancelEditButton.addEventListener('click', () => {
+			const currentSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+			if (currentSetup) showPlanView(currentSetup);
+		});
+
+		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
+		if (savedSetup) {
+			restoreSetupForm(savedSetup);
+			showPlanView(savedSetup);
+		}
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const formData = new FormData(form);
+			const answers = Object.fromEntries(formData.entries());
+			const [year, month, day] = answers.movingDate.split('-').map(Number);
+			const movingDate = new Date(Date.UTC(year, month - 1, day));
+			const today = getCalendarDate(new Date());
+			const daysUntilMove = Math.round((movingDate - today) / (1000 * 60 * 60 * 24));
+			const currentStage = getCurrentStage(daysUntilMove);
+
+			answers.daysUntilMove = daysUntilMove;
+			answers.currentStage = currentStage;
+			localStorage.setItem(storageKey, JSON.stringify(answers));
+
+			showPlanView(answers);
+		});
+	</script>
+</body>
+</html>

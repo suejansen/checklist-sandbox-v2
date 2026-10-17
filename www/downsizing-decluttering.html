@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#f7f4ef">
+	<title>Downsizing &amp; Decluttering | Set up your plan</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap');
+
+		:root {
+			--ink: #203b3a;
+			--muted: #657572;
+			--paper: #f7f4ef;
+			--panel: #fffdf9;
+			--line: #d9e0da;
+			--accent: #e56d4f;
+			--accent-dark: #bd4e35;
+			--shadow: 0 18px 45px rgba(37, 65, 58, 0.09);
+		}
+
+		* { box-sizing: border-box; }
+
+		h1, h2, h3, p, label, legend { overflow-wrap: anywhere; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 88% 0%, rgba(220, 236, 228, 0.9) 0, rgba(220, 236, 228, 0) 32%),
+				linear-gradient(145deg, #f7f4ef 0%, #eef3ee 100%);
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		main {
+			width: min(100%, 680px);
+			min-height: 100svh;
+			margin: 0 auto;
+			padding: 28px 20px 32px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: var(--muted);
+			font-size: 0.77rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 30px;
+			height: 30px;
+			place-items: center;
+			border-radius: 9px;
+			color: #fff;
+			background: var(--accent);
+			font-size: 1.05rem;
+			line-height: 1;
+		}
+
+		.home-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 24px;
+			color: var(--muted);
+			font-size: 0.88rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.home-link:hover { color: var(--ink); }
+		.home-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
+
+		header { margin: 54px 0 30px; }
+
+		h1 {
+			max-width: 560px;
+			margin: 0 0 14px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(2.65rem, 12vw, 4.5rem);
+			font-weight: 600;
+			letter-spacing: -0.03em;
+			line-height: 0.98;
+		}
+
+		.intro {
+			max-width: 480px;
+			margin: 0;
+			color: var(--muted);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		.panel {
+			padding: 24px 18px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.86);
+			box-shadow: var(--shadow);
+		}
+
+		.panel + .panel { margin-top: 20px; }
+
+		.panel h2 {
+			margin: 0 0 10px;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: clamp(1.7rem, 7vw, 2.3rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1.05;
+		}
+
+		.panel-intro {
+			margin: 0 0 22px;
+			color: var(--muted);
+			font-size: 0.96rem;
+			line-height: 1.55;
+		}
+
+		.question + .question { margin-top: 29px; }
+
+		fieldset {
+			min-width: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		legend, .question-label {
+			display: block;
+			margin-bottom: 11px;
+			color: var(--ink);
+			font-size: 1rem;
+			font-weight: 700;
+			line-height: 1.35;
+		}
+
+		.choice-grid {
+			display: grid;
+			gap: 9px;
+		}
+
+		.choice {
+			position: relative;
+			display: flex;
+			align-items: flex-start;
+			min-height: 56px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			cursor: pointer;
+			transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+		}
+
+		.choice:hover { border-color: #a9bbb1; }
+		.choice:has(input:checked) {
+			border-color: var(--accent);
+			background: #fff2ed;
+		}
+		.choice:active { transform: scale(0.99); }
+
+		.choice input {
+			width: 20px;
+			height: 20px;
+			margin: 1px 11px 0 0;
+			accent-color: var(--accent);
+			flex: 0 0 auto;
+		}
+
+		.choice:has(input:focus-visible) {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
+		}
+
+		.choice-text { display: flex; flex-direction: column; gap: 3px; }
+		.choice-text span:first-child { font-size: 0.98rem; font-weight: 600; }
+		.choice-text span.choice-support {
+			color: var(--muted);
+			font-size: 0.86rem;
+			font-weight: 400;
+			line-height: 1.4;
+		}
+
+		#loved-one-question[hidden] { display: none; }
+
+		input[type="text"] {
+			width: 100%;
+			min-height: 56px;
+			padding: 0 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			color: var(--ink);
+			background: var(--panel);
+			font: inherit;
+			font-size: 1rem;
+			outline: 0;
+		}
+
+		input[type="text"]:focus {
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px rgba(229, 109, 79, 0.17);
+			outline: 2px solid var(--accent-dark);
+			outline-offset: 2px;
+		}
+
+		.field-example {
+			margin: 9px 0 0;
+			color: var(--muted);
+			font-size: 0.86rem;
+			line-height: 1.5;
+		}
+
+		.field-error {
+			margin: 9px 0 0;
+			color: var(--accent-dark);
+			font-size: 0.86rem;
+			font-weight: 700;
+		}
+
+		.field-error[hidden] { display: none; }
+
+		.nav-wrap {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 31px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		button {
+			min-height: 58px;
+			padding: 14px 18px;
+			border: 0;
+			border-radius: 12px;
+			color: #fff;
+			background: var(--accent-dark);
+			box-shadow: 0 8px 16px rgba(189, 78, 53, 0.18);
+			cursor: pointer;
+			font: inherit;
+			font-size: 1rem;
+			font-weight: 700;
+			transition: background 160ms ease, transform 160ms ease;
+		}
+
+		button:hover { background: #a5432d; }
+		button:active { transform: translateY(1px); }
+		button:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+
+		.nav-wrap .next-button { flex: 1 1 9rem; }
+
+		.back-button {
+			flex: 0 1 auto;
+			max-width: 100%;
+			overflow-wrap: anywhere;
+			color: var(--ink);
+			background: var(--panel);
+			border: 1px solid var(--line);
+			box-shadow: none;
+		}
+
+		.back-button:hover { background: #fff2ed; }
+
+		.prep-list {
+			margin: 0 0 18px;
+			padding: 0;
+			list-style: none;
+			display: grid;
+			gap: 8px;
+		}
+
+		.prep-list li {
+			padding: 12px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+			font-size: 0.96rem;
+			font-weight: 600;
+		}
+
+		.panel-text {
+			margin: 0 0 16px;
+			color: var(--muted);
+			font-size: 0.96rem;
+			line-height: 1.55;
+		}
+
+		.panel-text:last-of-type { margin-bottom: 22px; }
+
+		.phone-line {
+			margin: 0 0 22px;
+			color: var(--ink);
+			font-size: 1.1rem;
+			font-weight: 700;
+			line-height: 1.4;
+		}
+
+		.working-controls {
+			display: grid;
+			gap: 9px;
+			margin-top: 22px;
+		}
+
+		.working-controls button {
+			background: var(--panel);
+			color: var(--ink);
+			border: 1px solid var(--line);
+			box-shadow: none;
+			font-weight: 600;
+		}
+
+		.working-controls button:hover { background: #fff2ed; }
+
+		.finish-area {
+			display: block;
+			margin: 24px auto 0;
+			padding: 8px;
+			border: 0;
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font-size: 0.88rem;
+			font-weight: 600;
+			min-height: 44px;
+			text-decoration: underline;
+		}
+
+		.finish-area:hover { color: var(--ink); background: transparent; }
+
+		.decide-later-section {
+			margin-top: 22px;
+			padding: 15px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: rgba(255, 253, 249, 0.5);
+		}
+
+		.decide-later-section h3 {
+			margin: 0 0 6px;
+			color: var(--muted);
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.decide-later-section p {
+			margin: 0 0 12px;
+			color: var(--muted);
+			font-size: 0.86rem;
+			line-height: 1.5;
+		}
+
+		.decide-later-actions {
+			display: grid;
+			gap: 8px;
+		}
+
+		.decide-later-actions button {
+			min-height: 46px;
+			padding: 10px 12px;
+			border: 1px solid var(--line);
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font-size: 0.88rem;
+			font-weight: 600;
+		}
+
+		.decide-later-actions button:hover { color: var(--ink); background: rgba(255, 242, 237, 0.6); }
+
+		button:disabled {
+			border: 1px dashed var(--line);
+			color: var(--muted);
+			background: var(--panel);
+			box-shadow: none;
+			opacity: 0.7;
+			cursor: not-allowed;
+		}
+
+		.stacked-actions {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin-top: 22px;
+			padding-top: 18px;
+			border-top: 1px solid var(--line);
+		}
+
+		.quiet-link-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 14px;
+			padding: 0 8px 0 0;
+			min-height: 44px;
+			border: 0;
+			color: var(--muted);
+			background: transparent;
+			box-shadow: none;
+			font: inherit;
+			font-size: 0.88rem;
+			font-weight: 700;
+			cursor: pointer;
+		}
+
+		.quiet-link-button:hover { color: var(--ink); background: transparent; }
+		.quiet-link-button:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 4px; }
+
+		.area-list {
+			display: grid;
+			gap: 9px;
+			margin-bottom: 22px;
+		}
+
+		.area-item {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 13px 14px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+		}
+
+		.area-item-name {
+			min-width: 0;
+			overflow-wrap: anywhere;
+			font-size: 0.98rem;
+			font-weight: 600;
+		}
+
+		.area-continue {
+			flex: 0 0 auto;
+			min-height: 44px;
+			padding: 10px 16px;
+			font-size: 0.92rem;
+		}
+
+		[data-screen][hidden] { display: none; }
+
+		.purchase-options {
+			grid-template-columns: minmax(0, 1fr);
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading { margin-bottom: 8px; }
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.purchase-option p {
+			margin: 10px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			overflow-wrap: anywhere;
+			width: 100%;
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation[hidden] { display: none; }
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+		.purchase-confirmation span { margin-top: 2px; color: var(--muted); }
+
+		@media (min-width: 600px) {
+			main { padding: 38px 30px 48px; }
+			.panel { padding: 30px; }
+			.choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { transition-duration: 0.01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<a class="home-link" href="index.html" aria-label="Return to Home">← Home</a>
+		<div class="brand"><span class="brand-mark" aria-hidden="true">✓</span> Nest &amp; Go</div>
+
+		<header>
+			<h1>Downsizing &amp; Decluttering</h1>
+			<p class="intro">Gentle, one-step-at-a-time help to sort through belongings at your own pace.</p>
+		</header>
+
+		<section id="screen-returning" class="panel" data-screen hidden>
+			<h2>Welcome back</h2>
+			<p class="panel-text">Last time you were working on <strong id="returning-area-name"></strong>.</p>
+			<p class="panel-text">Would you like to continue where you left off?</p>
+			<div class="stacked-actions">
+				<button type="button" data-continue-last-area>Continue</button>
+				<button type="button" class="back-button" data-choose-something-else>Choose something else</button>
+			</div>
+			<button type="button" class="finish-area" data-start-new-area>+ Start another area</button>
+		</section>
+
+		<section id="screen-your-areas" class="panel" data-screen hidden>
+			<h2>Your Areas</h2>
+			<div id="your-areas-list" class="area-list"></div>
+			<p id="your-areas-empty" class="panel-text" hidden>You don't have any areas in progress yet.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-start-new-area>+ Start another area</button>
+			</div>
+			<button type="button" class="finish-area" data-view-finished-areas>View finished areas</button>
+		</section>
+
+		<section id="screen-finished-areas" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas><span aria-hidden="true">←</span> Your Areas</button>
+			<h2>Finished Areas</h2>
+			<div id="finished-areas-list" class="area-list"></div>
+			<p id="finished-areas-empty" class="panel-text" hidden>No finished areas yet.</p>
+		</section>
+
+		<section id="screen-1" class="panel" data-screen hidden>
+			<h2>What would you like help with?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">What would you like help with?</legend>
+				<div class="choice-grid">
+					<label class="choice">
+						<input type="radio" name="goal" value="downsizing" required>
+						<span class="choice-text">
+							<span>Downsizing</span>
+							<span class="choice-support">I'm preparing for a smaller home or a different way of living.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="goal" value="decluttering">
+						<span class="choice-text">
+							<span>Decluttering</span>
+							<span class="choice-support">I want less stuff and a more manageable home.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="goal" value="loved-ones-home">
+						<span class="choice-text">
+							<span>Clearing a loved one's home</span>
+							<span class="choice-support">I'm helping sort through someone else's belongings.</span>
+						</span>
+					</label>
+				</div>
+			</fieldset>
+
+			<fieldset id="loved-one-question" class="question" hidden>
+				<legend>What best describes the situation?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="lovedOneSituation" value="moving"><span class="choice-text"><span>They're moving to another home</span></span></label>
+					<label class="choice"><input type="radio" name="lovedOneSituation" value="passed-away"><span class="choice-text"><span>They've passed away</span></span></label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-your-areas id="screen-1-back" hidden>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-2" class="panel" data-screen hidden>
+			<h2>How much feels manageable today?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">How much feels manageable today?</legend>
+				<div class="choice-grid">
+					<label class="choice">
+						<input type="radio" name="scope" value="small-area" required>
+						<span class="choice-text">
+							<span>One small area</span>
+							<span class="choice-support">A drawer, cupboard, shelf or corner.</span>
+						</span>
+					</label>
+					<label class="choice">
+						<input type="radio" name="scope" value="one-room">
+						<span class="choice-text"><span>One room</span></span>
+					</label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-3" class="panel" data-screen hidden>
+			<h2>Give this area a name</h2>
+			<p class="panel-intro">What would you like to call the area you're working on?</p>
+			<div class="question">
+				<label class="question-label" for="area-name">Area name</label>
+				<input id="area-name" type="text" autocomplete="off" aria-required="true" aria-describedby="area-name-example">
+				<p id="area-name-example" class="field-example">Main bedroom wardrobe, kitchen junk drawer, cupboard under the stairs, Dad's workshop...</p>
+			</div>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error role="alert" hidden>Please give this area a name before continuing.</p>
+		</section>
+
+		<section id="screen-4" class="panel" data-screen hidden>
+			<h2>What kind of space is it?</h2>
+			<fieldset class="question">
+				<legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">What kind of space is it?</legend>
+				<div class="choice-grid">
+					<label class="choice"><input type="radio" name="areaType" value="clothes-wardrobe" required><span class="choice-text"><span>Clothes &amp; wardrobe</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="kitchen-food"><span class="choice-text"><span>Kitchen &amp; food</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="paperwork-documents"><span class="choice-text"><span>Paperwork &amp; documents</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="keepsakes-sentimental"><span class="choice-text"><span>Keepsakes &amp; sentimental items</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="books-collections-hobbies"><span class="choice-text"><span>Books, collections &amp; hobbies</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="furniture-household"><span class="choice-text"><span>Furniture &amp; household items</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="garage-shed-storage"><span class="choice-text"><span>Garage, shed &amp; storage</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="general-mix"><span class="choice-text"><span>A general mix of things</span></span></label>
+					<label class="choice"><input type="radio" name="areaType" value="something-else"><span class="choice-text"><span>Something else</span></span></label>
+				</div>
+			</fieldset>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-next>Continue</button>
+			</div>
+			<p class="field-error" data-error role="alert" hidden>Please choose an option to continue.</p>
+		</section>
+
+		<section id="screen-preamble" class="panel" data-screen hidden>
+			<h2>You're ready.</h2>
+			<p class="panel-text">Before you start, it helps to have somewhere nearby for:</p>
+			<ul class="prep-list">
+				<li>Keep</li>
+				<li>Give / Sell / Donate</li>
+				<li>Dispose / Recycle</li>
+				<li>Decide Later</li>
+			</ul>
+			<p class="panel-text">"Decide Later" simply means moving an item out of the area you're sorting into a separate place for later decisions, rather than putting it back where it came from.</p>
+			<p class="panel-text">Start with one small section. Deal with the easy decisions first and leave anything difficult for later.</p>
+			<p class="panel-text">Put on some music, a podcast or whatever makes the job more pleasant. Grab a drink if you want one.</p>
+			<p class="phone-line">Put the phone down. We'll be here if you get stuck.</p>
+
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back>Back</button>
+				<button type="button" class="next-button" data-start-sorting>Start sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-working" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-your-areas><span aria-hidden="true">←</span> Your Areas</button>
+			<h2 id="working-area-name">This area</h2>
+			<div class="working-controls">
+				<button type="button" data-open-decision-brain>I'm stuck on something</button>
+				<button type="button" data-open-motivation>I'm losing motivation</button>
+				<button type="button" data-open-session-end>That's enough for today</button>
+			</div>
+			<div id="decide-later-section" class="decide-later-section" hidden>
+				<h3>Decide Later</h3>
+				<p>Have something you'd like to look at again?</p>
+				<div class="decide-later-actions">
+					<button type="button" data-open-revisit>Revisit an item</button>
+					<button type="button" data-open-decide-later-empty>My Decide Later pile is empty</button>
+				</div>
+			</div>
+			<button type="button" class="finish-area" data-open-finish-confirm>I'm finished with this area</button>
+		</section>
+
+		<section id="screen-decide-later-revisit" class="panel" data-screen hidden>
+			<h2>Ready to look at something again?</h2>
+			<p class="panel-text">Pick up one item from your Decide Later pile.</p>
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
+				<button type="button" class="next-button" data-open-second-pass-clearer>Continue</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-clearer" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
+			<h2>Does this item feel any clearer to you now?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-clear-yes>Yes, I know what I want to do</button>
+				<button type="button" data-second-pass-clear-unsure>I'm still unsure</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-what-feels-right" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
+			<h2>What feels right now?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-keep>Keep it</button>
+				<button type="button" data-second-pass-let-go>Let it go</button>
+				<button type="button" data-second-pass-still-unsure>I'm still not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-second-pass-reasons" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
+			<h2>What's making you hesitate about it today?</h2>
+			<div class="working-controls">
+				<button type="button" data-second-pass-route="like-it">I like it</button>
+				<button type="button" data-second-pass-route="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-second-pass-route="was-a-gift">It was a gift</button>
+				<button type="button" data-second-pass-route="feel-guilty">I feel guilty getting rid of it</button>
+				<button type="button" data-second-pass-route="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-second-pass-route="might-need-someday">I might need it someday</button>
+				<button type="button" data-second-pass-route="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-second-pass-route="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-second-pass-route="not-ready">I'm just not ready</button>
+				<button type="button" data-second-pass-route="not-sure-why">I'm not sure why</button>
+			</div>
+		</section>
+
+		<section id="screen-decide-later-empty-confirm" class="panel" data-screen hidden>
+			<h2>Nothing left in Decide Later?</h2>
+			<div class="stacked-actions">
+				<button type="button" data-confirm-decide-later-empty>Yes, it's empty</button>
+				<button type="button" class="back-button" data-cancel-decide-later-empty>Not yet</button>
+			</div>
+		</section>
+
+		<section id="screen-finish-decide-later-check" class="panel" data-screen hidden>
+			<h2>You still have something in Decide Later.</h2>
+			<div class="stacked-actions">
+				<button type="button" data-open-revisit>Revisit an item</button>
+				<button type="button" data-open-decide-later-empty>My Decide Later pile is empty</button>
+				<button type="button" data-finish-anyway>Finish this area anyway</button>
+				<button type="button" class="back-button" data-cancel-finish>Keep it active</button>
+			</div>
+		</section>
+
+		<section id="screen-finish-confirm" class="panel" data-screen hidden>
+			<h2 id="finish-confirm-heading">Finished with this area?</h2>
+			<p class="panel-text">We'll move it out of Your Areas. You can always come back to it later.</p>
+			<div class="stacked-actions">
+				<button type="button" data-confirm-finish>Yes, I'm finished</button>
+				<button type="button" class="back-button" data-cancel-finish>Keep it active</button>
+			</div>
+		</section>
+
+		<section id="screen-motivation" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
+			<h2>What would help right now?</h2>
+			<div class="working-controls">
+				<button type="button" data-quick-win>Give me a quick win</button>
+				<button type="button" data-need-change>I need a change</button>
+				<button type="button" data-need-break>I need a break</button>
+				<button type="button" data-done-for-today>I'm done for today</button>
+			</div>
+		</section>
+
+		<section id="screen-quick-win" class="panel" data-screen hidden>
+			<h2>Give me a quick win</h2>
+			<p id="quick-win-suggestion" class="panel-text"></p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-need-change" class="panel" data-screen hidden>
+			<h2>I need a change</h2>
+			<p class="panel-text">Try a different small section or type of item for a while. A change can be enough to get things moving again.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-need-break" class="panel" data-screen hidden>
+			<h2>Take a break.</h2>
+			<p class="panel-text">Come back whenever you're ready.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-session-end" class="panel" data-screen hidden>
+			<h2>That's enough for today.</h2>
+			<p class="panel-text">What you've done today is enough. We'll keep your place for when you want to continue.</p>
+			<div class="stacked-actions">
+				<button type="button" data-finish-for-today>Finish for today</button>
+				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-reasons" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-working><span aria-hidden="true">←</span> Back to sorting</button>
+			<h2>What's making this difficult to decide?</h2>
+			<div class="working-controls">
+				<button type="button" data-reason="like-it">I like it</button>
+				<button type="button" data-reason="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-reason="was-a-gift">It was a gift</button>
+				<button type="button" data-reason="feel-guilty">I feel guilty getting rid of it</button>
+				<button type="button" data-reason="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-reason="might-need-someday">I might need it someday</button>
+				<button type="button" data-reason="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-reason="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-reason="not-ready">I'm just not ready</button>
+				<button type="button" data-reason="not-sure-why">I'm not sure why</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-unlock" class="panel" data-screen hidden>
+			<h2>Need help with another decision?</h2>
+			<p class="panel-text">You've tried Decision Brain once. Unlock Downsizing &amp; Decluttering to use it whenever you get stuck.</p>
+			<div class="purchase-options" role="group" aria-label="Unlock options">
+				<div class="purchase-option">
+					<button type="button" data-purchase="downsizing">Unlock Downsizing &amp; Decluttering · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading"><span class="best-value-label">Best value</span></div>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+				</div>
+			</div>
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-placeholder" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<p class="panel-text">We'll add this decision route next.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-keep" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2 id="keep-heading">Then keep it.</h2>
+			<p id="keep-text" class="panel-text"></p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-keep>Keep it</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-decide-later" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Decide Later</h2>
+			<p id="decide-later-text" class="panel-text"></p>
+			<p class="panel-text">Don't put it back where you found it.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-decide-later>Decide Later</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-let-go" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2 id="let-go-heading">It's okay to let it go.</h2>
+			<p id="let-go-text" class="panel-text"></p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-let-go>Let it go</button>
+			</div>
+		</section>
+
+		<section id="screen-decision-sell" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Sell it.</h2>
+			<p class="panel-text">If getting some of the money back feels worth the effort, set it aside to sell.</p>
+			<div class="nav-wrap">
+				<button type="button" class="next-button" data-confirm-sell>Sell it</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>If this hadn't been a gift, would you choose to keep it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q1-yes>Yes</button>
+				<button type="button" data-gift-q1-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would the person who gave it to you ever know you no longer have it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q2-continue>Yes</button>
+				<button type="button" data-gift-q2-continue>Probably</button>
+				<button type="button" data-gift-q2-continue>I'm not sure</button>
+				<button type="button" data-gift-q2-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-gift-q3" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would their feelings about it matter enough to you that you want to keep it?</h2>
+			<div class="working-controls">
+				<button type="button" data-gift-q3-yes>Yes</button>
+				<button type="button" data-gift-q3-no>No</button>
+				<button type="button" data-gift-q3-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-memory-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>How does having this item make you feel?</h2>
+			<div class="working-controls">
+				<button type="button" data-memory-like-it>I like having it around</button>
+				<button type="button" data-memory-person-matters>It's really the person or memory that matters</button>
+				<button type="button" data-memory-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-memory-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would you still feel connected to that person or memory without keeping this particular item?</h2>
+			<div class="working-controls">
+				<button type="button" data-memory-q2-yes>Yes</button>
+				<button type="button" data-memory-q2-no>No</button>
+				<button type="button" data-memory-q2-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-memory-could-let-go" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>You could let the item go.</h2>
+			<p class="panel-text">If the memory matters more than the object, you could preserve the connection another way.</p>
+			<ul class="prep-list">
+				<li>Photograph it</li>
+				<li>Write down or record its story</li>
+				<li>Pass it to someone else who values the connection</li>
+				<li>If it is part of a collection, keep one representative piece</li>
+			</ul>
+			<div class="stacked-actions">
+				<button type="button" data-back-to-working data-decision-outcome>Let it go</button>
+				<button type="button" class="back-button" data-back-to-working data-decision-outcome>Keep it</button>
+			</div>
+		</section>
+
+		<section id="screen-cost-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would you choose this item for your life today?</h2>
+			<div class="working-controls">
+				<button type="button" data-cost-q1-yes>Yes</button>
+				<button type="button" data-cost-q1-no>No</button>
+				<button type="button" data-cost-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-cost-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would getting some of the money back make it worth the effort of selling it?</h2>
+			<div class="working-controls">
+				<button type="button" data-cost-q2-yes>Yes</button>
+				<button type="button" data-cost-q2-no>No</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>If you needed this again, how difficult would it be to manage without or replace it?</h2>
+			<p class="panel-intro">If this is a genuinely important safety, emergency, legal or medical item, consider it separately from general decluttering.</p>
+			<div class="working-controls">
+				<button type="button" data-need-q1-difficult>Difficult, expensive or important</button>
+				<button type="button" data-need-q1-easy>Easy enough</button>
+				<button type="button" data-need-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q2" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Is there a real reason you expect to need it, or is it more of a "just in case"?</h2>
+			<div class="working-controls">
+				<button type="button" data-need-q2-real-reason>A real reason</button>
+				<button type="button" data-need-q2-just-in-case>Just in case</button>
+			</div>
+		</section>
+
+		<section id="screen-need-q3" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>If you didn't already own it, would you buy one today just in case?</h2>
+			<div class="working-controls">
+				<button type="button" data-need-q3-yes>Yes</button>
+				<button type="button" data-need-q3-no>No</button>
+				<button type="button" data-need-q3-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-wasteful-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Could this still be useful to someone else?</h2>
+			<div class="working-controls">
+				<button type="button" data-wasteful-q1-yes>Yes</button>
+				<button type="button" data-wasteful-q1-no>No</button>
+				<button type="button" data-wasteful-q1-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-find-home-q" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>Would you like to find it another home?</h2>
+			<div class="working-controls">
+				<button type="button" data-find-home-yes>Yes</button>
+				<button type="button" data-find-home-no>No</button>
+				<button type="button" data-find-home-not-sure>I'm not sure</button>
+			</div>
+		</section>
+
+		<section id="screen-guilt-q1" class="panel" data-screen hidden>
+			<button type="button" class="quiet-link-button" data-back-to-reasons><span aria-hidden="true">←</span> Back to reasons</button>
+			<h2>What about letting it go feels difficult today?</h2>
+			<div class="working-controls">
+				<button type="button" data-guilt-route="was-a-gift">It was a gift</button>
+				<button type="button" data-guilt-route="cost-a-lot">It cost a lot of money</button>
+				<button type="button" data-guilt-route="might-need-someday">I might need it someday</button>
+				<button type="button" data-guilt-route="feels-wasteful">Getting rid of it feels wasteful</button>
+				<button type="button" data-guilt-route="someone-else-might-want">Someone else might want it</button>
+				<button type="button" data-guilt-route="reminds-me-of-someone">It reminds me of someone</button>
+				<button type="button" data-guilt-route="not-ready">I'm just not ready</button>
+				<button type="button" data-guilt-route="not-sure-why">I'm not sure</button>
+			</div>
+		</section>
+	</main>
+
+	<p id="purchase-confirmation" class="purchase-confirmation" role="alert" hidden></p>
+
+	<script src="nest-and-go-shell.js"></script>
+	<script>
+		const areasStorageKey = 'downsizing-decluttering-areas';
+		const lastAreaIdStorageKey = 'downsizing-decluttering-last-area-id';
+
+		// DEVELOPMENT/PROTOTYPE ONLY: localStorage entitlement handling is temporary test scaffolding.
+		// It must later be replaced by verified App Store purchase entitlements.
+		const developmentDownsizingEntitlementKey = 'development-prototype-downsizing-decluttering-entitlement';
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
+		// DEVELOPMENT/PROTOTYPE ONLY: kept separate from areas and plan data so plan resets never restore the free journey.
+		const developmentDecisionBrainFreeUseKey = 'development-prototype-downsizing-decision-brain-free-use';
+
+		const hasDownsizingEntitlement = () =>
+			localStorage.getItem(developmentDownsizingEntitlementKey) === 'true' ||
+			localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true';
+		const hasUsedFreeDecisionBrain = () => localStorage.getItem(developmentDecisionBrainFreeUseKey) === 'true';
+		const markFreeDecisionBrainUsed = () => localStorage.setItem(developmentDecisionBrainFreeUseKey, 'true');
+
+		const getAreas = () => JSON.parse(localStorage.getItem(areasStorageKey) || '[]');
+		const saveAreas = (areas) => localStorage.setItem(areasStorageKey, JSON.stringify(areas));
+		const getLastAreaId = () => localStorage.getItem(lastAreaIdStorageKey);
+		const setLastAreaId = (id) => localStorage.setItem(lastAreaIdStorageKey, id);
+		const createAreaId = () => `area-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+		const allScreens = [
+			'screen-returning', 'screen-your-areas', 'screen-finished-areas',
+			'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble',
+			'screen-working', 'screen-finish-confirm',
+			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
+			'screen-decision-reasons', 'screen-decision-unlock', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
+			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
+			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
+			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3',
+			'screen-wasteful-q1', 'screen-find-home-q', 'screen-guilt-q1',
+			'screen-decide-later-revisit', 'screen-decide-later-empty-confirm', 'screen-finish-decide-later-check',
+			'screen-second-pass-clearer', 'screen-second-pass-what-feels-right', 'screen-second-pass-reasons'
+		];
+		const fullSetupOrder = ['screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble'];
+		// Edit setup revisits only the answers saved on the area (the manageable-scope question is never stored).
+		const editSetupOrder = ['screen-1', 'screen-3', 'screen-4'];
+		let setupOrder = fullSetupOrder;
+		let editingAreaId = null;
+		let currentSetupIndex = 0;
+		let currentAreaId = null;
+
+		const lovedOneQuestion = document.querySelector('#loved-one-question');
+		const lovedOneInputs = [...document.querySelectorAll('input[name="lovedOneSituation"]')];
+		const areaNameInput = document.querySelector('#area-name');
+		const workingAreaName = document.querySelector('#working-area-name');
+		const returningAreaName = document.querySelector('#returning-area-name');
+		const finishConfirmHeading = document.querySelector('#finish-confirm-heading');
+		const screen1BackButton = document.querySelector('#screen-1-back');
+
+		const refreshDecideLaterSection = () => {
+			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
+			document.querySelector('#decide-later-section').hidden = !(area && area.hasDecideLater);
+		};
+
+		let hasShownScreen = false;
+		const showScreen = (id) => {
+			allScreens.forEach((screenId) => {
+				document.querySelector(`#${screenId}`).hidden = screenId !== id;
+			});
+			if (id === 'screen-working') refreshDecideLaterSection();
+			// Move focus to the new screen's heading so keyboard and screen-reader users aren't left on a hidden button.
+			const screenHeading = document.querySelector(`#${id} h2`);
+			if (hasShownScreen && screenHeading) {
+				screenHeading.tabIndex = -1;
+				screenHeading.focus({ preventScroll: true });
+			}
+			hasShownScreen = true;
+			// Only stable destinations become the Continue location; Decision Brain, setup and confirmation screens never do.
+			if (id === 'screen-working' && currentAreaId) NestGo.saveLocation('downsizing-decluttering', { screen: 'working', areaId: currentAreaId });
+			else if (id === 'screen-your-areas') NestGo.saveLocation('downsizing-decluttering', { screen: 'your-areas' });
+		};
+
+		const showSetupScreen = (index) => {
+			currentSetupIndex = index;
+			if (setupOrder[index] === 'screen-1') screen1BackButton.hidden = getAreas().length === 0;
+			showScreen(setupOrder[index]);
+		};
+
+		const updateLovedOneQuestion = () => {
+			const goalInput = document.querySelector('input[name="goal"]:checked');
+			const isLovedOnesHome = goalInput && goalInput.value === 'loved-ones-home';
+			lovedOneQuestion.hidden = !isLovedOnesHome;
+			lovedOneInputs.forEach((input) => { if (!isLovedOnesHome) input.checked = false; });
+		};
+
+		document.querySelectorAll('input[name="goal"]').forEach((input) => input.addEventListener('change', updateLovedOneQuestion));
+
+		document.querySelectorAll('#screen-2 [data-back], #screen-3 [data-back], #screen-4 [data-back], #screen-preamble [data-back]').forEach((button) => button.addEventListener('click', () => {
+			showSetupScreen(currentSetupIndex - 1);
+		}));
+
+		document.querySelectorAll('[data-next]').forEach((button) => button.addEventListener('click', () => {
+			const screen = document.querySelector(`#${setupOrder[currentSetupIndex]}`);
+			const errorMessage = screen.querySelector('[data-error]');
+
+			let isValid = true;
+			if (screen.id === 'screen-3') {
+				isValid = areaNameInput.value.trim().length > 0;
+			} else {
+				const requiredGroup = screen.querySelector('input[type="radio"][required]');
+				if (requiredGroup) isValid = Boolean(screen.querySelector(`input[name="${requiredGroup.name}"]:checked`));
+				if (isValid && !lovedOneQuestion.hidden) {
+					isValid = lovedOneInputs.some((input) => input.checked);
+				}
+			}
+
+			if (errorMessage) errorMessage.hidden = isValid;
+			areaNameInput.setAttribute('aria-invalid', String(screen.id === 'screen-3' && !isValid));
+			if (!isValid) {
+				const goalChosen = Boolean(screen.querySelector('input[name="goal"]:checked'));
+				const firstInvalid = screen.id === 'screen-3' ? areaNameInput
+					: (screen.id === 'screen-1' && goalChosen && !lovedOneQuestion.hidden ? lovedOneInputs[0] : screen.querySelector('input[type="radio"]'));
+				if (firstInvalid) firstInvalid.focus();
+				return;
+			}
+
+			if (editingAreaId && currentSetupIndex === setupOrder.length - 1) {
+				finishEditSetup();
+				return;
+			}
+
+			showSetupScreen(currentSetupIndex + 1);
+		}));
+
+		const resetSetupForm = () => {
+			document.querySelectorAll('input[name="goal"]').forEach((input) => { input.checked = false; });
+			lovedOneInputs.forEach((input) => { input.checked = false; });
+			lovedOneQuestion.hidden = true;
+			document.querySelectorAll('input[name="scope"]').forEach((input) => { input.checked = false; });
+			areaNameInput.value = '';
+			document.querySelectorAll('input[name="areaType"]').forEach((input) => { input.checked = false; });
+			document.querySelectorAll('[data-error]').forEach((error) => { error.hidden = true; });
+			hasCreatedAreaForCurrentSetup = false;
+		};
+
+		const endEditSetup = () => {
+			setupOrder = fullSetupOrder;
+			editingAreaId = null;
+		};
+
+		const startNewAreaSetup = () => {
+			endEditSetup();
+			resetSetupForm();
+			showSetupScreen(0);
+		};
+
+		const openWorkingScreen = (area) => {
+			endEditSetup();
+			currentAreaId = area.id;
+			workingAreaName.textContent = area.name;
+			setLastAreaId(area.id);
+			showScreen('screen-working');
+		};
+
+		const renderYourAreas = () => {
+			const activeAreas = getAreas().filter((area) => area.status === 'active');
+			const list = document.querySelector('#your-areas-list');
+			const emptyMessage = document.querySelector('#your-areas-empty');
+
+			list.replaceChildren(...activeAreas.map((area) => {
+				const item = document.createElement('div');
+				item.className = 'area-item';
+
+				const name = document.createElement('span');
+				name.className = 'area-item-name';
+				name.textContent = area.name;
+
+				const continueButton = document.createElement('button');
+				continueButton.type = 'button';
+				continueButton.className = 'area-continue';
+				continueButton.textContent = 'Continue';
+				continueButton.addEventListener('click', () => openWorkingScreen(area));
+
+				item.append(name, continueButton);
+				return item;
+			}));
+
+			list.hidden = activeAreas.length === 0;
+			emptyMessage.hidden = activeAreas.length > 0;
+		};
+
+		const goToYourAreas = () => {
+			endEditSetup();
+			renderYourAreas();
+			showScreen('screen-your-areas');
+		};
+
+		const finishEditSetup = () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === editingAreaId);
+			if (area) {
+				const route = document.querySelector('input[name="goal"]:checked')?.value || null;
+				area.route = route;
+				area.lovedOneSituation = route === 'loved-ones-home'
+					? (document.querySelector('input[name="lovedOneSituation"]:checked')?.value || null)
+					: null;
+				area.name = areaNameInput.value.trim() || 'This area';
+				area.areaType = document.querySelector('input[name="areaType"]:checked')?.value || null;
+				saveAreas(areas);
+			}
+			resetSetupForm();
+			if (area && area.status === 'active') openWorkingScreen(area);
+			else goToYourAreas();
+		};
+
+		const startEditSetup = () => {
+			const areas = getAreas();
+			if (areas.length === 0) {
+				startNewAreaSetup();
+				return;
+			}
+
+			const area = areas.find((candidate) => candidate.id === currentAreaId)
+				|| areas.find((candidate) => candidate.id === getLastAreaId())
+				|| areas.find((candidate) => candidate.status === 'active')
+				|| areas[0];
+
+			resetSetupForm();
+			setupOrder = editSetupOrder;
+			editingAreaId = area.id;
+
+			const goalInput = [...document.querySelectorAll('input[name="goal"]')].find((input) => input.value === area.route);
+			if (goalInput) goalInput.checked = true;
+			updateLovedOneQuestion();
+			const situationInput = lovedOneInputs.find((input) => input.value === area.lovedOneSituation);
+			if (situationInput) situationInput.checked = true;
+			areaNameInput.value = area.name;
+			const areaTypeInput = [...document.querySelectorAll('input[name="areaType"]')].find((input) => input.value === area.areaType);
+			if (areaTypeInput) areaTypeInput.checked = true;
+
+			showSetupScreen(0);
+		};
+
+		NestGo.initPlanShell({ planId: 'downsizing-decluttering', onEditSetup: startEditSetup });
+
+		const renderFinishedAreas = () => {
+			const finishedAreas = getAreas().filter((area) => area.status === 'finished');
+			const list = document.querySelector('#finished-areas-list');
+			const emptyMessage = document.querySelector('#finished-areas-empty');
+
+			list.replaceChildren(...finishedAreas.map((area) => {
+				const item = document.createElement('div');
+				item.className = 'area-item';
+
+				const name = document.createElement('span');
+				name.className = 'area-item-name';
+				name.textContent = area.name;
+
+				const reopenButton = document.createElement('button');
+				reopenButton.type = 'button';
+				reopenButton.className = 'area-continue';
+				reopenButton.textContent = 'Work on this area again';
+				reopenButton.addEventListener('click', () => {
+					const areas = getAreas();
+					const targetArea = areas.find((candidate) => candidate.id === area.id);
+					if (!targetArea) return;
+					targetArea.status = 'active';
+					saveAreas(areas);
+					openWorkingScreen(targetArea);
+				});
+
+				item.append(name, reopenButton);
+				return item;
+			}));
+
+			list.hidden = finishedAreas.length === 0;
+			emptyMessage.hidden = finishedAreas.length > 0;
+		};
+
+		const goToFinishedAreas = () => {
+			renderFinishedAreas();
+			showScreen('screen-finished-areas');
+		};
+
+		document.querySelectorAll('[data-back-to-your-areas]').forEach((button) => button.addEventListener('click', goToYourAreas));
+		document.querySelectorAll('[data-start-new-area]').forEach((button) => button.addEventListener('click', startNewAreaSetup));
+		document.querySelector('[data-view-finished-areas]').addEventListener('click', goToFinishedAreas);
+
+		document.querySelector('[data-choose-something-else]').addEventListener('click', goToYourAreas);
+		document.querySelector('[data-continue-last-area]').addEventListener('click', () => {
+			const area = getAreas().find((candidate) => candidate.id === getLastAreaId());
+			if (area) openWorkingScreen(area);
+		});
+
+		document.querySelector('[data-open-finish-confirm]').addEventListener('click', () => {
+			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
+			if (!area) return;
+			if (area.hasDecideLater) {
+				showScreen('screen-finish-decide-later-check');
+				return;
+			}
+			finishConfirmHeading.textContent = `Finished with ${area.name}?`;
+			showScreen('screen-finish-confirm');
+		});
+
+		const finishCurrentArea = () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.status = 'finished';
+				saveAreas(areas);
+			}
+			goToYourAreas();
+		};
+
+		document.querySelector('[data-confirm-finish]').addEventListener('click', finishCurrentArea);
+		document.querySelector('[data-finish-anyway]').addEventListener('click', finishCurrentArea);
+
+		document.querySelectorAll('[data-cancel-finish]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-working');
+		}));
+
+		document.querySelectorAll('[data-open-revisit]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-decide-later-revisit');
+		}));
+
+		document.querySelectorAll('[data-open-decide-later-empty]').forEach((button) => button.addEventListener('click', () => {
+			showScreen('screen-decide-later-empty-confirm');
+		}));
+
+		document.querySelector('[data-confirm-decide-later-empty]').addEventListener('click', () => {
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.hasDecideLater = false;
+				saveAreas(areas);
+			}
+			showScreen('screen-working');
+		});
+
+		document.querySelector('[data-cancel-decide-later-empty]').addEventListener('click', () => {
+			showScreen('screen-working');
+		});
+
+		// suggestions are intentionally small and specific to the area's space category
+		const quickWinSuggestions = {
+			'clothes-wardrobe': 'Choose one very small group, such as socks, shoes or one shelf.',
+			'kitchen-food': 'Choose one shelf, drawer or small group of obvious items.',
+			'paperwork-documents': 'Start with obvious recycling or one small pile. Do not dispose of important or confidential documents without checking them first.',
+			'keepsakes-sentimental': 'Choose something easy first. Try not to start with the most emotional item.',
+			'books-collections-hobbies': 'Choose one shelf, small stack or obvious duplicate.',
+			'furniture-household': 'Choose one small group of household items rather than tackling the whole space.',
+			'garage-shed-storage': 'Choose one shelf, box or group of obvious items. Leave chemicals, paint, batteries or other hazardous materials for their own separate decision.',
+			'general-mix': 'Choose one small group of obvious items, such as empty bags, things that belong somewhere else, or things you already know you don\u2019t want.',
+			'something-else': 'Choose one small, easy group or section to start with.'
+		};
+
+		document.querySelectorAll('[data-back-to-working]').forEach((button) => button.addEventListener('click', () => showScreen('screen-working')));
+
+		const openSessionEnd = () => showScreen('screen-session-end');
+		document.querySelector('[data-open-session-end]').addEventListener('click', openSessionEnd);
+		document.querySelector('[data-done-for-today]').addEventListener('click', openSessionEnd);
+
+		document.querySelector('[data-open-motivation]').addEventListener('click', () => showScreen('screen-motivation'));
+
+		document.querySelector('[data-quick-win]').addEventListener('click', () => {
+			const area = getAreas().find((candidate) => candidate.id === currentAreaId);
+			const suggestion = quickWinSuggestions[area?.areaType] || quickWinSuggestions['something-else'];
+			document.querySelector('#quick-win-suggestion').textContent = suggestion;
+			showScreen('screen-quick-win');
+		});
+
+		document.querySelector('[data-need-change]').addEventListener('click', () => showScreen('screen-need-change'));
+		document.querySelector('[data-need-break]').addEventListener('click', () => showScreen('screen-need-break'));
+
+		document.querySelector('[data-finish-for-today]').addEventListener('click', goToYourAreas);
+
+		// only these two reasons have completed decision routes so far; the rest show a neutral placeholder
+		const decideLaterCopyByReason = {
+			'not-ready': 'Move it out of the area you\u2019re sorting and put it with the things you want to decide about another time.',
+			'not-sure-why': 'You don\u2019t have to work out the reason right now. Move it out of the area you\u2019re sorting and come back to it another time.'
+		};
+
+		const keepOutcomeByKey = {
+			'like-it': { heading: 'Then keep it.', text: 'You don\u2019t need to justify keeping something you genuinely like.' },
+			'gift': { heading: 'Then keep it.', text: 'You\u2019ve chosen it because you want it, not simply because it was given to you.' },
+			'memory-like-having-it': { heading: 'Then keep it.', text: 'It has a place in your life.' },
+			'memory-item-matters': { heading: 'Then keep it.', text: 'This particular item matters to the connection.' },
+			'cost-yes': { heading: 'Then keep it.', text: '' },
+			'need-someday-difficult': { heading: 'Keep it.', text: 'There\u2019s a reasonable case for keeping something that would be difficult, expensive or important to replace.' },
+			'need-someday-real-reason': { heading: 'Keep it.', text: '' },
+			'need-someday-buy-again': { heading: 'Keep it.', text: '' }
+		};
+
+		const showKeepOutcome = (key) => {
+			const outcome = keepOutcomeByKey[key];
+			document.querySelector('#keep-heading').textContent = outcome.heading;
+			const keepTextEl = document.querySelector('#keep-text');
+			keepTextEl.textContent = outcome.text;
+			keepTextEl.hidden = !outcome.text;
+			showScreen('screen-decision-keep');
+		};
+
+		const showDecideLaterOutcome = (reasonKey) => {
+			document.querySelector('#decide-later-text').textContent = decideLaterCopyByReason[reasonKey];
+			showScreen('screen-decision-decide-later');
+		};
+
+		const letGoOutcomeByKey = {
+			'gift': { heading: 'It\u2019s okay to let it go.', text: 'The gift was given and received. You can decide what happens to the object now.' },
+			'cost': { heading: 'You don\u2019t have to turn this into another job.', text: 'The original cost is already spent. Your time and effort still have value. You can give, donate, recycle or dispose of it appropriately.' },
+			'general': { heading: 'It\u2019s okay to let it go.', text: 'You can decide what happens to it now \u2014 give, sell, donate, recycle or dispose of it as feels right.' },
+			'recycle-dispose-only': { heading: 'It\u2019s okay to let it go.', text: 'Recycle or dispose of it responsibly where appropriate.' },
+			'find-another-home': { heading: 'Find it another home.', text: 'You could give, donate or sell it.' },
+			'waiting-for-right-person': { heading: 'It\u2019s okay to let it go.', text: 'You don\u2019t have to keep something indefinitely while waiting for the right person. Recycle or dispose of it responsibly where appropriate.' }
+		};
+
+		const showLetGoOutcome = (key = 'gift') => {
+			const outcome = letGoOutcomeByKey[key];
+			document.querySelector('#let-go-heading').textContent = outcome.heading;
+			document.querySelector('#let-go-text').textContent = outcome.text;
+			showScreen('screen-decision-let-go');
+		};
+
+		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => {
+			if (hasDownsizingEntitlement() || !hasUsedFreeDecisionBrain()) {
+				showScreen('screen-decision-reasons');
+			} else {
+				showScreen('screen-decision-unlock');
+			}
+		});
+
+		let purchaseConfirmationTimer;
+		document.querySelectorAll('[data-purchase]').forEach((button) => button.addEventListener('click', () => {
+			const isEverything = button.dataset.purchase === 'everything-forever';
+			localStorage.setItem(isEverything ? developmentEverythingForeverEntitlementKey : developmentDownsizingEntitlementKey, 'true');
+
+			const confirmation = document.querySelector('#purchase-confirmation');
+			confirmation.innerHTML = '<strong>Purchase successful</strong><span></span>';
+			confirmation.querySelector('span').textContent = isEverything
+				? 'All current and future Nest & Go plans are now yours.'
+				: 'Your full Downsizing & Decluttering plan is unlocked.';
+			confirmation.hidden = false;
+			clearTimeout(purchaseConfirmationTimer);
+			purchaseConfirmationTimer = setTimeout(() => { confirmation.hidden = true; }, 4000);
+
+			showScreen('screen-decision-reasons');
+		}));
+
+		document.querySelectorAll('[data-decision-outcome]').forEach((button) => button.addEventListener('click', markFreeDecisionBrainUsed));
+		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
+
+		const routeReason = (reason) => {
+			if (reason === 'like-it') {
+				showKeepOutcome('like-it');
+				return;
+			}
+			if (reason === 'was-a-gift') {
+				showScreen('screen-gift-q1');
+				return;
+			}
+			if (reason === 'reminds-me-of-someone') {
+				showScreen('screen-memory-q1');
+				return;
+			}
+			if (reason === 'cost-a-lot') {
+				showScreen('screen-cost-q1');
+				return;
+			}
+			if (reason === 'might-need-someday') {
+				showScreen('screen-need-q1');
+				return;
+			}
+			if (reason === 'feels-wasteful') {
+				showScreen('screen-wasteful-q1');
+				return;
+			}
+			if (reason === 'someone-else-might-want') {
+				showScreen('screen-find-home-q');
+				return;
+			}
+			if (reason === 'feel-guilty') {
+				showScreen('screen-guilt-q1');
+				return;
+			}
+			if (decideLaterCopyByReason[reason]) {
+				showDecideLaterOutcome(reason);
+				return;
+			}
+			showScreen('screen-decision-placeholder');
+		};
+
+		document.querySelectorAll('[data-reason]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.reason)));
+		document.querySelectorAll('[data-guilt-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.guiltRoute)));
+
+		document.querySelector('[data-open-second-pass-clearer]').addEventListener('click', () => showScreen('screen-second-pass-clearer'));
+		document.querySelector('[data-second-pass-clear-yes]').addEventListener('click', () => showScreen('screen-second-pass-what-feels-right'));
+		document.querySelector('[data-second-pass-clear-unsure]').addEventListener('click', () => showScreen('screen-second-pass-reasons'));
+
+		document.querySelector('[data-second-pass-keep]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-second-pass-let-go]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-second-pass-still-unsure]').addEventListener('click', () => showScreen('screen-second-pass-reasons'));
+
+		document.querySelectorAll('[data-second-pass-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.secondPassRoute)));
+
+		document.querySelector('[data-confirm-keep]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
+
+		document.querySelector('[data-confirm-decide-later]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			const areas = getAreas();
+			const area = areas.find((candidate) => candidate.id === currentAreaId);
+			if (area) {
+				area.hasDecideLater = true;
+				saveAreas(areas);
+			}
+			showScreen('screen-working');
+		});
+
+		document.querySelector('[data-confirm-let-go]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
+
+		document.querySelector('[data-confirm-sell]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
+
+		document.querySelector('[data-gift-q1-yes]').addEventListener('click', () => showKeepOutcome('gift'));
+		document.querySelector('[data-gift-q1-no]').addEventListener('click', () => showScreen('screen-gift-q2'));
+
+		document.querySelector('[data-gift-q2-no]').addEventListener('click', () => showLetGoOutcome());
+		document.querySelectorAll('[data-gift-q2-continue]').forEach((button) => button.addEventListener('click', () => showScreen('screen-gift-q3')));
+
+		document.querySelector('[data-gift-q3-yes]').addEventListener('click', () => showKeepOutcome('gift'));
+		document.querySelector('[data-gift-q3-no]').addEventListener('click', () => showLetGoOutcome());
+		document.querySelector('[data-gift-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-memory-like-it]').addEventListener('click', () => showKeepOutcome('memory-like-having-it'));
+		document.querySelector('[data-memory-person-matters]').addEventListener('click', () => showScreen('screen-memory-q2'));
+		document.querySelector('[data-memory-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-memory-q2-yes]').addEventListener('click', () => showScreen('screen-memory-could-let-go'));
+		document.querySelector('[data-memory-q2-no]').addEventListener('click', () => showKeepOutcome('memory-item-matters'));
+		document.querySelector('[data-memory-q2-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-cost-q1-yes]').addEventListener('click', () => showKeepOutcome('cost-yes'));
+		document.querySelector('[data-cost-q1-no]').addEventListener('click', () => showScreen('screen-cost-q2'));
+		document.querySelector('[data-cost-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-cost-q2-yes]').addEventListener('click', () => showScreen('screen-decision-sell'));
+		document.querySelector('[data-cost-q2-no]').addEventListener('click', () => showLetGoOutcome('cost'));
+
+		document.querySelector('[data-need-q1-difficult]').addEventListener('click', () => showKeepOutcome('need-someday-difficult'));
+		document.querySelector('[data-need-q1-easy]').addEventListener('click', () => showScreen('screen-need-q2'));
+		document.querySelector('[data-need-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-need-q2-real-reason]').addEventListener('click', () => showKeepOutcome('need-someday-real-reason'));
+		document.querySelector('[data-need-q2-just-in-case]').addEventListener('click', () => showScreen('screen-need-q3'));
+
+		document.querySelector('[data-need-q3-yes]').addEventListener('click', () => showKeepOutcome('need-someday-buy-again'));
+		document.querySelector('[data-need-q3-no]').addEventListener('click', () => showLetGoOutcome('general'));
+		document.querySelector('[data-need-q3-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-wasteful-q1-yes]').addEventListener('click', () => showScreen('screen-find-home-q'));
+		document.querySelector('[data-wasteful-q1-no]').addEventListener('click', () => showLetGoOutcome('recycle-dispose-only'));
+		document.querySelector('[data-wasteful-q1-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		document.querySelector('[data-find-home-yes]').addEventListener('click', () => showLetGoOutcome('find-another-home'));
+		document.querySelector('[data-find-home-no]').addEventListener('click', () => showLetGoOutcome('waiting-for-right-person'));
+		document.querySelector('[data-find-home-not-sure]').addEventListener('click', () => showDecideLaterOutcome('not-ready'));
+
+		let hasCreatedAreaForCurrentSetup = false;
+
+		document.querySelector('[data-start-sorting]').addEventListener('click', () => {
+			if (hasCreatedAreaForCurrentSetup) return;
+			hasCreatedAreaForCurrentSetup = true;
+
+			const route = document.querySelector('input[name="goal"]:checked')?.value || null;
+			const lovedOneSituation = route === 'loved-ones-home'
+				? (document.querySelector('input[name="lovedOneSituation"]:checked')?.value || null)
+				: null;
+			const areaType = document.querySelector('input[name="areaType"]:checked')?.value || null;
+
+			const area = {
+				id: createAreaId(),
+				name: areaNameInput.value.trim() || 'This area',
+				areaType,
+				status: 'active',
+				hasDecideLater: false,
+				route,
+				lovedOneSituation
+			};
+
+			const areas = getAreas();
+			areas.push(area);
+			saveAreas(areas);
+
+			openWorkingScreen(area);
+		});
+
+		const initializeEntryScreen = () => {
+			const areas = getAreas();
+			if (areas.length === 0) {
+				showSetupScreen(0);
+				return;
+			}
+
+			const savedLocation = NestGo.getLocation('downsizing-decluttering');
+			if (savedLocation && savedLocation.screen === 'working') {
+				const savedArea = areas.find((area) => area.id === savedLocation.areaId && area.status === 'active');
+				if (savedArea) {
+					openWorkingScreen(savedArea);
+					return;
+				}
+			}
+			if (savedLocation && savedLocation.screen === 'your-areas') {
+				goToYourAreas();
+				return;
+			}
+
+			const lastArea = areas.find((area) => area.id === getLastAreaId());
+			if (lastArea && lastArea.status === 'active') {
+				returningAreaName.textContent = lastArea.name;
+				showScreen('screen-returning');
+			} else {
+				goToYourAreas();
+			}
+		};
+
+		initializeEntryScreen();
+	</script>
+</body>
+</html>
