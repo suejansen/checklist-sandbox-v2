@@ -339,12 +339,11 @@
 
 		.task-chevron {
 			color: var(--accent);
-			font-size: 1.1rem;
+			font-size: 0.78rem;
+			font-weight: 600;
 			line-height: 1.25;
-			transition: transform 160ms ease;
+			white-space: nowrap;
 		}
-
-		.task.expanded .task-chevron { transform: rotate(90deg); }
 
 		.task-details {
 			margin: 12px 0 0 31px;
@@ -1101,7 +1100,7 @@
 				toggle.type = 'button';
 				toggle.className = 'task-toggle';
 				toggle.setAttribute('aria-expanded', 'false');
-				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">›</span>`;
+				toggle.innerHTML = `<span>${task.label}</span><span class="task-chevron" aria-hidden="true">Expand ›</span>`;
 
 				const details = document.createElement('div');
 				details.className = 'task-details';
@@ -1132,6 +1131,7 @@
 					details.hidden = isExpanded;
 					toggle.setAttribute('aria-expanded', String(!isExpanded));
 					taskElement.classList.toggle('expanded', !isExpanded);
+					toggle.querySelector('.task-chevron').textContent = isExpanded ? 'Expand ›' : 'Close ‹';
 				});
 
 				details.append(guidance, noteLabel, note);
