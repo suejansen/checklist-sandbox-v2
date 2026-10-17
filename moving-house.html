@@ -389,13 +389,165 @@
 			text-decoration: line-through;
 		}
 
+		.full-plan-preview {
+			margin-top: 18px;
+			padding: 22px 16px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.9);
+			box-shadow: var(--shadow);
+		}
+
+		.full-plan-preview h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.full-plan-intro {
+			margin: 7px 0 17px;
+			color: var(--muted);
+			font-size: 0.92rem;
+			line-height: 1.5;
+		}
+
+		.journey-grid {
+			display: grid;
+			gap: 8px;
+		}
+
+		.journey-stage {
+			padding: 11px 12px;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: rgba(255, 253, 249, 0.72);
+		}
+
+		.journey-stage.current {
+			border-color: rgba(229, 109, 79, 0.48);
+			background: #fff6f2;
+		}
+
+		.journey-stage-header {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 10px;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.journey-stage-count {
+			flex: 0 0 auto;
+			color: var(--muted);
+			font-size: 0.76rem;
+			font-weight: 600;
+			white-space: nowrap;
+		}
+
+		.journey-stage p {
+			margin: 4px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.journey-stage .journey-preview-note {
+			margin-top: 7px;
+			color: var(--accent-dark);
+			font-size: 0.79rem;
+			font-weight: 500;
+		}
+
+		.purchase-options {
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-bottom: 10px;
+			font-size: 0.91rem;
+			font-weight: 700;
+		}
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.7rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		.purchase-option p {
+			margin: -3px 0 10px;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+
+		.purchase-confirmation span {
+			margin-top: 2px;
+			color: var(--muted);
+		}
+
 		@media (min-width: 600px) {
 			main { padding: 38px 30px 48px; }
 			form { padding: 30px; }
 			.checklist { padding: 30px; }
+			.full-plan-preview { padding: 28px; }
 			.choice-grid { grid-template-columns: repeat(2, 1fr); }
 			.question:first-child .choice-grid,
 			.question:last-child .choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.journey-grid,
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -518,12 +670,36 @@
 				</div>
 			</section>
 		</section>
+		<section id="full-plan-preview" class="full-plan-preview" hidden aria-labelledby="full-plan-title">
+			<h2 id="full-plan-title">Your full moving plan is ready</h2>
+			<p class="full-plan-intro">Take a look at what’s included in your personalized plan before deciding whether to unlock everything.</p>
+			<div id="journey-grid" class="journey-grid"></div>
+			<div class="purchase-options" aria-label="Unlock options">
+				<div class="purchase-option">
+					<div class="purchase-option-heading">Unlock Moving House · $2.99</div>
+					<button type="button" data-purchase="moving-house">Unlock Moving House · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading">
+						<span>Unlock Everything Forever · $5.99</span>
+						<span class="best-value-label">Best value</span>
+					</div>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+				</div>
+			</div>
+		</section>
+		<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
 	</main>
 
 	<script>
 		const form = document.querySelector('#moving-setup');
 		const savedMessage = document.querySelector('#saved-message');
 		const checklist = document.querySelector('#checklist');
+		const fullPlanPreview = document.querySelector('#full-plan-preview');
+		const journeyGrid = document.querySelector('#journey-grid');
+		const purchaseConfirmation = document.querySelector('#purchase-confirmation');
+		const comingLaterSection = document.querySelector('.coming-later');
 		const taskList = document.querySelector('#task-list');
 		const earlierTasksSection = document.querySelector('#earlier-tasks-section');
 		const earlierTaskList = document.querySelector('#earlier-task-list');
@@ -540,6 +716,9 @@
 		const storageKey = 'moving-house-setup';
 		const completionStorageKey = 'moving-house-task-completion';
 		const notesStorageKey = 'moving-house-task-notes';
+		// DEVELOPMENT/PROTOTYPE ONLY: temporary localStorage test scaffolding; MUST be replaced with verified App Store purchase entitlements.
+		const developmentMovingHouseEntitlementKey = 'development-prototype-moving-house-entitlement';
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
 		const tasks = [
 			{ id: 'moving-budget', stage: '3 Months Out', label: 'Estimate your moving costs', guidance: (answers) => [
 				'Get a rough idea of what your move is likely to cost so there are fewer surprises later. You don’t need an exact figure yet — just include the main expenses you’re likely to have.',
@@ -1070,6 +1249,20 @@
 		};
 
 		const stageOrder = ['3 Months Out', '2 Months Out', '1 Month Out', '2 Weeks Out', 'Moving Week', 'Moving Day', 'After the Move'];
+		const stageDescriptions = {
+			'3 Months Out': 'Start planning, compare options and take care of early arrangements.',
+			'2 Months Out': 'Get organized and begin packing less-used belongings.',
+			'1 Month Out': 'Confirm services, address changes and practical preparations.',
+			'2 Weeks Out': 'Handle final arrangements and set aside important essentials.',
+			'Moving Week': 'Finish packing and prepare both homes for moving day.',
+			'Moving Day': 'Keep the move on track and check both homes and belongings.',
+			'After the Move': 'Settle in, unpack essentials and wrap up remaining details.'
+		};
+
+		const hasMovingHouseEntitlement = () => (
+			localStorage.getItem(developmentMovingHouseEntitlementKey) === 'true'
+			|| localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true'
+		);
 
 		const renderTaskRows = (container, stageTasks, answers, completionState, notesState) => {
 			const orderedTasks = [...stageTasks].sort((firstTask, secondTask) => {
@@ -1155,11 +1348,28 @@
 			});
 			const completionState = getCompletionState();
 			const notesState = getNotesState();
+			const isUnlocked = hasMovingHouseEntitlement();
+			const previewStage = answers.currentStage === 'Tomorrow' ? 'Moving Week' : answers.currentStage;
+			const previewStageIndex = stageOrder.indexOf(previewStage);
+			const previewCurrentTasks = answers.currentStage === 'Tomorrow'
+				? applicableTasks.filter((task) => task.stage === previewStage)
+				: currentTasks;
+			const previewEarlierTasks = isUnlocked ? earlierTasks : applicableTasks.filter((task) => {
+				const taskStageIndex = stageOrder.indexOf(task.stage);
+				return taskStageIndex !== -1 && taskStageIndex < previewStageIndex;
+			});
+			const previewTasks = isUnlocked ? [] : [...previewCurrentTasks, ...previewEarlierTasks].slice(0, 3);
+			const visibleCurrentTasks = isUnlocked
+				? currentTasks
+				: previewCurrentTasks.filter((task) => previewTasks.includes(task));
+			const visibleEarlierTasks = isUnlocked
+				? earlierTasks
+				: previewEarlierTasks.filter((task) => previewTasks.includes(task));
 
-			renderTaskRows(taskList, currentTasks, answers, completionState, notesState);
-			renderTaskRows(earlierTaskList, earlierTasks, answers, completionState, notesState);
+			renderTaskRows(taskList, visibleCurrentTasks, answers, completionState, notesState);
+			renderTaskRows(earlierTaskList, visibleEarlierTasks, answers, completionState, notesState);
 			laterTaskList.replaceChildren();
-			stageOrder.slice(currentStageIndex + 1).forEach((stage) => {
+			if (isUnlocked) stageOrder.slice(currentStageIndex + 1).forEach((stage) => {
 				const stageTasks = futureTasks.filter((task) => task.stage === stage);
 				if (!stageTasks.length) return;
 
@@ -1173,22 +1383,85 @@
 				laterTaskList.append(stageTaskList);
 			});
 
-			const completedCount = currentTasks.filter((task) => completionState[task.id]).length;
-			const percentage = currentTasks.length ? Math.round((completedCount / currentTasks.length) * 100) : 0;
+			const completedCount = visibleCurrentTasks.filter((task) => completionState[task.id]).length;
+			const progressTaskCount = isUnlocked ? currentTasks.length : applicableTasks.filter((task) => task.stage === answers.currentStage).length;
+			const percentage = progressTaskCount ? Math.round((completedCount / progressTaskCount) * 100) : 0;
 			progressPercent.textContent = `${percentage}% complete`;
 			progressBar.setAttribute('aria-valuenow', percentage);
 			progressBarFill.style.width = `${percentage}%`;
 			checklistTitle.textContent = getMoveSummary(answers.daysUntilMove);
 			stageSummary.textContent = `You're currently in the ${answers.currentStage} stage`;
-			const hasCurrentTasks = currentTasks.length > 0;
+			const hasCurrentTasks = visibleCurrentTasks.length > 0;
 			currentTasksHeading.hidden = !hasCurrentTasks;
-			currentTasksTitle.textContent = answers.currentStage;
-			earlierTasksSection.hidden = earlierTasks.length === 0;
+			currentTasksTitle.textContent = !isUnlocked && answers.currentStage === 'Tomorrow'
+				? previewStage
+				: answers.currentStage;
+			earlierTasksSection.hidden = visibleEarlierTasks.length === 0;
 			focusMessage.hidden = hasCurrentTasks;
 			focusMessage.textContent = `Tasks for the ${answers.currentStage} stage will appear here.`;
-			laterTasksSection.hidden = futureTasks.length === 0;
+			comingLaterSection.hidden = !isUnlocked;
+			laterTasksSection.hidden = !isUnlocked || futureTasks.length === 0;
 			checklist.hidden = false;
+			fullPlanPreview.hidden = isUnlocked;
+
+			if (!isUnlocked) {
+				const fragment = document.createDocumentFragment();
+				stageOrder.forEach((stage) => {
+					const stageTasks = applicableTasks.filter((task) => task.stage === stage);
+					const stageCard = document.createElement('div');
+					stageCard.className = `journey-stage${stage === previewStage ? ' current' : ''}`;
+
+					const stageHeader = document.createElement('div');
+					stageHeader.className = 'journey-stage-header';
+					const stageName = document.createElement('span');
+					stageName.textContent = stage;
+					const taskCount = document.createElement('span');
+					taskCount.className = 'journey-stage-count';
+					taskCount.textContent = `${stageTasks.length} ${stageTasks.length === 1 ? 'task' : 'tasks'}`;
+					stageHeader.append(stageName, taskCount);
+
+					const description = document.createElement('p');
+					description.textContent = stageDescriptions[stage];
+					stageCard.append(stageHeader, description);
+
+					if (stage === previewStage) {
+						const previewNote = document.createElement('p');
+						previewNote.className = 'journey-preview-note';
+						previewNote.textContent = "You're here now.";
+						stageCard.append(previewNote);
+					}
+
+					fragment.append(stageCard);
+				});
+				journeyGrid.replaceChildren(fragment);
+			}
 		};
+
+		const showPurchaseConfirmation = (message) => {
+			purchaseConfirmation.replaceChildren();
+			const title = document.createElement('strong');
+			title.textContent = 'Purchase successful';
+			const details = document.createElement('span');
+			details.textContent = message;
+			purchaseConfirmation.append(title, details);
+			purchaseConfirmation.hidden = false;
+			window.setTimeout(() => { purchaseConfirmation.hidden = true; }, 4000);
+		};
+
+		document.querySelectorAll('[data-purchase]').forEach((button) => {
+			button.addEventListener('click', () => {
+				if (button.dataset.purchase === 'moving-house') {
+					localStorage.setItem(developmentMovingHouseEntitlementKey, 'true');
+					renderChecklist(JSON.parse(localStorage.getItem(storageKey)));
+					showPurchaseConfirmation('Your full Moving House plan is unlocked.');
+					return;
+				}
+
+				localStorage.setItem(developmentEverythingForeverEntitlementKey, 'true');
+				renderChecklist(JSON.parse(localStorage.getItem(storageKey)));
+				showPurchaseConfirmation('All current and future Nest & Go plans are now yours.');
+			});
+		});
 
 		const savedSetup = JSON.parse(localStorage.getItem(storageKey) || 'null');
 		if (savedSetup) {
