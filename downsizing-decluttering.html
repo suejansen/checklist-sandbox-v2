@@ -437,10 +437,77 @@
 
 		[data-screen][hidden] { display: none; }
 
+		.purchase-options {
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading { margin-bottom: 8px; }
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.7rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.purchase-option p {
+			margin: 10px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			width: 100%;
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation[hidden] { display: none; }
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+		.purchase-confirmation span { margin-top: 2px; color: var(--muted); }
+
 		@media (min-width: 600px) {
 			main { padding: 38px 30px 48px; }
 			.panel { padding: 30px; }
 			.choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -768,6 +835,24 @@
 			</div>
 		</section>
 
+		<section id="screen-decision-unlock" class="panel" data-screen hidden>
+			<h2>Need help with another decision?</h2>
+			<p class="panel-text">You've tried Decision Brain once. Unlock Downsizing &amp; Decluttering to use it whenever you get stuck.</p>
+			<div class="purchase-options" aria-label="Unlock options">
+				<div class="purchase-option">
+					<button type="button" data-purchase="downsizing">Unlock Downsizing &amp; Decluttering · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading"><span class="best-value-label">Best value</span></div>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+				</div>
+			</div>
+			<div class="nav-wrap">
+				<button type="button" class="back-button" data-back-to-working>Back to sorting</button>
+			</div>
+		</section>
+
 		<section id="screen-decision-placeholder" class="panel" data-screen hidden>
 			<button type="button" class="quiet-link-button" data-back-to-reasons>← Back to reasons</button>
 			<p class="panel-text">We'll add this decision route next.</p>
@@ -874,8 +959,8 @@
 				<li>If it is part of a collection, keep one representative piece</li>
 			</ul>
 			<div class="stacked-actions">
-				<button type="button" data-back-to-working>Let it go</button>
-				<button type="button" class="back-button" data-back-to-working>Keep it</button>
+				<button type="button" data-back-to-working data-decision-outcome>Let it go</button>
+				<button type="button" class="back-button" data-back-to-working data-decision-outcome>Keep it</button>
 			</div>
 		</section>
 
@@ -964,9 +1049,24 @@
 		</section>
 	</main>
 
+	<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
+
 	<script>
 		const areasStorageKey = 'downsizing-decluttering-areas';
 		const lastAreaIdStorageKey = 'downsizing-decluttering-last-area-id';
+
+		// DEVELOPMENT/PROTOTYPE ONLY: localStorage entitlement handling is temporary test scaffolding.
+		// It must later be replaced by verified App Store purchase entitlements.
+		const developmentDownsizingEntitlementKey = 'development-prototype-downsizing-decluttering-entitlement';
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
+		// DEVELOPMENT/PROTOTYPE ONLY: kept separate from areas and plan data so plan resets never restore the free journey.
+		const developmentDecisionBrainFreeUseKey = 'development-prototype-downsizing-decision-brain-free-use';
+
+		const hasDownsizingEntitlement = () =>
+			localStorage.getItem(developmentDownsizingEntitlementKey) === 'true' ||
+			localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true';
+		const hasUsedFreeDecisionBrain = () => localStorage.getItem(developmentDecisionBrainFreeUseKey) === 'true';
+		const markFreeDecisionBrainUsed = () => localStorage.setItem(developmentDecisionBrainFreeUseKey, 'true');
 
 		const getAreas = () => JSON.parse(localStorage.getItem(areasStorageKey) || '[]');
 		const saveAreas = (areas) => localStorage.setItem(areasStorageKey, JSON.stringify(areas));
@@ -979,7 +1079,7 @@
 			'screen-1', 'screen-2', 'screen-3', 'screen-4', 'screen-preamble',
 			'screen-working', 'screen-finish-confirm',
 			'screen-motivation', 'screen-quick-win', 'screen-need-change', 'screen-need-break', 'screen-session-end',
-			'screen-decision-reasons', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
+			'screen-decision-reasons', 'screen-decision-unlock', 'screen-decision-placeholder', 'screen-decision-keep', 'screen-decision-decide-later',
 			'screen-decision-let-go', 'screen-gift-q1', 'screen-gift-q2', 'screen-gift-q3',
 			'screen-memory-q1', 'screen-memory-q2', 'screen-memory-could-let-go',
 			'screen-decision-sell', 'screen-cost-q1', 'screen-cost-q2', 'screen-need-q1', 'screen-need-q2', 'screen-need-q3',
@@ -1285,7 +1385,32 @@
 			showScreen('screen-decision-let-go');
 		};
 
-		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => showScreen('screen-decision-reasons'));
+		document.querySelector('[data-open-decision-brain]').addEventListener('click', () => {
+			if (hasDownsizingEntitlement() || !hasUsedFreeDecisionBrain()) {
+				showScreen('screen-decision-reasons');
+			} else {
+				showScreen('screen-decision-unlock');
+			}
+		});
+
+		let purchaseConfirmationTimer;
+		document.querySelectorAll('[data-purchase]').forEach((button) => button.addEventListener('click', () => {
+			const isEverything = button.dataset.purchase === 'everything-forever';
+			localStorage.setItem(isEverything ? developmentEverythingForeverEntitlementKey : developmentDownsizingEntitlementKey, 'true');
+
+			const confirmation = document.querySelector('#purchase-confirmation');
+			confirmation.innerHTML = '<strong>Purchase successful</strong><span></span>';
+			confirmation.querySelector('span').textContent = isEverything
+				? 'All current and future Nest & Go plans are now yours.'
+				: 'Your full Downsizing & Decluttering plan is unlocked.';
+			confirmation.hidden = false;
+			clearTimeout(purchaseConfirmationTimer);
+			purchaseConfirmationTimer = setTimeout(() => { confirmation.hidden = true; }, 4000);
+
+			showScreen('screen-decision-reasons');
+		}));
+
+		document.querySelectorAll('[data-decision-outcome]').forEach((button) => button.addEventListener('click', markFreeDecisionBrainUsed));
 		document.querySelectorAll('[data-back-to-reasons]').forEach((button) => button.addEventListener('click', () => showScreen('screen-decision-reasons')));
 
 		const routeReason = (reason) => {
@@ -1341,9 +1466,13 @@
 
 		document.querySelectorAll('[data-second-pass-route]').forEach((button) => button.addEventListener('click', () => routeReason(button.dataset.secondPassRoute)));
 
-		document.querySelector('[data-confirm-keep]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-confirm-keep]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
 
 		document.querySelector('[data-confirm-decide-later]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
 			const areas = getAreas();
 			const area = areas.find((candidate) => candidate.id === currentAreaId);
 			if (area) {
@@ -1353,9 +1482,15 @@
 			showScreen('screen-working');
 		});
 
-		document.querySelector('[data-confirm-let-go]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-confirm-let-go]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
 
-		document.querySelector('[data-confirm-sell]').addEventListener('click', () => showScreen('screen-working'));
+		document.querySelector('[data-confirm-sell]').addEventListener('click', () => {
+			markFreeDecisionBrainUsed();
+			showScreen('screen-working');
+		});
 
 		document.querySelector('[data-gift-q1-yes]').addEventListener('click', () => showKeepOutcome('gift'));
 		document.querySelector('[data-gift-q1-no]').addEventListener('click', () => showScreen('screen-gift-q2'));
