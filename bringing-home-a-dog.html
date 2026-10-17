@@ -455,13 +455,165 @@
 			text-decoration: line-through;
 		}
 
+		.full-plan-preview {
+			margin-top: 18px;
+			padding: 22px 16px;
+			border: 1px solid rgba(217, 224, 218, 0.85);
+			border-radius: 18px;
+			background: rgba(255, 253, 249, 0.9);
+			box-shadow: var(--shadow);
+		}
+
+		.full-plan-preview h2 {
+			margin: 0;
+			font-family: 'Fraunces', Georgia, serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.full-plan-intro {
+			margin: 7px 0 17px;
+			color: var(--muted);
+			font-size: 0.92rem;
+			line-height: 1.5;
+		}
+
+		.journey-grid {
+			display: grid;
+			gap: 8px;
+		}
+
+		.journey-stage {
+			padding: 11px 12px;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: rgba(255, 253, 249, 0.72);
+		}
+
+		.journey-stage.current {
+			border-color: rgba(229, 109, 79, 0.48);
+			background: #fff6f2;
+		}
+
+		.journey-stage-header {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 10px;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+
+		.journey-stage-count {
+			flex: 0 0 auto;
+			color: var(--muted);
+			font-size: 0.76rem;
+			font-weight: 600;
+			white-space: nowrap;
+		}
+
+		.journey-stage p {
+			margin: 4px 0 0;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.journey-stage .journey-preview-note {
+			margin-top: 7px;
+			color: var(--accent-dark);
+			font-size: 0.79rem;
+			font-weight: 500;
+		}
+
+		.purchase-options {
+			display: grid;
+			gap: 10px;
+			margin-top: 17px;
+		}
+
+		.purchase-option {
+			padding: 13px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			background: rgba(255, 253, 249, 0.76);
+		}
+
+		.purchase-option.best-value {
+			border-color: rgba(229, 109, 79, 0.55);
+			background: #fff6f2;
+		}
+
+		.purchase-option-heading {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-bottom: 10px;
+			font-size: 0.91rem;
+			font-weight: 700;
+		}
+
+		.best-value-label {
+			color: var(--accent-dark);
+			font-size: 0.7rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		.purchase-option p {
+			margin: -3px 0 10px;
+			color: var(--muted);
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.purchase-option button {
+			min-height: 50px;
+			padding: 11px 13px;
+			font-size: 0.92rem;
+		}
+
+		.purchase-confirmation {
+			position: fixed;
+			right: 16px;
+			bottom: max(16px, env(safe-area-inset-bottom));
+			left: 16px;
+			z-index: 2;
+			width: min(calc(100% - 32px), 420px);
+			margin: 0 auto;
+			padding: 13px 16px;
+			border: 1px solid var(--line);
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--panel);
+			box-shadow: var(--shadow);
+			font-size: 0.9rem;
+			line-height: 1.45;
+			text-align: center;
+		}
+
+		.purchase-confirmation strong,
+		.purchase-confirmation span { display: block; }
+
+		.purchase-confirmation span {
+			margin-top: 2px;
+			color: var(--muted);
+		}
+
 		@media (min-width: 600px) {
 			main { padding: 38px 30px 48px; }
 			form { padding: 30px; }
 			.plan { padding: 30px; }
+			.full-plan-preview { padding: 28px; }
 			.choice-grid { grid-template-columns: repeat(2, 1fr); }
 			.question:first-child .choice-grid,
 			.question:last-child .choice-grid { grid-template-columns: repeat(2, 1fr); }
+			.journey-grid,
+			.purchase-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -534,7 +686,7 @@
 			<div class="plan-summary">
 				<h2 id="plan-title">0 days until they come home</h2>
 				<p id="plan-date-summary">Getting Ready</p>
-				<nav class="plan-navigation" aria-labelledby="plan-navigation-title">
+				<nav id="plan-navigation" class="plan-navigation" aria-labelledby="plan-navigation-title">
 					<h3 id="plan-navigation-title">Your plan</h3>
 					<div class="stage-switch">
 						<button type="button" data-stage="getting-ready" aria-current="step">Getting Ready</button>
@@ -567,6 +719,26 @@
 				<button id="view-plan" type="button">View My Plan</button>
 			</section>
 		</section>
+		<section id="full-plan-preview" class="full-plan-preview" hidden aria-labelledby="full-plan-title">
+			<h2 id="full-plan-title">Your full plan is ready</h2>
+			<p class="full-plan-intro">Here’s what’s waiting in your personalised plan.</p>
+			<div id="journey-grid" class="journey-grid"></div>
+			<div class="purchase-options" aria-label="Unlock options">
+				<div class="purchase-option">
+					<div class="purchase-option-heading">Unlock Bringing Home a Dog · $2.99</div>
+					<button type="button" data-purchase="bringing-home-a-dog">Unlock Bringing Home a Dog · $2.99</button>
+				</div>
+				<div class="purchase-option best-value">
+					<div class="purchase-option-heading">
+						<span>Unlock Everything Forever · $5.99</span>
+						<span class="best-value-label">Best value</span>
+					</div>
+					<p>Every current and future Nest &amp; Go checklist.</p>
+					<button type="button" data-purchase="everything-forever">Unlock Everything Forever · $5.99</button>
+				</div>
+			</div>
+		</section>
+		<p id="purchase-confirmation" class="purchase-confirmation" role="status" aria-live="polite" hidden></p>
 	</main>
 
 	<script>
@@ -590,7 +762,15 @@
 		const finishPlan = document.querySelector('#finish-plan');
 		const finishPlanButton = document.querySelector('#finish-plan-button');
 		const viewPlanButton = document.querySelector('#view-plan');
+		const planNavigation = document.querySelector('#plan-navigation');
+		const fullPlanPreview = document.querySelector('#full-plan-preview');
+		const journeyGrid = document.querySelector('#journey-grid');
+		const purchaseConfirmation = document.querySelector('#purchase-confirmation');
 		const storageKey = 'bringing-home-a-dog-setup';
+		// DEVELOPMENT/PROTOTYPE ONLY: temporary localStorage test scaffolding; MUST be replaced with verified App Store purchase entitlements.
+		const developmentDogEntitlementKey = 'development-prototype-bringing-home-a-dog-entitlement';
+		// Shared with moving-house.html so an Everything Forever purchase in either plan unlocks both.
+		const developmentEverythingForeverEntitlementKey = 'development-prototype-everything-forever-entitlement';
 		const gettingReadyCompletionStorageKey = 'bringing-home-a-dog-task-completion';
 		const gettingReadyNotesStorageKey = 'bringing-home-a-dog-task-notes';
 		const comingHomeCompletionStorageKey = 'bringing-home-a-dog-coming-home-task-completion';
@@ -974,6 +1154,19 @@
 
 		const getApplicableTasks = (answers, stageConfig) => stageConfig.tasks.filter((task) => !task.showWhen || task.showWhen(answers));
 
+		const journeyStages = [
+			{ key: 'getting-ready', description: 'Prepare your home, supplies and household before your dog arrives.' },
+			{ key: 'coming-home', description: 'Finalise the practical plans for the journey and the days around it.' },
+			{ key: 'arrival-day', description: 'Make the first hours calm, safe and manageable.' },
+			{ key: 'first-night', description: 'Help everyone settle for the first night at home.' },
+			{ key: 'first-week', description: 'Build gentle routines as your dog gets to know their new home.' }
+		];
+
+		const hasDogEntitlement = () => (
+			localStorage.getItem(developmentDogEntitlementKey) === 'true'
+			|| localStorage.getItem(developmentEverythingForeverEntitlementKey) === 'true'
+		);
+
 		const renderTaskRows = (answers, applicableTasks, stageConfig) => {
 			const completionState = getCompletionState(stageConfig);
 			const notesState = getNotesState(stageConfig);
@@ -1049,7 +1242,11 @@
 		};
 
 		const renderPlan = (answers) => {
+			const isUnlocked = hasDogEntitlement();
+			if (!isUnlocked) currentStage = 'getting-ready';
 			const daysUntilHome = getDaysUntilHome(answers.arrivalDate);
+			planNavigation.hidden = !isUnlocked;
+			fullPlanPreview.hidden = isUnlocked;
 			if (currentStage === 'welcome-family') {
 				planTitle.textContent = getHomeSummary(daysUntilHome);
 				stageDateSummary.textContent = 'Welcome to the family';
@@ -1064,6 +1261,7 @@
 			const completionState = getCompletionState(stageConfig);
 			const completedCount = applicableTasks.filter((task) => completionState[task.id]).length;
 			const percentage = Math.round((completedCount / applicableTasks.length) * 100);
+			const visibleTasks = isUnlocked ? applicableTasks : applicableTasks.slice(0, 3);
 
 			planTitle.textContent = getHomeSummary(daysUntilHome);
 			stageTitle.textContent = stageConfig.name;
@@ -1079,11 +1277,71 @@
 			checklistView.hidden = false;
 			completionView.hidden = true;
 			finishPlan.hidden = currentStage !== 'first-week';
-			renderTaskRows(answers, applicableTasks, stageConfig);
+			renderTaskRows(answers, visibleTasks, stageConfig);
 			plan.hidden = false;
+
+			if (!isUnlocked) {
+				const fragment = document.createDocumentFragment();
+				journeyStages.forEach(({ key, description }) => {
+					const stageConfigForCount = getStageConfig(key);
+					const taskTotal = getApplicableTasks(answers, stageConfigForCount).length;
+					const stageCard = document.createElement('div');
+					stageCard.className = `journey-stage${key === 'getting-ready' ? ' current' : ''}`;
+
+					const stageHeader = document.createElement('div');
+					stageHeader.className = 'journey-stage-header';
+					const stageName = document.createElement('span');
+					stageName.textContent = stageConfigForCount.name;
+					const taskCount = document.createElement('span');
+					taskCount.className = 'journey-stage-count';
+					taskCount.textContent = `${taskTotal} ${taskTotal === 1 ? 'task' : 'tasks'}`;
+					stageHeader.append(stageName, taskCount);
+
+					const stageDescription = document.createElement('p');
+					stageDescription.textContent = description;
+					stageCard.append(stageHeader, stageDescription);
+
+					if (key === 'getting-ready') {
+						const previewNote = document.createElement('p');
+						previewNote.className = 'journey-preview-note';
+						previewNote.textContent = 'You’re here now.';
+						stageCard.append(previewNote);
+					}
+
+					fragment.append(stageCard);
+				});
+				journeyGrid.replaceChildren(fragment);
+			}
 		};
 
+		const showPurchaseConfirmation = (message) => {
+			purchaseConfirmation.replaceChildren();
+			const title = document.createElement('strong');
+			title.textContent = 'Purchase successful';
+			const details = document.createElement('span');
+			details.textContent = message;
+			purchaseConfirmation.append(title, details);
+			purchaseConfirmation.hidden = false;
+			window.setTimeout(() => { purchaseConfirmation.hidden = true; }, 4000);
+		};
+
+		document.querySelectorAll('[data-purchase]').forEach((button) => {
+			button.addEventListener('click', () => {
+				if (button.dataset.purchase === 'bringing-home-a-dog') {
+					localStorage.setItem(developmentDogEntitlementKey, 'true');
+					if (currentAnswers) renderPlan(currentAnswers);
+					showPurchaseConfirmation('Your full Bringing Home a Dog plan is unlocked.');
+					return;
+				}
+
+				localStorage.setItem(developmentEverythingForeverEntitlementKey, 'true');
+				if (currentAnswers) renderPlan(currentAnswers);
+				showPurchaseConfirmation('All current and future Nest & Go plans are now yours.');
+			});
+		});
+
 		stageButtons.forEach((button) => button.addEventListener('click', () => {
+			if (!hasDogEntitlement()) return;
 			if (currentStage !== 'welcome-family') lastChecklistStage = currentStage;
 			currentStage = button.dataset.stage;
 			if (currentAnswers) renderPlan(currentAnswers);
