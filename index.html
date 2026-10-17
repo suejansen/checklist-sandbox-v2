@@ -85,14 +85,14 @@
 
 		.event-grid {
 			display: grid;
-			gap: 13px;
+			gap: 10px;
 		}
 
 		.event-card {
 			position: relative;
 			display: block;
-			min-height: 154px;
-			padding: 22px 21px;
+			min-height: 140px;
+			padding: 17px 21px;
 			border: 1px solid var(--line);
 			border-radius: 17px;
 			color: inherit;
@@ -133,7 +133,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-top: 18px;
+			margin-top: 14px;
 			color: var(--accent-dark);
 			font-size: 0.83rem;
 			font-weight: 700;
@@ -157,6 +157,7 @@
 			main { padding: 38px 30px 60px; }
 			.event-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 			.event-card { min-height: 190px; padding: 25px; }
+			.card-footer { margin-top: 18px; }
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -180,13 +181,6 @@
 				<span class="card-footer"><span id="moving-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
 			</a>
 
-			<div class="event-card inactive">
-				<h2>Starting College</h2>
-				<p>Everything you need to get ready for your next chapter.</p>
-				<div class="card-footer"><span class="coming-soon">Coming Soon</span></div>
-			</div>
-
-
 			<a class="event-card active" href="bringing-home-a-dog.html">
 				<h2>Bringing Home a Dog</h2>
 				<p>A personalised plan to help you prepare, bring them home and settle in together.</p>
@@ -198,6 +192,12 @@
 				<p>Gentle help to sort through belongings, make decisions and work through your home at your own pace.</p>
 				<span class="card-footer"><span id="downsizing-action">Start</span><span class="card-arrow" aria-hidden="true">→</span></span>
 			</a>
+
+			<div class="event-card inactive">
+				<h2>Starting College</h2>
+				<p>Everything you need to get ready for your next chapter.</p>
+				<div class="card-footer"><span class="coming-soon">Coming Soon</span></div>
+			</div>
 		</section>
 	</main>
 
